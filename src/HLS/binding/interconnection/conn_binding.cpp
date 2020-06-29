@@ -1015,13 +1015,27 @@ void conn_binding::add_command_ports(const HLS_managerRef HLSMgr, const hlsRef H
                INDENT_DBG_MEX(DEBUG_LEVEL_PEDANTIC, debug_level, "---Adding selector_" + elem->get_string() + " " + STR(elem->get_type()));
                structural_objectRef sel_obj = SM->add_port("selector_" + elem->get_string(), port_o::IN, circuit, boolean_port_type);
                (j->second)->set_structural_obj(sel_obj);
-	       
+
+               PRINT_DBG_STRING(DEBUG_LEVEL_PEDANTIC, debug_level, "CIAO\n");
+
                if(GetPointer<commandport_obj>(j->second)->get_command_type() == commandport_obj::UNBOUNDED)
                {
                   vertex op = GetPointer<commandport_obj>(j->second)->get_vertex();
                   generic_objRef fu_unit = HLS->Rfu->get(op);
                   structural_objectRef fu_obj = fu_unit->get_structural_obj();
                   structural_objectRef start = fu_obj->find_member(START_PORT_NAME, port_o_K, fu_obj); // clock gating in ingresso, bisogna far riferimento a START_PORT_NAME
+                  THROW_ASSERT(start, fu_obj->get_path());
+                  calls[start].push_back(sel_obj);
+                  start_to_vertex[start].push_back(op);
+               }
+
+               else if(GetPointer<commandport_obj>(j->second)->get_command_type() == commandport_obj::CLOCK_GATING)
+               {
+                  PRINT_DBG_STRING(DEBUG_LEVEL_PEDANTIC, debug_level, "CIAO CLOCK GATING\n");
+                  vertex op = GetPointer<commandport_obj>(j->second)->get_vertex();
+                  generic_objRef fu_unit = HLS->Rfu->get(op);
+                  structural_objectRef fu_obj = fu_unit->get_structural_obj();
+                  structural_objectRef start = fu_obj->find_member(START_PORT_NAME, port_o_K, fu_obj);
                   THROW_ASSERT(start, fu_obj->get_path());
                   calls[start].push_back(sel_obj);
                   start_to_vertex[start].push_back(op);
