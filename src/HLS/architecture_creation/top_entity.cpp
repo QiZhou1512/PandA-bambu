@@ -198,7 +198,20 @@ DesignFlowStep_Status top_entity::InternalExec()
    structural_objectRef controller_reset = controller_circuit->find_member(RESET_PORT_NAME, port_o_K, controller_circuit);
    SM->add_connection(controller_reset, reset_obj);
    PRINT_DBG_MEX(DEBUG_LEVEL_VERY_PEDANTIC, debug_level, "\tReset signal added!");
+/////////////////////////////////////////////////////////////////////////////////////////////
 
+/////////////////////////////////////////////////////////////////////////////////////////////////
+   PRINT_DBG_MEX(DEBUG_LEVEL_VERY_PEDANTIC, debug_level, "\tAdding clock gating signal...");
+   /// add clock gating port
+   structural_objectRef clock_gating_obj = SM->add_port(CLOCK_GATING_PORT_NAMELOCK_GATING_PORT_NAME, port_o::IN, circuit, bool_type);
+   structural_objectRef datapath_clock_gating = datapath_circuit->find_member(CLOCK_GATING_PORT_NAMELOCK_GATING_PORT_NAME, port_o_K, datapath_circuit);
+   SM->add_connection(datapath_clock_gating, clock_gating_obj);
+   structural_objectRef controller_clock_gating = controller_circuit->find_member(CLOCK_GATING_PORT_NAME, port_o_K, controller_circuit);
+   SM->add_connection(controller_clock_gating, clock_gating_obj);
+   PRINT_DBG_MEX(DEBUG_LEVEL_VERY_PEDANTIC, debug_level, "\tClock gating added!");
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
    PRINT_DBG_MEX(DEBUG_LEVEL_VERY_PEDANTIC, debug_level, "\tAdding start signal...");
    /// start port
    structural_objectRef start_obj = SM->add_port(START_PORT_NAME, port_o::IN, circuit, bool_type);

@@ -122,6 +122,7 @@ class simple_indent;
 #define DONE_REQUEST "done_request"
 #define PROXY_PREFIX "PROXY_PREF_"
 #define WRAPPED_PROXY_PREFIX "WRAPPED_PROXY_PREF_"
+#define CLOCK_GATING_PORT_NAME "clock_gating_port"
 
 /**
  * Macro which defines the get_kind_text function that returns the parameter as a string.
