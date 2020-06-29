@@ -163,6 +163,7 @@ static std::string input_vector_to_string(const std::vector<long long int>& to_b
    return output;
 }
 
+
 void fsm_controller::create_state_machine(std::string& parse)
 {
    INDENT_DBG_MEX(DEBUG_LEVEL_PEDANTIC, debug_level, "-->Create state machine");
@@ -188,10 +189,55 @@ void fsm_controller::create_state_machine(std::string& parse)
    /// analysis for each state to compute the default output
    INDENT_DBG_MEX(DEBUG_LEVEL_PEDANTIC, debug_level, "-->Computation of default output of each state");
    std::list<vertex> working_list;
-   astg->TopologicalSort(working_list);
-   THROW_ASSERT(std::find(working_list.begin(), working_list.end(), first_state) != working_list.end(), "unexpected case");
+   //both operations and states are named as vertex
+   astg->TopologicalSort(working_list); //astg acyclic state transition graph è quello che interessa a noi
+   THROW_ASSERT(std::find(working_list.begin(), working_list.end(), first_state) != working_list.end(), "unexpected case"); 
    working_list.erase(std::find(working_list.begin(), working_list.end(), first_state));
    working_list.push_front(first_state); /// ensure that first_state is the really first one...
+   
+   std::vector<std::map<std::string, bool>> clock_gating_structure;
+
+   for(const auto&v : working_list){
+      std::map<std::string, bool> sub_str_gating;
+      const auto& pippo = astg->CGetStateInfo(v)->executing_operations;
+      PRINT_DBG_STRING(DEBUG_LEVEL_PEDANTIC, debug_level, "Checking clock gating for state: " + astg->CGetStateInfo(v)->name + "\n");
+      for(const auto& op : pippo) {
+         PRINT_DBG_STRING(DEBUG_LEVEL_PEDANTIC, debug_level, "Operation: " + GET_NAME(data, op) + "\n");
+         //active clock gating, the value is true
+         sub_str_gating.insert(std::pair<std::string, bool>(GET_NAME(data, op),false));
+         if(!clock_gating_structure.empty()) {
+            for(auto& state : clock_gating_structure){
+               if (state.find(GET_NAME(data, op)) == state.end() ) {
+               // not found
+                  state.insert(std::pair<std::string, bool>(GET_NAME(data, op), true));  
+               } else {
+               // found
+                  state.find(GET_NAME(data, op))->second = false;
+               }
+               // check if present   
+            }
+         }
+      }
+      //from the first state, the elements are propagated forward in the vector. Because the code above propagete backward all the FU found
+      if(!clock_gating_structure.empty()) {
+         for(auto& eo : clock_gating_structure[0]) {
+            if (sub_str_gating.find(eo.first) == sub_str_gating.end() ) {
+            // not found
+               sub_str_gating.insert(std::pair<std::string, bool>(eo.first, true));  
+            }
+         }
+      }
+      clock_gating_structure.push_back(sub_str_gating);
+   }
+
+   int i = 0;
+   for(const auto& cg : clock_gating_structure) {
+      PRINT_DBG_STRING(DEBUG_LEVEL_PEDANTIC, debug_level, "Checking clock gating for state: S_" + std::to_string(i) + "\n");
+      for(const auto& op : cg) {
+            PRINT_DBG_STRING(DEBUG_LEVEL_PEDANTIC, debug_level, "- Operation: " + op.first + ", clock gating value: " + std::to_string(op.second) + "\n");
+      }
+      i++;
+   }
 
    std::map<vertex, std::vector<bool>> state_Xregs;
    std::map<unsigned int, unsigned int> wren_list;
@@ -272,6 +318,7 @@ void fsm_controller::create_state_machine(std::string& parse)
    {
       state_Xregs[v] = std::vector<bool>(HLS->Rreg->get_used_regs(), true);
       INDENT_DBG_MEX(DEBUG_LEVEL_PEDANTIC, debug_level, "-->Analyzing state " + astg->CGetStateInfo(v)->name);
+      INDENT_DBG_MEX(DEBUG_LEVEL_PEDANTIC, debug_level, "---------------------------------------------------------------------------------------------------- " );
 
       if(analyzed_loops.find(stg->CGetStateInfo(v)->loopId) == analyzed_loops.end())
       {
@@ -327,10 +374,20 @@ void fsm_controller::create_state_machine(std::string& parse)
          CustomOrderedSet<generic_objRef> active_fu;
          const tree_managerRef TreeM = HLSMgr->get_tree_manager();
          const auto& operations = (stg->CGetStateInfo(v)->loopId == 0 || !FB->is_pipelining_enabled()) ? astg->CGetStateInfo(v)->executing_operations : loop_executing_ops[stg->CGetStateInfo(v)->loopId];
-         for(const auto& op : operations)
+         for(const auto& op : operations) //chiedere l executing operations, starting e le ending, 
          {
             active_fu.insert(HLS->Rfu->get(op));
-            technology_nodeRef tn = HLS->allocation_information->get_fu(HLS->Rfu->get_assign(op));
+            technology_nodeRef tn = HLS->allocation_information->get_fu(HLS->Rfu->get_assign(op));//get functional unit, a noi interessa create state machine non passiamo passare per copia o per riferimento alla struttura, la struttura riempita con module biding. 
+            
+            //usando questi metodi qua possiamo capire quali unita stanno andando. ogni stato ha un tot di operazioni, per ogni operazione di stato 
+            //non ha senso definire clock gating su operazioni combinatorie, ma per quelle non combinatorie, se sono executing non possiamo fare clock gating, per quelli non executing dobbiamo fare clock gating
+            //print viene stampata, mentre debug viene stampato solo se viene chiamato...... per ogni stato, quante operazioni possono usufruire del clock gating, di default le pongo tutte a zero, per le componenti che stanno eseguendo le metto a 1
+            //distinguere add da adder.
+            //per ogni stato i stati, non tutte le non executing ed executing operation non sono mostrati, avere una struttura dinamica, tale per cui per ogni elemento della lista confrontiamo quello che c'è e quello che non c'è ancora sulla lista ed aggiungerli ne caso con un valore di clock gating dettato dallo stato
+            //fare uno scheduling e poi andare a modificare 
+            //HLS ha tutte le informazioni su tutta la struttura di creazione per la sintesi.
+            
+
             technology_nodeRef op_tn = GetPointer<functional_unit>(tn)->get_operation(tree_helper::normalized_ID(data->CGetOpNodeInfo(op)->GetOperation()));
             THROW_ASSERT(GetPointer<operation>(op_tn)->time_m, "Time model not available for operation: " + GET_NAME(data, op));
             structural_managerRef CM = GetPointer<functional_unit>(tn)->CM;
@@ -698,3 +755,4 @@ void fsm_controller::add_correct_transition_memory(std::string state_representat
    structural_objectRef circuit = this->SM->get_circ();
    SM->add_NP_functionality(circuit, NP_functionality::FSM, state_representation);
 }
+

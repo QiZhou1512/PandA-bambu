@@ -129,6 +129,10 @@ void ControllerCreatorBaseStep::add_common_ports(structural_objectRef circuit)
 
    PRINT_DBG_MEX(DEBUG_LEVEL_PEDANTIC, debug_level, "Adding the start port...");
    this->add_start_port(circuit);
+
+   // Il clock gating diventa una command port per ogni elemento clock gated nel data path
+   // Va aggiunto un selettore di tipo binding_out (?).
+   // Generic object --- aggiungere nell'enum il comando generato dalla macchina a stati per controllare il clock gating
 }
 
 void ControllerCreatorBaseStep::add_clock_reset(structural_objectRef circuit)
