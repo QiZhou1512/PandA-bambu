@@ -755,3 +755,4 @@ void fsm_controller::add_correct_transition_memory(std::string state_representat
    structural_objectRef circuit = this->SM->get_circ();
    SM->add_NP_functionality(circuit, NP_functionality::FSM, state_representation);
 }
+
