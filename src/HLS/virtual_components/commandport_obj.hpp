@@ -81,7 +81,8 @@ class commandport_obj : public generic_obj
       ALUSELECTOR,     /// ALU selector
       UNBOUNDED,       /// signal representing a communication for an unbounded object (function call)
       MULTI_UNBOUNDED, /// signal representing when a multi unbounded call ends
-      WRENABLE         /// enable for register writing
+      WRENABLE,        /// enable for register writing
+      CLOCK_GATING     /// clock gating signal
    } command_type;
 
    typedef std::pair<unsigned int, vertex> data_operation_pair;

@@ -199,20 +199,20 @@ void fsm_controller::create_state_machine(std::string& parse)
 
    for(const auto&v : working_list){
       std::map<std::string, bool> sub_str_gating;
-      const auto& pippo = astg->CGetStateInfo(v)->executing_operations;
+      const auto& exec_op = astg->CGetStateInfo(v)->executing_operations;
       PRINT_DBG_STRING(DEBUG_LEVEL_PEDANTIC, debug_level, "Checking clock gating for state: " + astg->CGetStateInfo(v)->name + "\n");
-      for(const auto& op : pippo) {
+      for(const auto& op : exec_op) {
          PRINT_DBG_STRING(DEBUG_LEVEL_PEDANTIC, debug_level, "Operation: " + GET_NAME(data, op) + "\n");
          //active clock gating, the value is true
-         sub_str_gating.insert(std::pair<std::string, bool>(GET_NAME(data, op),false));
+         sub_str_gating.insert(std::pair<std::string, bool>(GET_NAME(data, op),true));
          if(!clock_gating_structure.empty()) {
             for(auto& state : clock_gating_structure){
                if (state.find(GET_NAME(data, op)) == state.end() ) {
                // not found
-                  state.insert(std::pair<std::string, bool>(GET_NAME(data, op), true));  
+                  state.insert(std::pair<std::string, bool>(GET_NAME(data, op), false));  
                } else {
                // found
-                  state.find(GET_NAME(data, op))->second = false;
+                  state.find(GET_NAME(data, op))->second = true;
                }
                // check if present   
             }
