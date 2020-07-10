@@ -207,7 +207,7 @@ DesignFlowStep_Status top_entity::InternalExec()
    structural_objectRef datapath_clock_gating = datapath_circuit->find_member(CLOCK_GATING_PORT_NAME, port_o_K, datapath_circuit);
 //da cambiare con l assert per il datapath_clock_gating, clock_gating_obj
    THROW_ASSERT(datapath_clock_gating, "Missing controller circuit");
-   SM->print(std::cout)
+   SM->print(std::cout);
    SM->add_connection(datapath_clock_gating, clock_gating_obj);
    structural_objectRef controller_clock_gating = controller_circuit->find_member(CLOCK_GATING_PORT_NAME, port_o_K, controller_circuit);
    SM->add_connection(controller_clock_gating, clock_gating_obj);
