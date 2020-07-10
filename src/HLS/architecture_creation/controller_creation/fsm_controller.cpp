@@ -413,8 +413,10 @@ void fsm_controller::create_state_machine(std::string& parse)
             if(((GET_TYPE(data, op) & TYPE_EXTERNAL && start_port_i) or !GetPointer<operation>(op_tn)->is_bounded() or start_port_i) and !stg->CGetStateInfo(v)->is_dummy and is_starting_operation)
             {
                unsigned int unbounded_port = out_ports[HLS->Rconn->bind_selector_port(conn_binding::IN, commandport_obj::UNBOUNDED, op, data)];
+               unsigned int clock_gating_port = out_ports[HLS->Rconn->bind_selector_port(conn_binding::IN, commandport_obj::CLOCK_GATING, op, data)];
                unbounded_ports.insert(unbounded_port);
                present_state[v][unbounded_port] = 1;
+               present_state[v][clock_gating_port] = 1;
             }
          }
          if(stg->CGetStateInfo(v)->loopId == 0 || !FB->is_pipelining_enabled())
