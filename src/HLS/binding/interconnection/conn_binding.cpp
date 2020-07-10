@@ -1020,8 +1020,6 @@ void conn_binding::add_command_ports(const HLS_managerRef HLSMgr, const hlsRef H
 
                if(GetPointer<commandport_obj>(j->second)->get_command_type() == commandport_obj::UNBOUNDED)
                {
-                  structural_objectRef sel_obj = SM->add_port("selector_" + elem->get_string(), port_o::IN, circuit, boolean_port_type);
-                  (j->second)->set_structural_obj(sel_obj);
                   vertex op = GetPointer<commandport_obj>(j->second)->get_vertex();
                   generic_objRef fu_unit = HLS->Rfu->get(op);
                   structural_objectRef fu_obj = fu_unit->get_structural_obj();
