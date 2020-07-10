@@ -176,7 +176,7 @@ class commandport_obj : public generic_obj
 
    const generic_objRef& get_elem() const
    {
-      THROW_ASSERT(mode == SELECTOR || mode == WRENABLE || mode == MULTI_UNBOUNDED, "Selector port is wrong");
+      THROW_ASSERT(mode == SELECTOR || mode == WRENABLEZ || mode == MULTI_UNBOUNDED, "Selector port is wrong");
       return elem;
    }
 

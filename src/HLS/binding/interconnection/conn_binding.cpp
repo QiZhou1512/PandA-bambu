@@ -255,8 +255,7 @@ generic_objRef conn_binding::bind_selector_port(conn_binding::direction_type dir
 
 generic_objRef conn_binding::bind_selector_port(conn_binding::direction_type dir, unsigned int mode, const vertex& cond, const OpGraphConstRef data)
 {
-   if(activation_ports.find(cond) != activation_ports.end() and
-      activation_ports.find(cond)->second.find(dir) != activation_ports.find(cond)->second.end() and
+   if(activation_ports.find(cond) != activation_ports.end() and activation_ports.find(cond)->second.find(dir) != activation_ports.find(cond)->second.end() and
       activation_ports.find(cond)->second.find(dir)->second.find(mode) != activation_ports.find(cond)->second.find(dir)->second.end())
       return activation_ports.find(cond)->second.find(dir)->second.find(mode)->second;
    generic_objRef port = generic_objRef(new commandport_obj(cond, mode, (dir == IN ? "IN_" : "OUT_") + commandport_obj::get_mode_string(mode) + "_" + GET_NAME(data, cond)));
@@ -1018,7 +1017,6 @@ void conn_binding::add_command_ports(const HLS_managerRef HLSMgr, const hlsRef H
                INDENT_DBG_MEX(DEBUG_LEVEL_PEDANTIC, debug_level, "---Adding selector_" + elem->get_string() + " " + STR(elem->get_type()));
                structural_objectRef sel_obj = SM->add_port("selector_" + elem->get_string(), port_o::IN, circuit, boolean_port_type);
                (j->second)->set_structural_obj(sel_obj);
-
 
                if(GetPointer<commandport_obj>(j->second)->get_command_type() == commandport_obj::UNBOUNDED)
                {

@@ -122,13 +122,13 @@ void ControllerCreatorBaseStep::add_common_ports(structural_objectRef circuit)
    PRINT_DBG_MEX(DEBUG_LEVEL_PEDANTIC, debug_level, "Adding the done port...");
    this->add_done_port(circuit);
 
-   this->add_command_ports(circuit);  //aggiungere alle unita che sono clock gated, aggiungere una porta aggiuntiva che, per ogni elemento clock gated all interno di datapath
-   //aggiunto un selettore che aggiunge all add_command port, un selettore add command bound
-   //riferimento: command port object multi unbounded, porte che vengono utilizzate per controllare le unita unboundend che hanno bisogno di uno start
-   //va aggiunto un command port object 
-   //aggiungere un enum per controllare il valore di clock gating
-   //creare un file simile a virtual unbounded object,
-   //poi va aggiunto, dentro a bounded cpp linea 1134 c'e un for dentro le operazioni del datapath,conn_biding 1158 aggiunta dei selettori dei mult unbounded.
+   this->add_command_ports(circuit); // aggiungere alle unita che sono clock gated, aggiungere una porta aggiuntiva che, per ogni elemento clock gated all interno di datapath
+   // aggiunto un selettore che aggiunge all add_command port, un selettore add command bound
+   // riferimento: command port object multi unbounded, porte che vengono utilizzate per controllare le unita unboundend che hanno bisogno di uno start
+   // va aggiunto un command port object
+   // aggiungere un enum per controllare il valore di clock gating
+   // creare un file simile a virtual unbounded object,
+   // poi va aggiunto, dentro a bounded cpp linea 1134 c'e un for dentro le operazioni del datapath,conn_biding 1158 aggiunta dei selettori dei mult unbounded.
    //
    PRINT_DBG_MEX(DEBUG_LEVEL_PEDANTIC, debug_level, "Adding clock and reset ports...");
    this->add_clock_reset(circuit);
