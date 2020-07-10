@@ -78,7 +78,6 @@ class commandport_obj : public generic_obj
       SWITCH,          /// switch value, it represents the value of the switch statement
       MULTIIF,         /// represents the multi conditions
       SELECTOR,        /// mux selector
-      ALUSELECTOR,     /// ALU selector
       UNBOUNDED,       /// signal representing a communication for an unbounded object (function call)
       MULTI_UNBOUNDED, /// signal representing when a multi unbounded call ends
       WRENABLE,        /// enable for register writing
@@ -120,7 +119,7 @@ class commandport_obj : public generic_obj
 
    commandport_obj(generic_objRef _elem, unsigned int _mode, const std::string& _name) : generic_obj(COMMAND_PORT, _name), elem(std::move(_elem)), mode(_mode), is_a_phi_write_enable(false)
    {
-      THROW_ASSERT(mode == SELECTOR || mode == WRENABLE || mode == ALUSELECTOR or mode == MULTI_UNBOUNDED or mode == CLOCK_GATING, "Selector port is wrong");
+      THROW_ASSERT(mode == SELECTOR || mode == WRENABLE or mode == MULTI_UNBOUNDED or mode == CLOCK_GATING, "Selector port is wrong");
    }
 
    /**
@@ -177,7 +176,7 @@ class commandport_obj : public generic_obj
 
    const generic_objRef& get_elem() const
    {
-      THROW_ASSERT(mode == SELECTOR || mode == WRENABLE || mode == ALUSELECTOR || mode == MULTI_UNBOUNDED, "Selector port is wrong");
+      THROW_ASSERT(mode == SELECTOR || mode == WRENABLE || mode == MULTI_UNBOUNDED, "Selector port is wrong");
       return elem;
    }
 
