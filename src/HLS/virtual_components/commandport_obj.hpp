@@ -201,6 +201,8 @@ class commandport_obj : public generic_obj
             return "SELECTOR";
          case WRENABLE:
             return "WRENABLE";
+         case CLOCK_GATING:
+            return "CLOCK_GATING";
          default:
             THROW_ERROR("Command mode not allowed for port");
       }
