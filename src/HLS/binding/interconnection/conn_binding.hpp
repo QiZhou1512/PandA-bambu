@@ -157,7 +157,7 @@ class conn_binding
    const BehavioralHelperConstRef BH;
 
    /// map between a vertex and the corresponding activation signal
-   std::map<vertex, std::map<unsigned int, generic_objRef>> activation_ports;
+   std::map<vertex, std::map<unsigned int, std::map<unsigned int, generic_objRef>>> activation_ports;
 
    /// map between input port variable and generic object
    std::map<unsigned int, generic_objRef> input_ports;

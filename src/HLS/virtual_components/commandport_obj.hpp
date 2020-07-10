@@ -115,12 +115,12 @@ class commandport_obj : public generic_obj
     */
    commandport_obj(const vertex& signal_, unsigned int _mode, const std::string& _name) : generic_obj(COMMAND_PORT, _name), signal(signal_), mode(_mode), is_a_phi_write_enable(false)
    {
-      THROW_ASSERT(mode == OPERATION or mode == CONDITION or mode == SWITCH or mode == MULTIIF or mode == UNBOUNDED, "Command mode not allowed into this constructor");
+      THROW_ASSERT(mode == OPERATION or mode == CONDITION or mode == SWITCH or mode == MULTIIF or mode == UNBOUNDED or mode == CLOCK_GATING, "Command mode not allowed into this constructor");
    }
 
    commandport_obj(generic_objRef _elem, unsigned int _mode, const std::string& _name) : generic_obj(COMMAND_PORT, _name), elem(std::move(_elem)), mode(_mode), is_a_phi_write_enable(false)
    {
-      THROW_ASSERT(mode == SELECTOR || mode == WRENABLE || mode == ALUSELECTOR or mode == MULTI_UNBOUNDED, "Selector port is wrong");
+      THROW_ASSERT(mode == SELECTOR || mode == WRENABLE || mode == ALUSELECTOR or mode == MULTI_UNBOUNDED or mode == CLOCK_GATING, "Selector port is wrong");
    }
 
    /**
@@ -134,7 +134,7 @@ class commandport_obj : public generic_obj
     */
    const vertex& get_vertex() const
    {
-      THROW_ASSERT(mode == OPERATION or mode == CONDITION or mode == SWITCH or mode == MULTIIF or mode == UNBOUNDED, "Command mode not allowed");
+      THROW_ASSERT(mode == OPERATION or mode == CONDITION or mode == SWITCH or mode == MULTIIF or mode == UNBOUNDED or mode == CLOCK_GATING, "Command mode not allowed");
       return signal;
    }
 

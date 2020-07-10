@@ -255,10 +255,12 @@ generic_objRef conn_binding::bind_selector_port(conn_binding::direction_type dir
 
 generic_objRef conn_binding::bind_selector_port(conn_binding::direction_type dir, unsigned int mode, const vertex& cond, const OpGraphConstRef data)
 {
-   if(activation_ports.find(cond) != activation_ports.end() and activation_ports[cond].find(dir) != activation_ports[cond].end())
-      return activation_ports[cond][dir];
+   if(activation_ports.find(cond) != activation_ports.end() and
+      activation_ports.find(cond)->second.find(dir) != activation_ports.find(cond)->second.end() and
+      activation_ports.find(cond)->second.find(dir)->second.find(mode) != activation_ports.find(cond)->second.find(dir)->second.end())
+      return activation_ports.find(cond)->second.find(dir)->second.find(mode)->second;
    generic_objRef port = generic_objRef(new commandport_obj(cond, mode, (dir == IN ? "IN_" : "OUT_") + commandport_obj::get_mode_string(mode) + "_" + GET_NAME(data, cond)));
-   activation_ports[cond][dir] = port;
+   activation_ports[cond][dir][mode] = port;
    return selectors[dir][std::make_pair(port, 0)] = port;
 }
 
