@@ -290,7 +290,7 @@ void FunctionalUnitStep::AnalyzeFu(const technology_nodeRef f_unit)
             {
                structural_objectRef port_c = mod->get_in_port(i);
                if(port_c &&
-                  (port_c->get_id() == CLOCK_PORT_NAME || port_c->get_id() == RESET_PORT_NAME || port_c->get_id() == START_PORT_NAME || (GetPointer<port_o>(port_c) && GetPointer<port_o>(port_c)->get_is_memory()) || port_c->get_id().find("sel_") == 0))
+                  (port_c->get_id() == CLOCK_PORT_NAME || port_c->get_id() == RESET_PORT_NAME || port_c->get_id() == START_PORT_NAME || port_c->get_id() == CLOCK_GATING_PORT_NAME || (GetPointer<port_o>(port_c) && GetPointer<port_o>(port_c)->get_is_memory()) || port_c->get_id().find("sel_") == 0))
                   continue;
                ++n_port_to_be_specialized;
             }
@@ -314,7 +314,7 @@ void FunctionalUnitStep::AnalyzeFu(const technology_nodeRef f_unit)
                   for(; constPort < n_ports + 1; ++constPort)
                   {
                      structural_objectRef port_c = n_ports > constPort ? mod->get_in_port(constPort) : structural_objectRef();
-                     if(port_c && (port_c->get_id() == CLOCK_PORT_NAME || port_c->get_id() == RESET_PORT_NAME || port_c->get_id() == START_PORT_NAME || (GetPointer<port_o>(port_c) && GetPointer<port_o>(port_c)->get_is_memory()) ||
+                     if(port_c && (port_c->get_id() == CLOCK_PORT_NAME || port_c->get_id() == RESET_PORT_NAME || port_c->get_id() == START_PORT_NAME || port_c->get_id() == CLOCK_GATING_PORT_NAME || (GetPointer<port_o>(port_c) && GetPointer<port_o>(port_c)->get_is_memory()) ||
                                    port_c->get_id().find("sel_") == 0))
                         continue;
                      std::string template_parameters;
@@ -325,7 +325,7 @@ void FunctionalUnitStep::AnalyzeFu(const technology_nodeRef f_unit)
                         for(unsigned int iport = 0; iport < n_ports; ++iport)
                         {
                            structural_objectRef port = mod->get_in_port(iport);
-                           if(port->get_id() == CLOCK_PORT_NAME || port->get_id() == RESET_PORT_NAME || port->get_id() == START_PORT_NAME || (GetPointer<port_o>(port) && GetPointer<port_o>(port)->get_is_memory()) || port->get_id().find("sel_") == 0)
+                           if(port->get_id() == CLOCK_PORT_NAME || port->get_id() == RESET_PORT_NAME || port->get_id() == START_PORT_NAME || port->get_id() == CLOCK_GATING_PORT_NAME || (GetPointer<port_o>(port) && GetPointer<port_o>(port)->get_is_memory()) || port->get_id().find("sel_") == 0)
                               continue;
                            if(template_parameters != "")
                               template_parameters += " ";

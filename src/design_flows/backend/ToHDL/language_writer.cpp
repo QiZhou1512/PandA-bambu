@@ -151,6 +151,7 @@ CustomSet<std::string> language_writer::GetHDLReservedNames() const
    ret.insert(CLOCK_PORT_NAME);
    ret.insert(DONE_PORT_NAME);
    ret.insert(START_PORT_NAME);
+   ret.insert(CLOCK_GATING_PORT_NAME);
    ret.insert(WENABLE_PORT_NAME);
    ret.insert(RETURN_PORT_NAME);
    return ret;

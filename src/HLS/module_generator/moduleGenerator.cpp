@@ -439,7 +439,7 @@ void moduleGenerator::specialize_fu(std::string fuName, vertex ve, std::string l
       for(currentPort = 0; currentPort < inPortSize; currentPort++)
       {
          structural_objectRef curr_port = fu_module->get_in_port(currentPort);
-         if(port_name == CLOCK_PORT_NAME || port_name == RESET_PORT_NAME || port_name == START_PORT_NAME)
+         if(port_name == CLOCK_PORT_NAME || port_name == RESET_PORT_NAME || port_name == START_PORT_NAME || port_name == CLOCK_GATING_PORT_NAME)
             ++toSkip;
          if(GetPointer<port_o>(curr_port)->get_is_var_args())
          {

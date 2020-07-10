@@ -477,7 +477,7 @@ static void propagateInterface(structural_managerRef SM, structural_objectRef wr
       auto* portObj = GetPointer<port_o>(port);
 
       std::string portID = portObj->get_id();
-      if(portID != CLOCK_PORT_NAME && portID != RESET_PORT_NAME && portID != START_PORT_NAME && portID != RETURN_PORT_NAME && portID != DONE_PORT_NAME && std::find(ParametersName.begin(), ParametersName.end(), portID) == ParametersName.end())
+      if(portID != CLOCK_PORT_NAME && portID != RESET_PORT_NAME && portID != START_PORT_NAME && portID != CLOCK_GATING_PORT_NAME && portID != RETURN_PORT_NAME && portID != DONE_PORT_NAME && std::find(ParametersName.begin(), ParametersName.end(), portID) == ParametersName.end())
          continue;
 
       SM->add_port(portObj->get_id(), portObj->get_port_direction(), interfaceObj, portObj->get_typeRef());

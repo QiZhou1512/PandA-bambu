@@ -718,7 +718,7 @@ void MinimalInterfaceTestbench::write_signals(const tree_managerConstRef TreeM, 
 
 void MinimalInterfaceTestbench::read_input_value_from_file_RNONE(const std::string& input_name, bool& first_valid_input, unsigned bitsize) const
 {
-   if(input_name != CLOCK_PORT_NAME && input_name != RESET_PORT_NAME && input_name != START_PORT_NAME)
+   if(input_name != CLOCK_PORT_NAME && input_name != RESET_PORT_NAME && input_name != START_PORT_NAME && input_name != CLOCK_GATING_PORT_NAME)
    {
       writer->write("\n");
       writer->write_comment("Read a value for " + input_name + " --------------------------------------------------------------\n");

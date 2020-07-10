@@ -455,7 +455,7 @@ void conn_binding::mux_connection(const hlsRef HLS, const structural_managerRef 
          for(unsigned int ind = 0; ind < tgt_obj->get_in_port_size(); ind++)
          {
             auto curr_port = tgt_obj->get_in_port(ind);
-            if(curr_port->get_id() == CLOCK_PORT_NAME || curr_port->get_id() == RESET_PORT_NAME || curr_port->get_id() == START_PORT_NAME)
+            if(curr_port->get_id() == CLOCK_PORT_NAME || curr_port->get_id() == RESET_PORT_NAME || curr_port->get_id() == START_PORT_NAME || curr_port->get_id() == CLOCK_GATING_PORT_NAME)
                continue;
             if(GetPointer<port_o>(curr_port)->get_is_memory() || GetPointer<port_o>(curr_port)->get_is_global() || GetPointer<port_o>(curr_port)->get_is_extern())
                continue;
@@ -954,7 +954,7 @@ void conn_binding::add_command_ports(const HLS_managerRef HLSMgr, const hlsRef H
       if((GET_TYPE(data, j) & TYPE_EXTERNAL && start_port_i) || !GetPointer<operation>(op_tn)->is_bounded() || start_port_i)
       {
          bind_selector_port(conn_binding::IN, commandport_obj::UNBOUNDED, j, data);
-	 bind_selector_port(conn_binding::IN, commandport_obj::CLOCK_GATING, j, data);
+         bind_selector_port(conn_binding::IN, commandport_obj::CLOCK_GATING, j, data);
          bind_selector_port(conn_binding::OUT, commandport_obj::UNBOUNDED, j, data);
       }
    }
@@ -1023,7 +1023,7 @@ void conn_binding::add_command_ports(const HLS_managerRef HLSMgr, const hlsRef H
                   vertex op = GetPointer<commandport_obj>(j->second)->get_vertex();
                   generic_objRef fu_unit = HLS->Rfu->get(op);
                   structural_objectRef fu_obj = fu_unit->get_structural_obj();
-                  structural_objectRef start = fu_obj->find_member(START_PORT_NAME, port_o_K, fu_obj); // clock gating in ingresso, bisogna far riferimento a START_PORT_NAME
+                  structural_objectRef start = fu_obj->find_member(START_PORT_NAME, port_o_K, fu_obj);
                   THROW_ASSERT(start, fu_obj->get_path());
                   calls[start].push_back(sel_obj);
                   start_to_vertex[start].push_back(op);
