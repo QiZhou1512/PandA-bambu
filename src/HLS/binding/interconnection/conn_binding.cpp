@@ -954,6 +954,7 @@ void conn_binding::add_command_ports(const HLS_managerRef HLSMgr, const hlsRef H
       if((GET_TYPE(data, j) & TYPE_EXTERNAL && start_port_i) || !GetPointer<operation>(op_tn)->is_bounded() || start_port_i)
       {
          bind_selector_port(conn_binding::IN, commandport_obj::UNBOUNDED, j, data);
+	 bind_selector_port(conn_binding::IN, commandport_obj::CLOCK_GATING, j, data);
          bind_selector_port(conn_binding::OUT, commandport_obj::UNBOUNDED, j, data);
       }
    }
@@ -1034,7 +1035,7 @@ void conn_binding::add_command_ports(const HLS_managerRef HLSMgr, const hlsRef H
                   vertex op = GetPointer<commandport_obj>(j->second)->get_vertex();
                   generic_objRef fu_unit = HLS->Rfu->get(op);
                   structural_objectRef fu_obj = fu_unit->get_structural_obj();
-                  structural_objectRef start = fu_obj->find_member(START_PORT_NAME, port_o_K, fu_obj);
+                  structural_objectRef start = fu_obj->find_member(CLOCK_GATING_PORT_NAME, port_o_K, fu_obj);
                   THROW_ASSERT(start, fu_obj->get_path());
                   calls[start].push_back(sel_obj);
                   start_to_vertex[start].push_back(op);
