@@ -204,13 +204,13 @@ DesignFlowStep_Status top_entity::InternalExec()
    PRINT_DBG_MEX(DEBUG_LEVEL_VERY_PEDANTIC, debug_level, "\tAdding clock gating signal...");
    /// add clock gating port
    structural_objectRef clock_gating_obj = SM->add_port(CLOCK_GATING_PORT_NAME, port_o::IN, circuit, bool_type);
-   structural_objectRef datapath_clock_gating = datapath_circuit->find_member(CLOCK_GATING_PORT_NAME, port_o_K, datapath_circuit);
+   // structural_objectRef datapath_clock_gating = datapath_circuit->find_member(CLOCK_GATING_PORT_NAME, port_o_K, datapath_circuit);
 //da cambiare con l assert per il datapath_clock_gating, clock_gating_obj
-   THROW_ASSERT(datapath_clock_gating, "Missing controller circuit");
-   SM->print(std::cout);
-   SM->add_connection(datapath_clock_gating, clock_gating_obj);
-   structural_objectRef controller_clock_gating = controller_circuit->find_member(CLOCK_GATING_PORT_NAME, port_o_K, controller_circuit);
-   SM->add_connection(controller_clock_gating, clock_gating_obj);
+   // THROW_ASSERT(datapath_clock_gating, "Missing controller circuit");
+   // SM->print(std::cout);
+   // SM->add_connection(datapath_clock_gating, clock_gating_obj);
+   // structural_objectRef controller_clock_gating = controller_circuit->find_member(CLOCK_GATING_PORT_NAME, port_o_K, controller_circuit);
+   // SM->add_connection(controller_clock_gating, clock_gating_obj);
    PRINT_DBG_MEX(DEBUG_LEVEL_VERY_PEDANTIC, debug_level, "\tClock gating added!");
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
