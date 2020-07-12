@@ -210,15 +210,15 @@ void fsm_controller::create_state_machine(std::string& parse)
          {
             for(auto& state : clock_gating_structure)
             {
-               if(state.find(GET_NAME(data, op)) == state.end())
+               if(state.second.find(GET_NAME(data, op)) == state.second.end())
                {
                   // not found
-                  state.insert(std::pair<std::string, bool>(GET_NAME(data, op), false));
+                  state.second.insert(std::pair<std::string, bool>(GET_NAME(data, op), false));
                }
                else
                {
                   // found
-                  state.find(GET_NAME(data, op))->second = true;
+                  state.second.find(GET_NAME(data, op))->second = true;
                }
                // check if present
             }
@@ -227,7 +227,8 @@ void fsm_controller::create_state_machine(std::string& parse)
       // from the first state, the elements are propagated forward in the vector. Because the code above propagete backward all the FU found
       if(!clock_gating_structure.empty())
       {
-         for(auto& eo : clock_gating_structure[0])
+         vertex first_state = working_list[0];
+         for(auto& eo : clock_gating_structure[first_state])
          {
             if(sub_str_gating.find(eo.first) == sub_str_gating.end())
             {
