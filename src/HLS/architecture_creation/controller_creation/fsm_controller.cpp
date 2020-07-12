@@ -227,7 +227,7 @@ void fsm_controller::create_state_machine(std::string& parse)
       // from the first state, the elements are propagated forward in the vector. Because the code above propagete backward all the FU found
       if(!clock_gating_structure.empty())
       {
-         vertex first_state = working_list[0];
+         vertex first_state = working_list.front();
          for(auto& eo : clock_gating_structure[first_state])
          {
             if(sub_str_gating.find(eo.first) == sub_str_gating.end())
@@ -237,7 +237,7 @@ void fsm_controller::create_state_machine(std::string& parse)
             }
          }
       }
-      clock_gating_structure.insert(std::pair<vertex, std::map<std::string, bool>>(v, sub_str_gating);
+      clock_gating_structure.insert(std::pair<vertex, std::map<std::string, bool>>(v, sub_str_gating));
    }
 
    for(const auto& cg : clock_gating_structure)
