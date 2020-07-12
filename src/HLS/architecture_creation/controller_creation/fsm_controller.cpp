@@ -194,7 +194,7 @@ void fsm_controller::create_state_machine(std::string& parse)
    working_list.erase(std::find(working_list.begin(), working_list.end(), first_state));
    working_list.push_front(first_state); /// ensure that first_state is the really first one...
 
-   std::vector<std::map<std::string, bool>> clock_gating_structure;
+   std::map<vertex, std::map<std::string, bool>> clock_gating_structure;
 
    for(const auto& v : working_list)
    {
@@ -236,18 +236,16 @@ void fsm_controller::create_state_machine(std::string& parse)
             }
          }
       }
-      clock_gating_structure.push_back(sub_str_gating);
+      clock_gating_structure.insert(std::pair<vertex, std::map<std::string, bool>>(v, sub_str_gating);
    }
 
-   int i = 0;
    for(const auto& cg : clock_gating_structure)
    {
-      PRINT_DBG_STRING(DEBUG_LEVEL_PEDANTIC, debug_level, "Checking clock gating for state: S_" + std::to_string(i) + "\n");
-      for(const auto& op : cg)
+      PRINT_DBG_STRING(DEBUG_LEVEL_PEDANTIC, debug_level, "Checking clock gating for state: " + astg->CGetStateInfo(cg.first)->name + "\n");
+      for(const auto& op : cg.second)
       {
          PRINT_DBG_STRING(DEBUG_LEVEL_PEDANTIC, debug_level, "- Operation: " + op.first + ", clock gating value: " + std::to_string(op.second) + "\n");
       }
-      i++;
    }
 
    std::map<vertex, std::vector<bool>> state_Xregs;
@@ -385,18 +383,12 @@ void fsm_controller::create_state_machine(std::string& parse)
          CustomOrderedSet<generic_objRef> active_fu;
          const tree_managerRef TreeM = HLSMgr->get_tree_manager();
          const auto& operations = (stg->CGetStateInfo(v)->loopId == 0 || !FB->is_pipelining_enabled()) ? astg->CGetStateInfo(v)->executing_operations : loop_executing_ops[stg->CGetStateInfo(v)->loopId];
-         for(const auto& op : operations) // chiedere l executing operations, starting e le ending,
+         for(const auto& op : operations) 
          {
             active_fu.insert(HLS->Rfu->get(op));
             technology_nodeRef tn =
-                HLS->allocation_information->get_fu(HLS->Rfu->get_assign(op)); // get functional unit, a noi interessa create state machine non passiamo passare per copia o per riferimento alla struttura, la struttura riempita con module biding.
+                HLS->allocation_information->get_fu(HLS->Rfu->get_assign(op));
 
-            // usando questi metodi qua possiamo capire quali unita stanno andando. ogni stato ha un tot di operazioni, per ogni operazione di stato
-            // non ha senso definire clock gating su operazioni combinatorie, ma per quelle non combinatorie, se sono executing non possiamo fare clock gating, per quelli non executing dobbiamo fare clock gating
-            // print viene stampata, mentre debug viene stampato solo se viene chiamato...... per ogni stato, quante operazioni possono usufruire del clock gating, di default le pongo tutte a zero, per le componenti che stanno eseguendo le metto a 1
-            // distinguere add da adder.
-            // per ogni stato i stati, non tutte le non executing ed executing operation non sono mostrati, avere una struttura dinamica, tale per cui per ogni elemento della lista confrontiamo quello che c'è e quello che non c'è ancora sulla lista ed
-            // aggiungerli ne caso con un valore di clock gating dettato dallo stato fare uno scheduling e poi andare a modificare HLS ha tutte le informazioni su tutta la struttura di creazione per la sintesi.
 
             technology_nodeRef op_tn = GetPointer<functional_unit>(tn)->get_operation(tree_helper::normalized_ID(data->CGetOpNodeInfo(op)->GetOperation()));
             THROW_ASSERT(GetPointer<operation>(op_tn)->time_m, "Time model not available for operation: " + GET_NAME(data, op));
@@ -427,6 +419,9 @@ void fsm_controller::create_state_machine(std::string& parse)
                unbounded_ports.insert(unbounded_port);
                present_state[v][unbounded_port] = 1;
                present_state[v][clock_gating_port] = 1;
+
+
+               //stato siamo, che com
             }
          }
          if(stg->CGetStateInfo(v)->loopId == 0 || !FB->is_pipelining_enabled())
