@@ -402,6 +402,7 @@ void fsm_controller::create_state_machine(std::string& parse)
             THROW_ASSERT(fu_module, "expected");
             structural_objectRef start_port_i = fu_module->find_member(START_PORT_NAME, port_o_K, top);
             structural_objectRef done_port_i = fu_module->find_member(DONE_PORT_NAME, port_o_K, top);
+            structural_objectRef clock_gating_port_i = fu_module->find_member(CLOCK_GATING_PORT_NAME, port_o_K, top);
             /// do some checks
             if(!GetPointer<operation>(op_tn)->is_bounded() && (!start_port_i || !done_port_i))
                THROW_ERROR("Unbounded operations have to have both done_port and start_port ports!" + STR(TreeM->CGetTreeNode(data->CGetOpNodeInfo(op)->GetNodeId())));
@@ -413,16 +414,18 @@ void fsm_controller::create_state_machine(std::string& parse)
                // since v now has to wait for loop completion, every operation will be unbounded
                is_starting_operation = true;
             }
+            if(((GET_TYPE(data, op) & TYPE_EXTERNAL && clock_gating_port_i) or !GetPointer<operation>(op_tn)->is_bounded() or clock_gating_port_i) and !stg->CGetStateInfo(v)->is_dummy)
+            {
+               unsigned int clock_gating_port = out_ports[HLS->Rconn->bind_selector_port(conn_binding::IN, commandport_obj::CLOCK_GATING, op, data)];
+               present_state[v][clock_gating_port] = clock_gating_structure[v][GET_NAME(data, op)];
+               PRINT_DBG_STRING(DEBUG_LEVEL_PEDANTIC, debug_level, "Clock gating port for state " + astg->CGetStateInfo(v)->name + "set to " + clock_gating_structure[v][GET_NAME(data, op)] + ".\n");
+            }
             if(((GET_TYPE(data, op) & TYPE_EXTERNAL && start_port_i) or !GetPointer<operation>(op_tn)->is_bounded() or start_port_i) and !stg->CGetStateInfo(v)->is_dummy and is_starting_operation)
             {
                unsigned int unbounded_port = out_ports[HLS->Rconn->bind_selector_port(conn_binding::IN, commandport_obj::UNBOUNDED, op, data)];
-               unsigned int clock_gating_port = out_ports[HLS->Rconn->bind_selector_port(conn_binding::IN, commandport_obj::CLOCK_GATING, op, data)];
+
                unbounded_ports.insert(unbounded_port);
                present_state[v][unbounded_port] = 1;
-               present_state[v][clock_gating_port] = 1;
-
-
-               //stato siamo, che com
             }
          }
          if(stg->CGetStateInfo(v)->loopId == 0 || !FB->is_pipelining_enabled())
