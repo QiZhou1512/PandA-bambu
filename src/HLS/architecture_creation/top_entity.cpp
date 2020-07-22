@@ -196,7 +196,7 @@ DesignFlowStep_Status top_entity::InternalExec()
    structural_objectRef datapath_clock = datapath_circuit->find_member(CLOCK_PORT_NAME, port_o_K, datapath_circuit);
    SM->add_connection(datapath_clock, GetPointer<module>(and_gate)->get_out_port(0)); 
    structural_objectRef controller_clock = controller_circuit->find_member(CLOCK_PORT_NAME, port_o_K, controller_circuit);
-   SM->add_connection(controller_clock, andGetPointer<module>(and_gate)->get_out_port(0));
+   SM->add_connection(controller_clock, GetPointer<module>(and_gate)->get_out_port(0));
    PRINT_DBG_MEX(DEBUG_LEVEL_VERY_PEDANTIC, debug_level, "\tClock signal added!");
 
    PRINT_DBG_MEX(DEBUG_LEVEL_VERY_PEDANTIC, debug_level, "\tAdding reset signal...");
