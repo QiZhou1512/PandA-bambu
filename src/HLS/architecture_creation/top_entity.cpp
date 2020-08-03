@@ -190,14 +190,14 @@ DesignFlowStep_Status top_entity::InternalExec()
    auto* in_portAndGate = GetPointer<port_o>(port_objAndGate_in);
    in_portAndGate->add_n_ports(2, port_objAndGate_in);
 
-   SM->add_connection(clock_obj, in_portAndGate->get_port(0));
-   SM->add_connection(clock_gating_obj, in_portAndGate->get_port(1));
+   SM->add_connection(clock_obj->find_member(CLOCK_PORT_NAME, port_o_K, clock_obj), in_portAndGate->get_port(0));
+   SM->add_connection(clock_gating_obj->find_member(CLOCK_GATING_PORT_NAME, port_o_K, clock_gating_obj), in_portAndGate->get_port(1));
 
    /// connect to datapath and controller (gated) clock
    structural_objectRef datapath_clock = datapath_circuit->find_member(CLOCK_PORT_NAME, port_o_K, datapath_circuit);
-   SM->add_connection(GetPointer<module>(andGateClockG)->get_out_port(0), datapath_clock);
+   SM->add_connection(port_objAndGate_out, datapath_clock);
    structural_objectRef controller_clock = controller_circuit->find_member(CLOCK_PORT_NAME, port_o_K, controller_circuit);
-   SM->add_connection(GetPointer<module>(andGateClockG)->get_out_port(0), controller_clock);
+   SM->add_connection(port_objAndGate_out, controller_clock);
    PRINT_DBG_MEX(DEBUG_LEVEL_VERY_PEDANTIC, debug_level, "\tClock signal added!");
 
    PRINT_DBG_MEX(DEBUG_LEVEL_VERY_PEDANTIC, debug_level, "\tAdding reset signal...");
