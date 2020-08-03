@@ -189,7 +189,6 @@ DesignFlowStep_Status top_entity::InternalExec()
    structural_objectRef port_objAndGate_out1 = andGateClockG->find_member("out1", port_o_K, andGateClockG);
    structural_objectRef port_objAndGate_out2 = andGateClockG->find_member("out2", port_o_K, andGateClockG);
    auto* in_portAndGate = GetPointer<port_o>(port_objAndGate_in);
-   auto* out_portAndGate = GetPointer<port_o>(port_objAndGate_out);
    in_portAndGate->add_n_ports(2, port_objAndGate_in);
 
    SM->add_connection(clock_obj, in_portAndGate->get_port(0));
