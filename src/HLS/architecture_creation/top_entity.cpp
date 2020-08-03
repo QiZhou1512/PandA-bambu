@@ -186,8 +186,8 @@ DesignFlowStep_Status top_entity::InternalExec()
    /// and gate for clock and clock gating
    //first AND gate
    structural_objectRef andGateClockG1 = SM->add_module_from_technology_library("andGateClockG", AND_GATE_STD, LIBRARY_STD, circuit, HLS->HLS_T->get_technology_manager());
-   structural_objectRef port_objAndGate_in1  = andGateClockG->find_member("in", port_vector_o_K, andGateClockG1);
-   structural_objectRef port_objAndGate_out1 = andGateClockG->find_member("out1", port_o_K, andGateClockG1);
+   structural_objectRef port_objAndGate_in1  = andGateClockG1->find_member("in", port_vector_o_K, andGateClockG1);
+   structural_objectRef port_objAndGate_out1 = andGateClockG1->find_member("out1", port_o_K, andGateClockG1);
    auto* in_portAndGate1 = GetPointer<port_o>(port_objAndGate_in1);
    in_portAndGate1->add_n_ports(2, port_objAndGate_in1);
 
@@ -195,8 +195,8 @@ DesignFlowStep_Status top_entity::InternalExec()
    SM->add_connection(clock_gating_obj, in_portAndGate1->get_port(1));
    //second AND gate
    structural_objectRef andGateClockG2 = SM->add_module_from_technology_library("andGateClockG", AND_GATE_STD, LIBRARY_STD, circuit, HLS->HLS_T->get_technology_manager());
-   structural_objectRef port_objAndGate_in2  = andGateClockG->find_member("in", port_vector_o_K, andGateClockG2);
-   structural_objectRef port_objAndGate_out2 = andGateClockG->find_member("out1", port_o_K, andGateClockG2);
+   structural_objectRef port_objAndGate_in2  = andGateClockG2->find_member("in", port_vector_o_K, andGateClockG2);
+   structural_objectRef port_objAndGate_out2 = andGateClockG2->find_member("out1", port_o_K, andGateClockG2);
    auto* in_portAndGate2 = GetPointer<port_o>(port_objAndGate_in2);
    in_portAndGate2->add_n_ports(2, port_objAndGate_in2);
 
