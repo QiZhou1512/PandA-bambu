@@ -186,7 +186,7 @@ DesignFlowStep_Status top_entity::InternalExec()
    /// and gate for clock and clock gating
    structural_objectRef andGateClockG = SM->add_module_from_technology_library("andGateClockG", AND_GATE_STD, LIBRARY_STD, circuit, HLS->HLS_T->get_technology_manager());
    structural_objectRef port_objAndGate_in  = andGateClockG->find_member("in", port_vector_o_K, andGateClockG);
-   structural_objectRef port_objAndGate_out = andGateClockG->find_member("out1", port_vector_o_K, andGateClockG);
+   structural_objectRef port_objAndGate_out = andGateClockG->find_member("out", port_vector_o_K, andGateClockG);
    auto* in_portAndGate = GetPointer<port_o>(port_objAndGate_in);
    auto* out_portAndGate = GetPointer<port_o>(port_objAndGate_out);
    in_portAndGate->add_n_ports(2, port_objAndGate_in);
