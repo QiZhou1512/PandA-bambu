@@ -213,7 +213,7 @@ void fsm_controller::create_state_machine(std::string& parse)
                if(state.second.find(GET_NAME(data, op)) == state.second.end())
                {
                   // not found
-                  if(isOption(OPT_clock_gating) && getOption<bool>(OPT_clock_gating))
+                  if(parameters->isOption(OPT_clock_gating) && parameters->getOption<bool>(OPT_clock_gating))
                      state.second.insert(std::pair<std::string, bool>(GET_NAME(data, op), false));
                   else
                      state.second.insert(std::pair<std::string, bool>(GET_NAME(data, op), true));
