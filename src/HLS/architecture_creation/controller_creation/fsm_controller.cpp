@@ -204,7 +204,7 @@ void fsm_controller::create_state_machine(std::string& parse)
       for(const auto& op : exec_op)
       {
          PRINT_DBG_STRING(DEBUG_LEVEL_PEDANTIC, debug_level, "Operation: " + GET_NAME(data, op) + "\n");
-         // active clock gating, the value is true
+         // active clock gating, the value is false
          sub_str_gating.insert(std::pair<std::string, bool>(GET_NAME(data, op), true));
          if(!clock_gating_structure.empty())
          {
@@ -213,7 +213,10 @@ void fsm_controller::create_state_machine(std::string& parse)
                if(state.second.find(GET_NAME(data, op)) == state.second.end())
                {
                   // not found
-                  state.second.insert(std::pair<std::string, bool>(GET_NAME(data, op), false));
+                  if(isOption(OPT_clock_gating) && getOption<bool>(OPT_clock_gating))
+                     state.second.insert(std::pair<std::string, bool>(GET_NAME(data, op), false));
+                  else
+                     state.second.insert(std::pair<std::string, bool>(GET_NAME(data, op), true));
                }
                else
                {

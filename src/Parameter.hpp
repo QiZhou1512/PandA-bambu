@@ -116,7 +116,7 @@ enum class DiopsisInstrumentWriter_Type;
 #define PARAMETER_NOTPARSED INT_MAX
 
 #define BAMBU_OPTIONS                                                                                                                                                                                                                                          \
-   (chaining)(chaining_algorithm)(constraints_file)(context_switch)(controller_architecture)(datapath_architecture)(distram_threshold)(DSP_allocation_coefficient)(DSP_margin_combinational)(DSP_margin_pipelined)(estimate_logic_and_connections)(            \
+   (chaining)(chaining_algorithm)(clock_gating)(constraints_file)(context_switch)(controller_architecture)(datapath_architecture)(distram_threshold)(DSP_allocation_coefficient)(DSP_margin_combinational)(DSP_margin_pipelined)(estimate_logic_and_connections)(            \
        evaluation)(evaluation_mode)(evaluation_objectives)(experimental_setup)(export_core)(export_core_mode)(fsm_encoding)(fu_binding_algorithm)(generate_testbench)(generate_vcd)(hls_flow)(hls_div)(hls_fpdiv)(interface)(interface_type)(additional_top)(  \
        data_bus_bitsize)(addr_bus_bitsize)(libm_std_rounding)(liveness_algorithm)(scheduling_mux_margins)(scheduling_priority)(scheduling_algorithm)(simulate)(simulator)(simulation_output)(speculative)(pipelining)(storage_value_insertion_algorithm)(stg)( \
        stg_algorithm)(register_allocation_algorithm)(register_grouping)(registered_inputs)(resp_model)(datapath_interconnection_algorithm)(insert_memory_profile)(timing_simulation)(top_file)(assert_debug)(memory_allocation_algorithm)(                     \

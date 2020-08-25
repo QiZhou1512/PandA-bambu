@@ -286,7 +286,8 @@
 #define OPT_NUM_ACCELERATORS (1 + OPT_NO_MIXED_DESIGN)
 #define OPT_PARALLEL_CONTROLLER (1 + OPT_NUM_ACCELERATORS)
 #define OPT_PERIOD_CLOCK (1 + OPT_PARALLEL_CONTROLLER)
-#define OPT_CLOCK_NAME (1 + OPT_PERIOD_CLOCK)
+#define OPT_CLOCK_GATING (1 + OPT_PERIOD_CLOCK)
+#define OPT_CLOCK_NAME (1 + OPT_CLOCK_GATING)
 #define OPT_RESET_NAME (1 + OPT_CLOCK_NAME)
 #define OPT_START_NAME (1 + OPT_RESET_NAME)
 #define OPT_DONE_NAME (1 + OPT_START_NAME)
@@ -749,6 +750,8 @@ void BambuParameter::PrintHelp(std::ostream& os) const
       << "        Specify the start signal name of the top interface (default = start_port).\n\n"
       << "    --done-name=id\n"
       << "        Specify the done signal name of the top interface (default = done_port).\n\n"
+      << "    --clock-gating\n"
+      << "        Enable clock gating (default no)\n\n."
       << "    --clock-period=value\n"
       << "        Specify the period of the clock signal (default = 10ns).\n\n"
       << "    --backend-script-extensions=file\n"
@@ -1147,6 +1150,7 @@ int BambuParameter::Exec()
       {"assert-debug", no_argument, nullptr, 0},
       {"device-name", required_argument, nullptr, OPT_DEVICE_NAME},
       {"clock-period", required_argument, nullptr, OPT_PERIOD_CLOCK},
+      {"clock-gating", no_argument, nullptr, OPT_CLOCK_GATING},
       {"clock-name", required_argument, nullptr, OPT_CLOCK_NAME},
       {"reset-name", required_argument, nullptr, OPT_RESET_NAME},
       {"start-name", required_argument, nullptr, OPT_START_NAME},
@@ -1831,6 +1835,11 @@ int BambuParameter::Exec()
          case OPT_PERIOD_CLOCK:
          {
             setOption(OPT_clock_period, optarg);
+            break;
+         }
+         case OPT_CLOCK_GATING:
+         {
+            setOption(OPT_clock_gating, true);
             break;
          }
          case OPT_CLOCK_NAME:
@@ -3551,6 +3560,7 @@ void BambuParameter::SetDefaults()
    setOption("edk_wrapper", false);
 #endif
    setOption(OPT_connect_iob, true);
+   setOption(OPT_clock_gating, false);
 
 #if(HAVE_EXPERIMENTAL && HAVE_BEAGLE)
    // -- Parameters for the design space exploration -- //
