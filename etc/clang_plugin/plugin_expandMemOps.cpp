@@ -367,13 +367,14 @@ namespace llvm
 
       bool runOnModule(Module& M) override
       {
+         if(skipModule(M))
+            return false;
          auto DL = &M.getDataLayout();
          auto res = false;
          auto currFuncIterator = M.getFunctionList().begin();
          while(currFuncIterator != M.getFunctionList().end())
          {
             auto& F = *currFuncIterator;
-            const llvm::TargetTransformInfo& TTI = getAnalysis<llvm::TargetTransformInfoWrapperPass>().getTTI(F);
             auto fname = std::string(currFuncIterator->getName());
             llvm::SmallVector<llvm::MemIntrinsic*, 4> MemCalls;
             for(llvm::Function::iterator BI = F.begin(), BE = F.end(); BI != BE; ++BI)
@@ -423,6 +424,7 @@ namespace llvm
 #if __clang_major__ != 4
                   else
                   {
+                     const llvm::TargetTransformInfo& TTI = getAnalysis<llvm::TargetTransformInfoWrapperPass>().getTTI(F);
                      llvm::expandMemCpyAsLoop(Memcpy, TTI);
                      do_erase = true;
                   }

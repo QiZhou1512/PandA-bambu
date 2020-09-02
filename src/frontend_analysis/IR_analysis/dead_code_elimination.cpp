@@ -53,8 +53,10 @@
 #include "design_flow_manager.hpp"
 #include "ext_tree_node.hpp"
 #include "function_behavior.hpp"
+#include "hls_function_step.hpp"
 #include "hls_manager.hpp"
 #include "math_function.hpp"
+#include "sdc_scheduling.hpp"
 #include "string_manipulation.hpp" // for GET_CLASS
 #include "token_interface.hpp"
 #include "tree_basic_block.hpp"
@@ -123,6 +125,24 @@ bool dead_code_elimination::HasToBeExecuted() const
       cur_reading_memory[i] = fdCalled->reading_memory;
    }
    return cur_writing_memory != last_writing_memory || cur_reading_memory != last_reading_memory;
+}
+
+void dead_code_elimination::fix_sdc_motion(DesignFlowManagerConstRef design_flow_manager, unsigned int function_id, tree_nodeRef removedStmt)
+{
+   const auto design_flow_graph = design_flow_manager->CGetDesignFlowGraph();
+   const auto sdc_scheduling_step = design_flow_manager->GetDesignFlowStep(HLSFunctionStep::ComputeSignature(HLSFlowStep_Type::SDC_SCHEDULING, HLSFlowStepSpecializationConstRef(), function_id));
+   if(sdc_scheduling_step)
+   {
+      const auto sdc_scheduling = GetPointer<SDCScheduling>(design_flow_graph->CGetDesignFlowStepInfo(sdc_scheduling_step)->design_flow_step);
+      auto& movements_list = sdc_scheduling->movements_list;
+      const auto removed_index = GET_INDEX_CONST_NODE(removedStmt);
+      movements_list.remove_if([&](const std::vector<unsigned int>& mv) { return mv[0] == removed_index; });
+   }
+}
+
+void dead_code_elimination::fix_sdc_motion(tree_nodeRef removedStmt) const
+{
+   return fix_sdc_motion(design_flow_manager.lock(), function_id, removedStmt);
 }
 
 void dead_code_elimination::kill_uses(const tree_managerRef TM, tree_nodeRef op0) const
@@ -753,12 +773,13 @@ DesignFlowStep_Status dead_code_elimination::InternalExec()
                   {
                      cg_man->RemoveCallPoint(e, call_id);
                   }
-                  if(parameters->getOption<bool>(OPT_print_dot) or debug_level > DEBUG_LEVEL_PEDANTIC)
+                  if(parameters->getOption<bool>(OPT_print_dot) && debug_level >= DEBUG_LEVEL_PEDANTIC)
                   {
                      AppM->CGetCallGraphManager()->CGetCallGraph()->WriteDot("call_graph" + GetSignature() + ".dot");
                   }
                }
                block_it->second->RemoveStmt(curr_el);
+               fix_sdc_motion(curr_el);
                INDENT_DBG_MEX(DEBUG_LEVEL_VERY_PEDANTIC, debug_level, "---Removed " + curr_el->ToString());
             }
             INDENT_DBG_MEX(DEBUG_LEVEL_VERY_PEDANTIC, debug_level, "<--Removed dead statements");
@@ -934,12 +955,13 @@ DesignFlowStep_Status dead_code_elimination::InternalExec()
                         {
                            cg_man->RemoveCallPoint(e, call_id);
                         }
-                        if(parameters->getOption<bool>(OPT_print_dot) or debug_level > DEBUG_LEVEL_PEDANTIC)
+                        if(parameters->getOption<bool>(OPT_print_dot) && debug_level >= DEBUG_LEVEL_PEDANTIC)
                         {
                            AppM->CGetCallGraphManager()->CGetCallGraph()->WriteDot("call_graph" + GetSignature() + ".dot");
                         }
                      }
                      blocks.at(bb)->RemoveStmt(curr_el);
+                     fix_sdc_motion(curr_el);
                      INDENT_DBG_MEX(DEBUG_LEVEL_VERY_PEDANTIC, debug_level, "---Removed " + curr_el->ToString());
                   }
                   INDENT_DBG_MEX(DEBUG_LEVEL_VERY_PEDANTIC, debug_level, "<--Removed dead statements");
@@ -1115,13 +1137,25 @@ DesignFlowStep_Status dead_code_elimination::InternalExec()
          auto* gn = GetPointer<gimple_node>(GET_NODE(*stmt));
 
          if(not gn->vuses.empty() && !is_single_write_memory && GET_NODE(*stmt)->get_kind() != gimple_return_K)
+         {
             fd->reading_memory = true;
+            INDENT_DBG_MEX(DEBUG_LEVEL_VERY_PEDANTIC, debug_level, "--- reading_memory (1)");
+         }
          else if(gn->memuse && is_single_write_memory)
+         {
             fd->reading_memory = true;
+            INDENT_DBG_MEX(DEBUG_LEVEL_VERY_PEDANTIC, debug_level, "--- reading_memory (2)");
+         }
          if(gn->vdef && !is_single_write_memory)
+         {
             fd->writing_memory = true;
+            INDENT_DBG_MEX(DEBUG_LEVEL_VERY_PEDANTIC, debug_level, "--- writing_memory (3)");
+         }
          else if(gn->memdef && is_single_write_memory)
+         {
             fd->writing_memory = true;
+            INDENT_DBG_MEX(DEBUG_LEVEL_VERY_PEDANTIC, debug_level, "--- writing_memory (4)");
+         }
          else if(auto ga = GetPointer<gimple_assign>(GET_NODE(*stmt)))
          {
             if(GET_NODE(ga->op1)->get_kind() == call_expr_K || GET_NODE(ga->op1)->get_kind() == aggr_init_expr_K)
@@ -1135,14 +1169,21 @@ DesignFlowStep_Status dead_code_elimination::InternalExec()
                   THROW_ASSERT(fu_decl_node->get_kind() == function_decl_K, "node  " + STR(fu_decl_node) + " is not function_decl but " + fu_decl_node->get_kind_text());
                   auto fdCalled = GetPointer<function_decl>(fu_decl_node);
                   if(fdCalled->writing_memory || !fdCalled->body || fdCalled->undefined_flag)
+                  {
                      fd->writing_memory = true;
+                     INDENT_DBG_MEX(DEBUG_LEVEL_VERY_PEDANTIC, debug_level, "--- writing_memory (5)");
+                  }
                   if(fdCalled->reading_memory || !fdCalled->body || fdCalled->undefined_flag)
+                  {
                      fd->reading_memory = true;
+                     INDENT_DBG_MEX(DEBUG_LEVEL_VERY_PEDANTIC, debug_level, "--- reading_memory (6)");
+                  }
                }
                else
                {
                   fd->writing_memory = true; /// conservative analysis
                   fd->reading_memory = true;
+                  INDENT_DBG_MEX(DEBUG_LEVEL_VERY_PEDANTIC, debug_level, "--- reading_memory+writing_memory (7)");
                }
             }
          }
@@ -1165,20 +1206,28 @@ DesignFlowStep_Status dead_code_elimination::InternalExec()
             if(fdCalled)
             {
                if(fdCalled->writing_memory || !fdCalled->body || fdCalled->undefined_flag)
+               {
                   fd->writing_memory = true;
+                  INDENT_DBG_MEX(DEBUG_LEVEL_VERY_PEDANTIC, debug_level, "--- writing_memory (8)");
+               }
                if(fdCalled->reading_memory || !fdCalled->body || fdCalled->undefined_flag)
+               {
                   fd->reading_memory = true;
+                  INDENT_DBG_MEX(DEBUG_LEVEL_VERY_PEDANTIC, debug_level, "--- reading_memory (9)");
+               }
             }
             else
             {
                fd->writing_memory = true;
                fd->reading_memory = true;
+               INDENT_DBG_MEX(DEBUG_LEVEL_VERY_PEDANTIC, debug_level, "--- reading_memory+writing_memory (10)");
             }
          }
          else if(GetPointer<gimple_asm>(GET_NODE(*stmt)))
          {
             fd->writing_memory = true; /// more conservative than really needed
             fd->reading_memory = true;
+            INDENT_DBG_MEX(DEBUG_LEVEL_VERY_PEDANTIC, debug_level, "--- reading_memory+writing_memory (11)");
          }
          INDENT_DBG_MEX(DEBUG_LEVEL_VERY_PEDANTIC, debug_level, "<--Analyzed statement");
       }

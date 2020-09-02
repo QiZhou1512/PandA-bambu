@@ -1,0 +1,58 @@
+
+********************************************************************************
+                    ____                  _
+                   | __ )  __ _ _ __ ___ | |_   _   _
+                   |  _ \ / _` | '_ ` _ \| '_ \| | | |
+                   | |_) | (_| | | | | | | |_) | |_| |
+                   |____/ \__,_|_| |_| |_|_.__/ \__,_|
+
+********************************************************************************
+                         High-Level Synthesis Tool
+
+                         Politecnico di Milano - DEIB
+                          System Architectures Group
+********************************************************************************
+                Copyright (C) 2004-2020 Politecnico di Milano
+Version: PandA 0.9.7-dev - Revision 3058a7787c8440e2fc62af30b92ad86be39184d9-panda-0.9.7-dev
+
+SYSTEM INFORMATION:
+No LSB modules are available.
+Distributor ID:	Ubuntu
+Description:	Ubuntu 18.04.1 LTS
+Release:	18.04
+Codename:	bionic
+
+CURRENT TIME:
+2020-09-02 20:10:07.699367
+
+PASSED TESTS:
+0/14
+
+FAILURE: adpcm/adpcm.c --compiler=I386_GCC48 --device-name=TO_BE_OVERWRITTEN --evaluation -fwhole-program -fno-delete-null-pointer-checks --no-iob --clock-period=15 --simulator=VERILATOR -v4 --speculative-sdc-scheduling --experimental-setup=BAMBU-BALANCED-MP --device=xc7z020-1clg484-VVD --aligned-access --compiler=I386_CLANG6 --benchmark-name=adpcm
+
+FAILURE: aes/aes.c --compiler=I386_GCC48 --device-name=TO_BE_OVERWRITTEN --evaluation -fwhole-program -fno-delete-null-pointer-checks --no-iob --clock-period=15 --simulator=VERILATOR -v4 --speculative-sdc-scheduling --experimental-setup=BAMBU-BALANCED-MP --device=xc7z020-1clg484-VVD --aligned-access --compiler=I386_CLANG6 --benchmark-name=aes
+
+FAILURE: blowfish/bf.c --compiler=I386_GCC48 --device-name=TO_BE_OVERWRITTEN --evaluation -fwhole-program -fno-delete-null-pointer-checks --no-iob --clock-period=15 --simulator=VERILATOR -v4 --speculative-sdc-scheduling --experimental-setup=BAMBU-BALANCED-MP --device=xc7z020-1clg484-VVD --aligned-access --compiler=I386_CLANG6 --benchmark-name=bf
+
+FAILURE: dfadd/dfadd.c --compiler=I386_GCC48 --device-name=TO_BE_OVERWRITTEN --evaluation -fwhole-program -fno-delete-null-pointer-checks --no-iob --clock-period=15 --simulator=VERILATOR -v4 --speculative-sdc-scheduling --experimental-setup=BAMBU-BALANCED-MP --device=xc7z020-1clg484-VVD --aligned-access --compiler=I386_CLANG6 --benchmark-name=dfadd
+
+FAILURE: dfdiv/dfdiv.c --benchmark-name=dfdiv --compiler=I386_GCC48 --device-name=TO_BE_OVERWRITTEN --evaluation -fwhole-program -fno-delete-null-pointer-checks --no-iob --clock-period=15 --simulator=VERILATOR -v4 --speculative-sdc-scheduling --experimental-setup=BAMBU-BALANCED-MP --device=xc7z020-1clg484-VVD --aligned-access --compiler=I386_CLANG6
+
+FAILURE: dfdiv/dfdiv.c --hls-div --benchmark-name=dfdiv_hls_div --compiler=I386_GCC48 --device-name=TO_BE_OVERWRITTEN --evaluation -fwhole-program -fno-delete-null-pointer-checks --no-iob --clock-period=15 --simulator=VERILATOR -v4 --speculative-sdc-scheduling --experimental-setup=BAMBU-BALANCED-MP --device=xc7z020-1clg484-VVD --aligned-access --compiler=I386_CLANG6
+
+FAILURE: dfmul/dfmul.c --compiler=I386_GCC48 --device-name=TO_BE_OVERWRITTEN --evaluation -fwhole-program -fno-delete-null-pointer-checks --no-iob --clock-period=15 --simulator=VERILATOR -v4 --speculative-sdc-scheduling --experimental-setup=BAMBU-BALANCED-MP --device=xc7z020-1clg484-VVD --aligned-access --compiler=I386_CLANG6 --benchmark-name=dfmul
+
+FAILURE: dfsin/dfsin.c --benchmark-name=dfsin --compiler=I386_GCC48 --device-name=TO_BE_OVERWRITTEN --evaluation -fwhole-program -fno-delete-null-pointer-checks --no-iob --clock-period=15 --simulator=VERILATOR -v4 --speculative-sdc-scheduling --experimental-setup=BAMBU-BALANCED-MP --device=xc7z020-1clg484-VVD --aligned-access --compiler=I386_CLANG6
+
+FAILURE: dfsin/dfsin.c --hls-div --benchmark-name=dfsin_hls_div --compiler=I386_GCC48 --device-name=TO_BE_OVERWRITTEN --evaluation -fwhole-program -fno-delete-null-pointer-checks --no-iob --clock-period=15 --simulator=VERILATOR -v4 --speculative-sdc-scheduling --experimental-setup=BAMBU-BALANCED-MP --device=xc7z020-1clg484-VVD --aligned-access --compiler=I386_CLANG6
+
+FAILURE: gsm/gsm.c --compiler=I386_GCC48 --device-name=TO_BE_OVERWRITTEN --evaluation -fwhole-program -fno-delete-null-pointer-checks --no-iob --clock-period=15 --simulator=VERILATOR -v4 --speculative-sdc-scheduling --experimental-setup=BAMBU-BALANCED-MP --device=xc7z020-1clg484-VVD --aligned-access --compiler=I386_CLANG6 --benchmark-name=gsm
+
+FAILURE: jpeg/main.c --benchmark-name=jpeg -fno-tree-pre --compiler=I386_GCC48 --device-name=TO_BE_OVERWRITTEN --evaluation -fwhole-program -fno-delete-null-pointer-checks --no-iob --clock-period=15 --simulator=VERILATOR -v4 --speculative-sdc-scheduling --experimental-setup=BAMBU-BALANCED-MP --device=xc7z020-1clg484-VVD --aligned-access --compiler=I386_CLANG6
+
+FAILURE: mips/mips.c --compiler=I386_GCC48 --device-name=TO_BE_OVERWRITTEN --evaluation -fwhole-program -fno-delete-null-pointer-checks --no-iob --clock-period=15 --simulator=VERILATOR -v4 --speculative-sdc-scheduling --experimental-setup=BAMBU-BALANCED-MP --device=xc7z020-1clg484-VVD --aligned-access --compiler=I386_CLANG6 --benchmark-name=mips
+
+FAILURE: motion/mpeg2.c --compiler=I386_GCC48 --device-name=TO_BE_OVERWRITTEN --evaluation -fwhole-program -fno-delete-null-pointer-checks --no-iob --clock-period=15 --simulator=VERILATOR -v4 --speculative-sdc-scheduling --experimental-setup=BAMBU-BALANCED-MP --device=xc7z020-1clg484-VVD --aligned-access --compiler=I386_CLANG6 --benchmark-name=mpeg2
+
+FAILURE: sha/sha_driver.c --compiler=I386_GCC48 --device-name=TO_BE_OVERWRITTEN --evaluation -fwhole-program -fno-delete-null-pointer-checks --no-iob --clock-period=15 --simulator=VERILATOR -v4 --speculative-sdc-scheduling --experimental-setup=BAMBU-BALANCED-MP --device=xc7z020-1clg484-VVD --aligned-access --compiler=I386_CLANG6 --benchmark-name=sha_driver
+

@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<memory>
+  <memory_allocation base_address="1073741824">
+    <object scope="main" name="inData" is_internal="T"/>
+    <object scope="main" name="internal_419877" is_internal="T"/>
+    <object scope="main" name="internal_419897" is_internal="T"/>
+    <object scope="main" name="internal_419902" is_internal="T"/>
+    <object scope="main" name="internal_419905" is_internal="T"/>
+    <object scope="main" name="internal_419909" is_internal="T"/>
+    <object scope="main" name="internal_419916" is_internal="T"/>
+    <object scope="main" name="bitoff" is_internal="T"/>
+    <object scope="main" name="outData" is_internal="T"/>
+    <object scope="main" name="outLARc" is_internal="T"/>
+  </memory_allocation>
+</memory>
