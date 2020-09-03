@@ -886,8 +886,12 @@ void conn_binding::add_command_ports(const HLS_managerRef HLSMgr, const hlsRef H
       if((GET_TYPE(data, j) & TYPE_EXTERNAL && start_port_i) || !GetPointer<operation>(op_tn)->is_bounded() || start_port_i)
       {
          bind_selector_port(conn_binding::IN, commandport_obj::UNBOUNDED, j, data);
-         bind_selector_port(conn_binding::IN, commandport_obj::CLOCK_GATING, j, data);
          bind_selector_port(conn_binding::OUT, commandport_obj::UNBOUNDED, j, data);
+      }
+      structural_objectRef clock_gating_port_i = fu_module->find_member(CLOCK_GATING_PORT_NAME, port_o_K, top);
+      if(clock_gating_port_i)
+      {
+         bind_selector_port(conn_binding::IN, commandport_obj::CLOCK_GATING, j, data);
       }
    }
    INDENT_DBG_MEX(DEBUG_LEVEL_VERY_PEDANTIC, debug_level, "<--Added starting ports");

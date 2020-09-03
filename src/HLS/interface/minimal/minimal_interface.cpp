@@ -906,6 +906,11 @@ void minimal_interface::build_wrapper(structural_objectRef wrappedObj, structura
          }
       }
 
+      if(port_name == CLOCK_GATING_PORT_NAME) {
+         structural_objectRef const_obj = SM_minimal_interface->add_constant("null_value_" + STR(GET_TYPE_SIZE(port_in)), interfaceObj, port_in->get_typeRef(), STR(1));
+         null_values[GET_TYPE_SIZE(port_in)] = const_obj;
+         SM_minimal_interface->add_connection(port_in, null_values[GET_TYPE_SIZE(port_in)]);
+      }
       if(parameters->isOption(OPT_clock_name) && port_name == CLOCK_PORT_NAME)
          port_name = parameters->getOption<std::string>(OPT_clock_name);
       else if(parameters->isOption(OPT_reset_name) && port_name == RESET_PORT_NAME)

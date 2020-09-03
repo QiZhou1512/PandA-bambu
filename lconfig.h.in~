@@ -1,0 +1,1551 @@
+/* lconfig.h.in.  Generated from configure.ac by autoheader.  */
+
+/* "Define the plugin cpp" */
+#undef ARM_CPP_EXE
+
+/* "Define the filename of the GCC PandA Empty plugin" */
+#undef ARM_EMPTY_PLUGIN
+
+/* "Define the plugin gcc" */
+#undef ARM_GCC_EXE
+
+/* "Define the arm gcc version" */
+#undef ARM_GCC_VERSION
+
+/* "Define the plugin g++" */
+#undef ARM_GPP_EXE
+
+/* "Define the filename of the GCC PandA RTL plugin" */
+#undef ARM_RTL_PLUGIN
+
+/* "Define the filename of the GCC PandA SSA plugin" */
+#undef ARM_SSA_PLUGIN
+
+/* "Define the filename of the GCC PandA C++ SSA plugin" */
+#undef ARM_SSA_PLUGINCPP
+
+/* "Define the boost include dir" */
+#undef BOOST_INCLUDE_DIR
+
+/* "Define the plugin dir" */
+#undef CLANG_PLUGIN_DIR
+
+/* Define to one of `_getb67', `GETB67', `getb67' for Cray-2 and Cray-YMP
+   systems. This function is required for `alloca.c' support on those systems.
+   */
+#undef CRAY_STACKSEG_END
+
+/* Define to 1 if using `alloca.c'. */
+#undef C_ALLOCA
+
+/* Define to dummy `main' function (if any) required to link to the Fortran
+   libraries. */
+#undef F77_DUMMY_MAIN
+
+/* Define if F77 and FC dummy `main' functions are identical. */
+#undef FC_DUMMY_MAIN_EQ_F77
+
+/* "Define the plugin dir" */
+#undef GCC_PLUGIN_DIR
+
+/* "Define the GRLIB directory" */
+#undef GRLIB_DIR
+
+/* "Define if a3 wrapper library is built" */
+#undef HAVE_A3
+
+/* "Define if abseil is used" */
+#undef HAVE_ABSEIL
+
+/* "Define if actor graphs library is built" */
+#undef HAVE_ACTOR_GRAPHS_BUILT
+
+/* "Define if AIG library is built" */
+#undef HAVE_AIG_BUILT
+
+/* Define to 1 if you have `alloca', as a function or macro. */
+#undef HAVE_ALLOCA
+
+/* Define to 1 if you have <alloca.h> and it should be used (not on Ultrix).
+   */
+#undef HAVE_ALLOCA_H
+
+/* "Define if Altera wrapper library is built" */
+#undef HAVE_ALTERA
+
+/* "Define if architecture library is built" */
+#undef HAVE_ARCH_BUILT
+
+/* "Define if ARM-treegcc is used" */
+#undef HAVE_ARM_COMPILER
+
+/* "Define if assertions are enabled" */
+#undef HAVE_ASSERTS
+
+/* "Define if bambu is built" */
+#undef HAVE_BAMBU_BUILT
+
+/* "Define if bambu results xmls are used" */
+#undef HAVE_BAMBU_RESULTS_XML
+
+/* "Define if BBD library is built" */
+#undef HAVE_BDD_BUILT
+
+/* Define to 1 if you have the <bdd.h> header file. */
+#undef HAVE_BDD_H
+
+/* "Define if beagle is used" */
+#undef HAVE_BEAGLE
+
+/* "Define if behavior library is built" */
+#undef HAVE_BEHAVIOR_BUILT
+
+/* "Define yacc greater or equal than 2.7" */
+#undef HAVE_BISON_2_7_OR_GREATER
+
+/* Define if you have a BLAS library. */
+#undef HAVE_BLAS
+
+/* "" */
+#undef HAVE_BOOLEAN_BUILT
+
+/* "Define if from boolean library is built" */
+#undef HAVE_BOOLEAN_PARSER_BUILT
+
+/* define if the Boost library is available */
+#undef HAVE_BOOST
+
+/* define if the Boost::Date_Time library is available */
+#undef HAVE_BOOST_DATE_TIME
+
+/* define if the Boost::Filesystem library is available */
+#undef HAVE_BOOST_FILESYSTEM
+
+/* define if the Boost::Regex library is available */
+#undef HAVE_BOOST_REGEX
+
+/* define if the Boost::System library is available */
+#undef HAVE_BOOST_SYSTEM
+
+/* "Define if switchcraft is integrated" */
+#undef HAVE_BRIDGE_BUILT
+
+/* "Define if bsg_helpers library is built" */
+#undef HAVE_BSG_HELPERS_BUILT
+
+/* Define to 1 if you have the <bvec.h> header file. */
+#undef HAVE_BVEC_H
+
+/* "Define if circuit library is built" */
+#undef HAVE_CIRCUIT_BUILT
+
+/* "Define if cmos library is built" */
+#undef HAVE_CMOS_BUILT
+
+/* "Define if design_flows/codesign features are added" */
+#undef HAVE_CODESIGN
+
+/* "Define if code estimation library is built" */
+#undef HAVE_CODE_ESTIMATION_BUILT
+
+/* "Define if coin-or is used" */
+#undef HAVE_COIN_OR
+
+/* "Define if compare models library is built" */
+#undef HAVE_COMPARE_MODELS_BUILT
+
+/* "Define if the wrappers to Synopsys core tools are built" */
+#undef HAVE_CORE_TOOLS
+
+/* "Define if crostool-ng is used" */
+#undef HAVE_CROSSTOOL_NG
+
+/* "Define if cuda fault simulator library is built" */
+#undef HAVE_CUDA_FAULT_SIMULATION_BUILT
+
+/* "Define if CUDD is used" */
+#undef HAVE_CUDD
+
+/* "Define if design analysis library is built" */
+#undef HAVE_DESIGN_ANALYSIS_BUILT
+
+/* "Define if Synopsys Design Compiler is correctly configured" */
+#undef HAVE_DESIGN_COMPILER
+
+/* "Define if design flows library is built" */
+#undef HAVE_DESIGN_FLOWS_BUILT
+
+/* "Define if Nangate Design Optimizaer is correctly configured" */
+#undef HAVE_DESIGN_OPTIMIZER
+
+/* "Define if diopsis wrapper library is built" */
+#undef HAVE_DIOPSIS
+
+/* Define to 1 if you have the <dlfcn.h> header file. */
+#undef HAVE_DLFCN_H
+
+/* "Define if dynamic metric library is built" */
+#undef HAVE_DYN_METRIC_BUILT
+
+/* "Define if eucalyptus is built" */
+#undef HAVE_EUCALYPTUS_BUILT
+
+/* "Define if experimental features are added" */
+#undef HAVE_EXPERIMENTAL
+
+/* Define to 1 if you have the <fdd.h> header file. */
+#undef HAVE_FDD_H
+
+/* "Define flex greater or equal than 2.5.35" */
+#undef HAVE_FLEX_2_5_34_OR_GREATER
+
+/* "Define flex greater or equal than 2.5.35" */
+#undef HAVE_FLEX_2_5_35_OR_GREATER
+
+/* Define to 1 if you have the <float.h> header file. */
+#undef HAVE_FLOAT_H
+
+/* Define to 1 if you have the `floor' function. */
+#undef HAVE_FLOOR
+
+/* "Define if flopoco is used" */
+#undef HAVE_FLOPOCO
+
+/* "Define if Synopsys Formality is correctly configured" */
+#undef HAVE_FORMALITY
+
+/* "Define if from aadl/asn library is built" */
+#undef HAVE_FROM_AADL_ASN_BUILT
+
+/* "Define if from aiger library is built" */
+#undef HAVE_FROM_AIGER_BUILT
+
+/* "Define if from architecture library is built" */
+#undef HAVE_FROM_ARCH_BUILT
+
+/* "Define if from bench library is built" */
+#undef HAVE_FROM_BENCH_BUILT
+
+/* "Define if from blif library is built" */
+#undef HAVE_FROM_BLIF_BUILT
+
+/* "Define if from csv library is built" */
+#undef HAVE_FROM_CSV_BUILT
+
+/* "Define if gcc wrapper library is built" */
+#undef HAVE_FROM_C_BUILT
+
+/* "Define if from data xml library is built" */
+#undef HAVE_FROM_DATA_XML_BUILT
+
+/* "Define from discrepancy library is built" */
+#undef HAVE_FROM_DISCREPANCY_BUILT
+
+/* "Define from edif library is built" */
+#undef HAVE_FROM_EDIF_BUILT
+
+/* "Define from estimation library is built" */
+#undef HAVE_FROM_ESTIMATION_BUILT
+
+/* "Define if from ipxact library is built" */
+#undef HAVE_FROM_IPXACT_BUILT
+
+/* "Define if liberty parser is used" */
+#undef HAVE_FROM_LIBERTY
+
+/* "Define if from polixml library is built" */
+#undef HAVE_FROM_POLIXML_BUILT
+
+/* "Define if from pragma library is built" */
+#undef HAVE_FROM_PRAGMA_BUILT
+
+/* "Define if from profiling analysis library is built" */
+#undef HAVE_FROM_PROFILING_ANALYIS_BUILT
+
+/* "Define if psplib parser is built" */
+#undef HAVE_FROM_PSPLIB_BUILT
+
+/* "Define if from rtl library is built" */
+#undef HAVE_FROM_RTL_BUILT
+
+/* "Define if sdf3 parser is built" */
+#undef HAVE_FROM_SDF3_BUILT
+
+/* "Define if from tgff library is built" */
+#undef HAVE_FROM_TGFF_BUILT
+
+/* "Define if frontend analysis library is built" */
+#undef HAVE_FRONTEND_ANALYSIS_BUILT
+
+/* "Define if gecco is built" */
+#undef HAVE_GECCO_BUILT
+
+/* Define to 1 if you have the <getopt.h> header file. */
+#undef HAVE_GETOPT_H
+
+/* "Define if glpk is used" */
+#undef HAVE_GLPK
+
+/* "" */
+#undef HAVE_GLPK_NESTED
+
+/* Define to 1 if you have the <gmpxx.h> header file. */
+#undef HAVE_GMPXX_H
+
+/* Define to 1 if you have the <gmp.h> header file. */
+#undef HAVE_GMP_H
+
+/* "Define if graph partitioning library is built" */
+#undef HAVE_GRAPH_PARTITIONING_BUILT
+
+/* "Define if grizzly is built" */
+#undef HAVE_GRIZZLY_BUILT
+
+/* Define if g++ supports std::hexfloat features. */
+#undef HAVE_HEXFLOAT
+
+/* "Define if HLS library is built" */
+#undef HAVE_HLS_BUILT
+
+/* "Define if host profiling library is built" */
+#undef HAVE_HOST_PROFILING_BUILT
+
+/* "" */
+#undef HAVE_HOTBM
+
+/* "Define if CLANG 4.0 I386 compiler is compliant" */
+#undef HAVE_I386_CLANG4_COMPILER
+
+/* Define if clang 4.0 supports -m32 */
+#undef HAVE_I386_CLANG4_M32
+
+/* Define if clang 4.0 supports -m64 */
+#undef HAVE_I386_CLANG4_M64
+
+/* Define if clang 4.0 supports -mx32 */
+#undef HAVE_I386_CLANG4_MX32
+
+/* "Define if CLANG 5.0 I386 compiler is compliant" */
+#undef HAVE_I386_CLANG5_COMPILER
+
+/* Define if clang 5.0 supports -m32 */
+#undef HAVE_I386_CLANG5_M32
+
+/* Define if clang 5.0 supports -m64 */
+#undef HAVE_I386_CLANG5_M64
+
+/* Define if clang 5.0 supports -mx32 */
+#undef HAVE_I386_CLANG5_MX32
+
+/* "Define if CLANG 6.0 I386 compiler is compliant" */
+#undef HAVE_I386_CLANG6_COMPILER
+
+/* Define if clang 6.0 supports -m32 */
+#undef HAVE_I386_CLANG6_M32
+
+/* Define if clang 6.0 supports -m64 */
+#undef HAVE_I386_CLANG6_M64
+
+/* Define if clang 6.0 supports -mx32 */
+#undef HAVE_I386_CLANG6_MX32
+
+/* "Define if CLANG 7.0 I386 compiler is compliant" */
+#undef HAVE_I386_CLANG7_COMPILER
+
+/* Define if clang 7.0 supports -m32 */
+#undef HAVE_I386_CLANG7_M32
+
+/* Define if clang 7.0 supports -m64 */
+#undef HAVE_I386_CLANG7_M64
+
+/* Define if clang 7.0 supports -mx32 */
+#undef HAVE_I386_CLANG7_MX32
+
+/* "Define if CLANG 8.0 I386 compiler is compliant" */
+#undef HAVE_I386_CLANG8_COMPILER
+
+/* Define if clang 8.0 supports -m32 */
+#undef HAVE_I386_CLANG8_M32
+
+/* Define if clang 8.0 supports -m64 */
+#undef HAVE_I386_CLANG8_M64
+
+/* Define if clang 8.0 supports -mx32 */
+#undef HAVE_I386_CLANG8_MX32
+
+/* "Define if CLANG 9.0 I386 compiler is compliant" */
+#undef HAVE_I386_CLANG9_COMPILER
+
+/* Define if clang 9.0 supports -m32 */
+#undef HAVE_I386_CLANG9_M32
+
+/* Define if clang 9.0 supports -m64 */
+#undef HAVE_I386_CLANG9_M64
+
+/* Define if clang 9.0 supports -mx32 */
+#undef HAVE_I386_CLANG9_MX32
+
+/* "Define if GCC 4.5 I386 compiler is compliant" */
+#undef HAVE_I386_GCC45_COMPILER
+
+/* "Define if GCC 4.6 I386 compiler is compliant" */
+#undef HAVE_I386_GCC46_COMPILER
+
+/* "Define if GCC 4.7 I386 compiler is compliant" */
+#undef HAVE_I386_GCC47_COMPILER
+
+/* Define if gcc 4.7 supports -m32 */
+#undef HAVE_I386_GCC47_M32
+
+/* Define if gcc 4.7 supports -m64 */
+#undef HAVE_I386_GCC47_M64
+
+/* Define if gcc 4.7 supports -mx32 */
+#undef HAVE_I386_GCC47_MX32
+
+/* "Define if GCC 4.8 I386 compiler is compliant" */
+#undef HAVE_I386_GCC48_COMPILER
+
+/* Define if gcc 4.8 supports -m32 */
+#undef HAVE_I386_GCC48_M32
+
+/* Define if gcc 4.8 supports -m64 */
+#undef HAVE_I386_GCC48_M64
+
+/* Define if gcc 4.8 supports -mx32 */
+#undef HAVE_I386_GCC48_MX32
+
+/* "Define if GCC 4.9 I386 compiler is compliant" */
+#undef HAVE_I386_GCC49_COMPILER
+
+/* Define if gcc 4.9 supports -m32 */
+#undef HAVE_I386_GCC49_M32
+
+/* Define if gcc 4.9 supports -m64 */
+#undef HAVE_I386_GCC49_M64
+
+/* Define if gcc 4.9 supports -mx32 */
+#undef HAVE_I386_GCC49_MX32
+
+/* "Define if GCC 5 I386 compiler is compliant" */
+#undef HAVE_I386_GCC5_COMPILER
+
+/* Define if gcc 5 supports -m32 */
+#undef HAVE_I386_GCC5_M32
+
+/* Define if gcc 5 supports -m64 */
+#undef HAVE_I386_GCC5_M64
+
+/* Define if gcc 5 supports -mx32 */
+#undef HAVE_I386_GCC5_MX32
+
+/* "Define if GCC 6 I386 compiler is compliant" */
+#undef HAVE_I386_GCC6_COMPILER
+
+/* Define if gcc 6 supports -m32 */
+#undef HAVE_I386_GCC6_M32
+
+/* Define if gcc 6 supports -m64 */
+#undef HAVE_I386_GCC6_M64
+
+/* Define if gcc 6 supports -mx32 */
+#undef HAVE_I386_GCC6_MX32
+
+/* "Define if GCC 7 I386 compiler is compliant" */
+#undef HAVE_I386_GCC7_COMPILER
+
+/* Define if gcc 7 supports -m32 */
+#undef HAVE_I386_GCC7_M32
+
+/* Define if gcc 7 supports -m64 */
+#undef HAVE_I386_GCC7_M64
+
+/* Define if gcc 7 supports -mx32 */
+#undef HAVE_I386_GCC7_MX32
+
+/* "Define if GCC 8 I386 compiler is compliant" */
+#undef HAVE_I386_GCC8_COMPILER
+
+/* Define if gcc 8 supports -m32 */
+#undef HAVE_I386_GCC8_M32
+
+/* Define if gcc 8 supports -m64 */
+#undef HAVE_I386_GCC8_M64
+
+/* Define if gcc 8 supports -mx32 */
+#undef HAVE_I386_GCC8_MX32
+
+/* "Define if icarus wrapper library is built" */
+#undef HAVE_ICARUS
+
+/* "Define if ILP library is built" */
+#undef HAVE_ILP_BUILT
+
+/* "Define if intermediate representation library is built" */
+#undef HAVE_INTERMEDIATE_REPRESENTATIONS_BUILT
+
+/* Define to 1 if you have the <inttypes.h> header file. */
+#undef HAVE_INTTYPES_H
+
+/* "Define if ip-xact library is built" */
+#undef HAVE_IPXACT_BUILT
+
+/* "Define if koala is built" */
+#undef HAVE_KOALA_BUILT
+
+/* "Define if verilator has the --l2-name option" */
+#undef HAVE_L2_NAME
+
+/* Define if you have LAPACK library. */
+#undef HAVE_LAPACK
+
+/* "Define if Lattice wrapper library is built" */
+#undef HAVE_LATTICE
+
+/* "define if lattice distribution has a working 64bit version" */
+#undef HAVE_LATTICE_64bit
+
+/* "Define if lemur is built" */
+#undef HAVE_LEMUR_BUILT
+
+/* "Define if leon3 wrapper library is built" */
+#undef HAVE_LEON3
+
+/* "Define if bambu is built" */
+#undef HAVE_LIBBDD
+
+/* Define to 1 if you have the `m' library (-lm). */
+#undef HAVE_LIBM
+
+/* "Define if library characterization library is built" */
+#undef HAVE_LIBRARY_CHARACTERIZATION_BUILT
+
+/* "Define if Synopsys Library Compiler is correctly configured" */
+#undef HAVE_LIBRARY_COMPILER
+
+/* "Define if Nangate Library Creator is correctly configured" */
+#undef HAVE_LIBRARY_CREATOR
+
+/* Define to 1 if you have the `z' library (-lz). */
+#undef HAVE_LIBZ
+
+/* Define to 1 if you have the <limits.h> header file. */
+#undef HAVE_LIMITS_H
+
+/* "LNS available" */
+#undef HAVE_LNS
+
+/* "Define if the logic factoring package has to be built" */
+#undef HAVE_LOGIC_FACTORING
+
+/* "Define if logic synthesis package is built" */
+#undef HAVE_LOGIC_SYNTHESIS_BUILT
+
+/* "Define if logic synthesis flow is built" */
+#undef HAVE_LOGIC_SYNTHESIS_FLOW_BUILT
+
+/* "Define if lp solver is used" */
+#undef HAVE_LP_SOLVE
+
+/* "Define if mapping library is built" */
+#undef HAVE_MAPPING_BUILT
+
+/* Define to 1 if you have the <memory.h> header file. */
+#undef HAVE_MEMORY_H
+
+/* Define to 1 if you have the `memset' function. */
+#undef HAVE_MEMSET
+
+/* define if the mentor visualizer is available */
+#undef HAVE_MENTOR_VISUALIZER_EXE
+
+/* "Define if metric partitioning library is built" */
+#undef HAVE_METRIC_PARTITIONING_BUILT
+
+/* "Define if metslib is used" */
+#undef HAVE_METSLIB
+
+/* "Define if modelsim wrapper library is built" */
+#undef HAVE_MODELSIM
+
+/* Define to 1 if you have the `modf' function. */
+#undef HAVE_MODF
+
+/* "Define if mongoose is built" */
+#undef HAVE_MONGOOSE_BUILT
+
+/* Define to 1 if you have the <mpfr.h> header file. */
+#undef HAVE_MPFR_H
+
+/* "Define if MPPB wrapper library is built" */
+#undef HAVE_MPPB
+
+/* "Define if NanoXplore wrapper library is built" */
+#undef HAVE_NANOXPLORE
+
+/* "Define if object code wrapper library is built" */
+#undef HAVE_OBJECT_CODE_WRAPPER_BUILT
+
+/* "Define if OpenMP is supported" */
+#undef HAVE_OPENMP
+
+/* "Define if partitioning library is built" */
+#undef HAVE_PARTITIONING_BUILT
+
+/* "Define if performance metrics xmls are used" */
+#undef HAVE_PERFORMANCE_METRICS_XML
+
+/* "Define if physical library is built" */
+#undef HAVE_PHYSICAL_LIBRARY_BUILT
+
+/* "Define if physical library models library is built" */
+#undef HAVE_PHYSICAL_LIBRARY_MODELS_BUILT
+
+/* "Define if polixml library is built" */
+#undef HAVE_POLIXML_BUILT
+
+/* Define to 1 if you have the `pow' function. */
+#undef HAVE_POW
+
+/* "Define if pragma library is built" */
+#undef HAVE_PRAGMA_BUILT
+
+/* "Define if Synopsys Prime Time is correctly configured" */
+#undef HAVE_PRIME_TIME
+
+/* "Define if call stack is printed on error" */
+#undef HAVE_PRINT_STACK
+
+/* "Define if probability distribution library is built" */
+#undef HAVE_PROBABILITY_DISTRIBUTION_BUILT
+
+/* "define if altera distribution has a working 64bit version" */
+#undef HAVE_QUARTUS_13_64BIT
+
+/* "Define if R is used" */
+#undef HAVE_R
+
+/* "Define if regressors library is built" */
+#undef HAVE_REGRESSORS_BUILT
+
+/* "Define if rtl library is built" */
+#undef HAVE_RTL_BUILT
+
+/* "Define if library characterization library is built" */
+#undef HAVE_RTL_CHARACTERIZATION_BUILT
+
+/* "Define if sdf graph library is built" */
+#undef HAVE_SDF_GRAPHS_BUILT
+
+/* "Define if Simulation Tools wrapper is built" */
+#undef HAVE_SIMULATION_WRAPPER_BUILT
+
+/* "Define if SoC Encounter is correctly configured" */
+#undef HAVE_SOC_ENCOUNTER
+
+/* "Define if Sollya is used" */
+#undef HAVE_SOLLYA
+
+/* "Define if source code statistics xmls are used" */
+#undef HAVE_SOURCE_CODE_STATISTICS_XML
+
+/* "Define if SPARC-treegcc is used" */
+#undef HAVE_SPARC_COMPILER
+
+/* "Define if sparc elf compiler is present" */
+#undef HAVE_SPARC_ELF_GCC
+
+/* "Define if spider is built" */
+#undef HAVE_SPIDER_BUILT
+
+/* Define to 1 if you have the `sqrt' function. */
+#undef HAVE_SQRT
+
+/* Define to 1 if stdbool.h conforms to C99. */
+#undef HAVE_STDBOOL_H
+
+/* Define if g++ supports C++0X features. */
+#undef HAVE_STDCXX_0X
+
+/* Define if g++ supports C++11 features. */
+#undef HAVE_STDCXX_11
+
+/* Define if g++ supports C++17 features. */
+#undef HAVE_STDCXX_17
+
+/* Define to 1 if you have the <stddef.h> header file. */
+#undef HAVE_STDDEF_H
+
+/* Define to 1 if you have the <stdint.h> header file. */
+#undef HAVE_STDINT_H
+
+/* Define to 1 if you have the <stdlib.h> header file. */
+#undef HAVE_STDLIB_H
+
+/* Define to 1 if you have the `strcasecmp' function. */
+#undef HAVE_STRCASECMP
+
+/* Define to 1 if you have the `strchr' function. */
+#undef HAVE_STRCHR
+
+/* Define to 1 if you have the <strings.h> header file. */
+#undef HAVE_STRINGS_H
+
+/* Define to 1 if you have the <string.h> header file. */
+#undef HAVE_STRING_H
+
+/* "Define if synthesis wrapper library is built" */
+#undef HAVE_SYNTHESIS
+
+/* Define to 1 if you have the <sys/stat.h> header file. */
+#undef HAVE_SYS_STAT_H
+
+/* Define to 1 if you have the <sys/timeb.h> header file. */
+#undef HAVE_SYS_TIMEB_H
+
+/* Define to 1 if you have the <sys/types.h> header file. */
+#undef HAVE_SYS_TYPES_H
+
+/* Define to 1 if you have <sys/wait.h> that is POSIX.1 compatible. */
+#undef HAVE_SYS_WAIT_H
+
+/* "Define if target library is built" */
+#undef HAVE_TARGET_BUILT
+
+/* "Define if target profiling library is built" */
+#undef HAVE_TARGET_PROFILING
+
+/* "Define if taskgraph library is built" */
+#undef HAVE_TASK_GRAPHS_BUILT
+
+/* "Define if TASTE has to be used" */
+#undef HAVE_TASTE
+
+/* "Define if technoglogy library is built" */
+#undef HAVE_TECHNOLOGY_BUILT
+
+/* "Define if technology mapping library is built" */
+#undef HAVE_TECHNOLOGY_MAPPING_BUILT
+
+/* "Define if verilator has the --threads option" */
+#undef HAVE_THREADS
+
+/* "Define if C backend library is created" */
+#undef HAVE_TO_C_BUILT
+
+/* "Define if backend datafile library is built" */
+#undef HAVE_TO_DATAFILE_BUILT
+
+/* "Define if HDL backend library is built" */
+#undef HAVE_TO_HDL_BUILT
+
+/* "Define if transitive reduction library is built" */
+#undef HAVE_TRANSITIVE_REDUCTION_BUILT
+
+/* "Define if tree library is built" */
+#undef HAVE_TREE_BUILT
+
+/* "Define if tree manipulation library is built" */
+#undef HAVE_TREE_MANIPULATION_BUILT
+
+/* "Define if tree-panda-gcc is built" */
+#undef HAVE_TREE_PANDA_GCC_BUILT
+
+/* "Define if from tree parser library is built" */
+#undef HAVE_TREE_PARSER_BUILT
+
+/* "Define if trng is used" */
+#undef HAVE_TRNG
+
+/* "Define if tsim wrapper library is built" */
+#undef HAVE_TSIM
+
+/* "Define if tucano is built" */
+#undef HAVE_TUCANO_BUILT
+
+/* Define to 1 if you have the <unistd.h> header file. */
+#undef HAVE_UNISTD_H
+
+/* "Define if unordered data structure are used" */
+#undef HAVE_UNORDERED
+
+/* "Define if utility library is built" */
+#undef HAVE_UTILITY_BUILT
+
+/* "Define if vcd library is built" */
+#undef HAVE_VCD_BUILT
+
+/* "Define if from vcd parser library is built" */
+#undef HAVE_VCD_PARSER_BUILT
+
+/* "Define if verilator wrapper library is built" */
+#undef HAVE_VERILATOR
+
+/* "Define if virtual library is built" */
+#undef HAVE_VIRTUAL_LIBRARY_BUILT
+
+/* "Define if weight models xmls are used" */
+#undef HAVE_WEIGHT_MODELS_XML
+
+/* "Define if Xilinx wrapper library is built" */
+#undef HAVE_XILINX
+
+/* "Define if Xilinx ISE is available" */
+#undef HAVE_XILINX_ISE
+
+/* "Define if Xilinx Vivado is available" */
+#undef HAVE_XILINX_VIVADO
+
+/* "Define if zebu is built" */
+#undef HAVE_ZEBU_BUILT
+
+/* Define to 1 if you have the <zlib.h> header file. */
+#undef HAVE_ZLIB_H
+
+/* Define to 1 if the system has the type `_Bool'. */
+#undef HAVE__BOOL
+
+/* "Define the host compiler" */
+#undef HOST_GCC
+
+/* "Define the filename of the CLANG PandA ASTAnalyzer plugin" */
+#undef I386_CLANG4_ASTANALYZER_PLUGIN
+
+/* "Define the filename of the CLANG PandA CSROA plugin" */
+#undef I386_CLANG4_CSROA_PLUGIN
+
+/* "Define the filename of the CLANG PandA Empty plugin" */
+#undef I386_CLANG4_EMPTY_PLUGIN
+
+/* "Define the plugin clang" */
+#undef I386_CLANG4_EXE
+
+/* "Define the filename of the CLANG PandA expandMemOps plugin" */
+#undef I386_CLANG4_EXPANDMEMOPS_PLUGIN
+
+/* "Define the filename of the CLANG PandA GepiCanon plugin" */
+#undef I386_CLANG4_GEPICANON_PLUGIN
+
+/* "Define the plugin compiler" */
+#undef I386_CLANG4_PLUGIN_COMPILER
+
+/* "Define the filename of the CLANG PandA SSA plugin" */
+#undef I386_CLANG4_SSA_PLUGIN
+
+/* "Define the filename of the CLANG PandA C++ SSA plugin" */
+#undef I386_CLANG4_SSA_PLUGINCPP
+
+/* "Define the filename of the CLANG PandA topfname plugin" */
+#undef I386_CLANG4_TOPFNAME_PLUGIN
+
+/* "Define the clang version" */
+#undef I386_CLANG4_VERSION
+
+/* "Define the filename of the CLANG PandA ASTAnalyzer plugin" */
+#undef I386_CLANG5_ASTANALYZER_PLUGIN
+
+/* "Define the filename of the CLANG PandA CSROA plugin" */
+#undef I386_CLANG5_CSROA_PLUGIN
+
+/* "Define the filename of the CLANG PandA Empty plugin" */
+#undef I386_CLANG5_EMPTY_PLUGIN
+
+/* "Define the plugin clang" */
+#undef I386_CLANG5_EXE
+
+/* "Define the filename of the CLANG PandA expandMemOps plugin" */
+#undef I386_CLANG5_EXPANDMEMOPS_PLUGIN
+
+/* "Define the filename of the CLANG PandA GepiCanon plugin" */
+#undef I386_CLANG5_GEPICANON_PLUGIN
+
+/* "Define the plugin compiler" */
+#undef I386_CLANG5_PLUGIN_COMPILER
+
+/* "Define the filename of the CLANG PandA SSA plugin" */
+#undef I386_CLANG5_SSA_PLUGIN
+
+/* "Define the filename of the CLANG PandA C++ SSA plugin" */
+#undef I386_CLANG5_SSA_PLUGINCPP
+
+/* "Define the filename of the CLANG PandA topfname plugin" */
+#undef I386_CLANG5_TOPFNAME_PLUGIN
+
+/* "Define the clang version" */
+#undef I386_CLANG5_VERSION
+
+/* "Define the filename of the CLANG PandA ASTAnalyzer plugin" */
+#undef I386_CLANG6_ASTANALYZER_PLUGIN
+
+/* "Define the filename of the CLANG PandA CSROA plugin" */
+#undef I386_CLANG6_CSROA_PLUGIN
+
+/* "Define the filename of the CLANG PandA Empty plugin" */
+#undef I386_CLANG6_EMPTY_PLUGIN
+
+/* "Define the plugin clang" */
+#undef I386_CLANG6_EXE
+
+/* "Define the filename of the CLANG PandA expandMemOps plugin" */
+#undef I386_CLANG6_EXPANDMEMOPS_PLUGIN
+
+/* "Define the filename of the CLANG PandA GepiCanon plugin" */
+#undef I386_CLANG6_GEPICANON_PLUGIN
+
+/* "Define the plugin compiler" */
+#undef I386_CLANG6_PLUGIN_COMPILER
+
+/* "Define the filename of the CLANG PandA SSA plugin" */
+#undef I386_CLANG6_SSA_PLUGIN
+
+/* "Define the filename of the CLANG PandA C++ SSA plugin" */
+#undef I386_CLANG6_SSA_PLUGINCPP
+
+/* "Define the filename of the CLANG PandA topfname plugin" */
+#undef I386_CLANG6_TOPFNAME_PLUGIN
+
+/* "Define the clang version" */
+#undef I386_CLANG6_VERSION
+
+/* "Define the filename of the CLANG PandA ASTAnalyzer plugin" */
+#undef I386_CLANG7_ASTANALYZER_PLUGIN
+
+/* "Define the filename of the CLANG PandA CSROA plugin" */
+#undef I386_CLANG7_CSROA_PLUGIN
+
+/* "Define the filename of the CLANG PandA Empty plugin" */
+#undef I386_CLANG7_EMPTY_PLUGIN
+
+/* "Define the plugin clang" */
+#undef I386_CLANG7_EXE
+
+/* "Define the filename of the CLANG PandA expandMemOps plugin" */
+#undef I386_CLANG7_EXPANDMEMOPS_PLUGIN
+
+/* "Define the filename of the CLANG PandA GepiCanon plugin" */
+#undef I386_CLANG7_GEPICANON_PLUGIN
+
+/* "Define the plugin compiler" */
+#undef I386_CLANG7_PLUGIN_COMPILER
+
+/* "Define the filename of the CLANG PandA SSA plugin" */
+#undef I386_CLANG7_SSA_PLUGIN
+
+/* "Define the filename of the CLANG PandA C++ SSA plugin" */
+#undef I386_CLANG7_SSA_PLUGINCPP
+
+/* "Define the filename of the CLANG PandA topfname plugin" */
+#undef I386_CLANG7_TOPFNAME_PLUGIN
+
+/* "Define the clang version" */
+#undef I386_CLANG7_VERSION
+
+/* "Define the filename of the CLANG PandA ASTAnalyzer plugin" */
+#undef I386_CLANG8_ASTANALYZER_PLUGIN
+
+/* "Define the filename of the CLANG PandA CSROA plugin" */
+#undef I386_CLANG8_CSROA_PLUGIN
+
+/* "Define the filename of the CLANG PandA Empty plugin" */
+#undef I386_CLANG8_EMPTY_PLUGIN
+
+/* "Define the plugin clang" */
+#undef I386_CLANG8_EXE
+
+/* "Define the filename of the CLANG PandA expandMemOps plugin" */
+#undef I386_CLANG8_EXPANDMEMOPS_PLUGIN
+
+/* "Define the filename of the CLANG PandA GepiCanon plugin" */
+#undef I386_CLANG8_GEPICANON_PLUGIN
+
+/* "Define the plugin compiler" */
+#undef I386_CLANG8_PLUGIN_COMPILER
+
+/* "Define the filename of the CLANG PandA SSA plugin" */
+#undef I386_CLANG8_SSA_PLUGIN
+
+/* "Define the filename of the CLANG PandA C++ SSA plugin" */
+#undef I386_CLANG8_SSA_PLUGINCPP
+
+/* "Define the filename of the CLANG PandA topfname plugin" */
+#undef I386_CLANG8_TOPFNAME_PLUGIN
+
+/* "Define the clang version" */
+#undef I386_CLANG8_VERSION
+
+/* "Define the filename of the CLANG PandA ASTAnalyzer plugin" */
+#undef I386_CLANG9_ASTANALYZER_PLUGIN
+
+/* "Define the filename of the CLANG PandA CSROA plugin" */
+#undef I386_CLANG9_CSROA_PLUGIN
+
+/* "Define the filename of the CLANG PandA Empty plugin" */
+#undef I386_CLANG9_EMPTY_PLUGIN
+
+/* "Define the plugin clang" */
+#undef I386_CLANG9_EXE
+
+/* "Define the filename of the CLANG PandA expandMemOps plugin" */
+#undef I386_CLANG9_EXPANDMEMOPS_PLUGIN
+
+/* "Define the filename of the CLANG PandA GepiCanon plugin" */
+#undef I386_CLANG9_GEPICANON_PLUGIN
+
+/* "Define the plugin compiler" */
+#undef I386_CLANG9_PLUGIN_COMPILER
+
+/* "Define the filename of the CLANG PandA SSA plugin" */
+#undef I386_CLANG9_SSA_PLUGIN
+
+/* "Define the filename of the CLANG PandA C++ SSA plugin" */
+#undef I386_CLANG9_SSA_PLUGINCPP
+
+/* "Define the filename of the CLANG PandA topfname plugin" */
+#undef I386_CLANG9_TOPFNAME_PLUGIN
+
+/* "Define the clang version" */
+#undef I386_CLANG9_VERSION
+
+/* "Define the plugin clang++" */
+#undef I386_CLANGPP4_EXE
+
+/* "Define the plugin clang++" */
+#undef I386_CLANGPP5_EXE
+
+/* "Define the plugin clang++" */
+#undef I386_CLANGPP6_EXE
+
+/* "Define the plugin clang++" */
+#undef I386_CLANGPP7_EXE
+
+/* "Define the plugin clang++" */
+#undef I386_CLANGPP8_EXE
+
+/* "Define the plugin clang++" */
+#undef I386_CLANGPP9_EXE
+
+/* "Define the plugin cpp" */
+#undef I386_CLANG_CPP4_EXE
+
+/* "Define the plugin cpp" */
+#undef I386_CLANG_CPP5_EXE
+
+/* "Define the plugin cpp" */
+#undef I386_CLANG_CPP6_EXE
+
+/* "Define the plugin cpp" */
+#undef I386_CLANG_CPP7_EXE
+
+/* "Define the plugin cpp" */
+#undef I386_CLANG_CPP8_EXE
+
+/* "Define the plugin cpp" */
+#undef I386_CLANG_CPP9_EXE
+
+/* "Define the plugin cpp" */
+#undef I386_CPP45_EXE
+
+/* "Define the plugin cpp" */
+#undef I386_CPP46_EXE
+
+/* "Define the plugin cpp" */
+#undef I386_CPP47_EXE
+
+/* "Define the plugin cpp" */
+#undef I386_CPP48_EXE
+
+/* "Define the plugin cpp" */
+#undef I386_CPP49_EXE
+
+/* "Define the plugin cpp" */
+#undef I386_CPP5_EXE
+
+/* "Define the plugin cpp" */
+#undef I386_CPP6_EXE
+
+/* "Define the plugin cpp" */
+#undef I386_CPP7_EXE
+
+/* "Define the plugin cpp" */
+#undef I386_CPP8_EXE
+
+/* "Define the filename of the GCC PandA Empty plugin" */
+#undef I386_GCC45_EMPTY_PLUGIN
+
+/* "Define the plugin gcc" */
+#undef I386_GCC45_EXE
+
+/* "Define the plugin compiler" */
+#undef I386_GCC45_PLUGIN_COMPILER
+
+/* "Define the filename of the GCC PandA SSAVRP plugin" */
+#undef I386_GCC45_SSAVRP_PLUGIN
+
+/* "Define the filename of the GCC PandA SSA plugin" */
+#undef I386_GCC45_SSA_PLUGIN
+
+/* "Define the filename of the GCC PandA C++ SSA plugin" */
+#undef I386_GCC45_SSA_PLUGINCPP
+
+/* "Define the filename of the GCC PandA topfname plugin" */
+#undef I386_GCC45_TOPFNAME_PLUGIN
+
+/* "Define the gcc version" */
+#undef I386_GCC45_VERSION
+
+/* "Define the filename of the GCC PandA Empty plugin" */
+#undef I386_GCC46_EMPTY_PLUGIN
+
+/* "Define the plugin gcc" */
+#undef I386_GCC46_EXE
+
+/* "Define the plugin compiler" */
+#undef I386_GCC46_PLUGIN_COMPILER
+
+/* "Define the filename of the GCC PandA SSAVRP plugin" */
+#undef I386_GCC46_SSAVRP_PLUGIN
+
+/* "Define the filename of the GCC PandA SSA plugin" */
+#undef I386_GCC46_SSA_PLUGIN
+
+/* "Define the filename of the GCC PandA C++ SSA plugin" */
+#undef I386_GCC46_SSA_PLUGINCPP
+
+/* "Define the filename of the GCC PandA topfname plugin" */
+#undef I386_GCC46_TOPFNAME_PLUGIN
+
+/* "Define the gcc version" */
+#undef I386_GCC46_VERSION
+
+/* "Define the filename of the GCC PandA Empty plugin" */
+#undef I386_GCC47_EMPTY_PLUGIN
+
+/* "Define the plugin gcc" */
+#undef I386_GCC47_EXE
+
+/* "Define the plugin compiler" */
+#undef I386_GCC47_PLUGIN_COMPILER
+
+/* "Define the filename of the GCC PandA SSAVRP plugin" */
+#undef I386_GCC47_SSAVRP_PLUGIN
+
+/* "Define the filename of the GCC PandA SSA plugin" */
+#undef I386_GCC47_SSA_PLUGIN
+
+/* "Define the filename of the GCC PandA C++ SSA plugin" */
+#undef I386_GCC47_SSA_PLUGINCPP
+
+/* "Define the filename of the GCC PandA topfname plugin" */
+#undef I386_GCC47_TOPFNAME_PLUGIN
+
+/* "Define the gcc version" */
+#undef I386_GCC47_VERSION
+
+/* "Define the filename of the GCC PandA Empty plugin" */
+#undef I386_GCC48_EMPTY_PLUGIN
+
+/* "Define the plugin gcc" */
+#undef I386_GCC48_EXE
+
+/* "Define the plugin compiler" */
+#undef I386_GCC48_PLUGIN_COMPILER
+
+/* "Define the filename of the GCC PandA SSAVRP plugin" */
+#undef I386_GCC48_SSAVRP_PLUGIN
+
+/* "Define the filename of the GCC PandA SSA plugin" */
+#undef I386_GCC48_SSA_PLUGIN
+
+/* "Define the filename of the GCC PandA C++ SSA plugin" */
+#undef I386_GCC48_SSA_PLUGINCPP
+
+/* "Define the filename of the GCC PandA topfname plugin" */
+#undef I386_GCC48_TOPFNAME_PLUGIN
+
+/* "Define the gcc version" */
+#undef I386_GCC48_VERSION
+
+/* "Define the filename of the GCC PandA Empty plugin" */
+#undef I386_GCC49_EMPTY_PLUGIN
+
+/* "Define the plugin gcc" */
+#undef I386_GCC49_EXE
+
+/* "Define the plugin compiler" */
+#undef I386_GCC49_PLUGIN_COMPILER
+
+/* "Define the filename of the GCC PandA SSA plugin" */
+#undef I386_GCC49_SSA_PLUGIN
+
+/* "Define the filename of the GCC PandA C++ SSA plugin" */
+#undef I386_GCC49_SSA_PLUGINCPP
+
+/* "Define the filename of the GCC PandA topfname plugin" */
+#undef I386_GCC49_TOPFNAME_PLUGIN
+
+/* "Define the gcc version" */
+#undef I386_GCC49_VERSION
+
+/* "Define the filename of the GCC PandA Empty plugin" */
+#undef I386_GCC5_EMPTY_PLUGIN
+
+/* "Define the plugin gcc" */
+#undef I386_GCC5_EXE
+
+/* "Define the plugin compiler" */
+#undef I386_GCC5_PLUGIN_COMPILER
+
+/* "Define the filename of the GCC PandA SSA plugin" */
+#undef I386_GCC5_SSA_PLUGIN
+
+/* "Define the filename of the GCC PandA C++ SSA plugin" */
+#undef I386_GCC5_SSA_PLUGINCPP
+
+/* "Define the filename of the GCC PandA topfname plugin" */
+#undef I386_GCC5_TOPFNAME_PLUGIN
+
+/* "Define the gcc version" */
+#undef I386_GCC5_VERSION
+
+/* "Define the filename of the GCC PandA Empty plugin" */
+#undef I386_GCC6_EMPTY_PLUGIN
+
+/* "Define the plugin gcc" */
+#undef I386_GCC6_EXE
+
+/* "Define the plugin compiler" */
+#undef I386_GCC6_PLUGIN_COMPILER
+
+/* "Define the filename of the GCC PandA SSA plugin" */
+#undef I386_GCC6_SSA_PLUGIN
+
+/* "Define the filename of the GCC PandA C++ SSA plugin" */
+#undef I386_GCC6_SSA_PLUGINCPP
+
+/* "Define the filename of the GCC PandA topfname plugin" */
+#undef I386_GCC6_TOPFNAME_PLUGIN
+
+/* "Define the gcc version" */
+#undef I386_GCC6_VERSION
+
+/* "Define the filename of the GCC PandA Empty plugin" */
+#undef I386_GCC7_EMPTY_PLUGIN
+
+/* "Define the plugin gcc" */
+#undef I386_GCC7_EXE
+
+/* "Define the plugin compiler" */
+#undef I386_GCC7_PLUGIN_COMPILER
+
+/* "Define the filename of the GCC PandA SSA plugin" */
+#undef I386_GCC7_SSA_PLUGIN
+
+/* "Define the filename of the GCC PandA C++ SSA plugin" */
+#undef I386_GCC7_SSA_PLUGINCPP
+
+/* "Define the filename of the GCC PandA topfname plugin" */
+#undef I386_GCC7_TOPFNAME_PLUGIN
+
+/* "Define the gcc version" */
+#undef I386_GCC7_VERSION
+
+/* "Define the filename of the GCC PandA Empty plugin" */
+#undef I386_GCC8_EMPTY_PLUGIN
+
+/* "Define the plugin gcc" */
+#undef I386_GCC8_EXE
+
+/* "Define the plugin compiler" */
+#undef I386_GCC8_PLUGIN_COMPILER
+
+/* "Define the filename of the GCC PandA SSA plugin" */
+#undef I386_GCC8_SSA_PLUGIN
+
+/* "Define the filename of the GCC PandA C++ SSA plugin" */
+#undef I386_GCC8_SSA_PLUGINCPP
+
+/* "Define the filename of the GCC PandA topfname plugin" */
+#undef I386_GCC8_TOPFNAME_PLUGIN
+
+/* "Define the gcc version" */
+#undef I386_GCC8_VERSION
+
+/* "Define the plugin g++" */
+#undef I386_GPP45_EXE
+
+/* "Define the plugin g++" */
+#undef I386_GPP46_EXE
+
+/* "Define the plugin g++" */
+#undef I386_GPP47_EXE
+
+/* "Define the plugin g++" */
+#undef I386_GPP48_EXE
+
+/* "Define the plugin g++" */
+#undef I386_GPP49_EXE
+
+/* "Define the plugin g++" */
+#undef I386_GPP5_EXE
+
+/* "Define the plugin g++" */
+#undef I386_GPP6_EXE
+
+/* "Define the plugin g++" */
+#undef I386_GPP7_EXE
+
+/* "Define the plugin g++" */
+#undef I386_GPP8_EXE
+
+/* "Define the plugin clang++" */
+#undef I386_LLVM4_LINK_EXE
+
+/* "Define the plugin clang++" */
+#undef I386_LLVM4_OPT_EXE
+
+/* "Define the plugin clang++" */
+#undef I386_LLVM5_LINK_EXE
+
+/* "Define the plugin clang++" */
+#undef I386_LLVM5_OPT_EXE
+
+/* "Define the plugin clang++" */
+#undef I386_LLVM6_LINK_EXE
+
+/* "Define the plugin clang++" */
+#undef I386_LLVM6_OPT_EXE
+
+/* "Define the plugin clang++" */
+#undef I386_LLVM7_LINK_EXE
+
+/* "Define the plugin clang++" */
+#undef I386_LLVM7_OPT_EXE
+
+/* "Define the plugin clang++" */
+#undef I386_LLVM8_LINK_EXE
+
+/* "Define the plugin clang++" */
+#undef I386_LLVM8_OPT_EXE
+
+/* "Define the plugin clang++" */
+#undef I386_LLVM9_LINK_EXE
+
+/* "Define the plugin clang++" */
+#undef I386_LLVM9_OPT_EXE
+
+/* "Define the LATTICE PMI DEF verilog package" */
+#undef LATTICE_PMI_DEF
+
+/* "Define the LATTICE PMI MUL verilog package" */
+#undef LATTICE_PMI_MUL
+
+/* "Define the LATTICE PMI TDPBE verilog package" */
+#undef LATTICE_PMI_TDPBE
+
+/* "Define the lattice settings script" */
+#undef LATTICE_SETTINGS
+
+/* "Define the directory where the libbambu files are" */
+#undef LIBBAMBU_SRCDIR
+
+/* Define to the sub-directory where libtool stores uninstalled libraries. */
+#undef LT_OBJDIR
+
+/* "Define the mentor LICENSE VALUE" */
+#undef MENTOR_LICENSE
+
+/* "Define the mentor modelsim bin directory" */
+#undef MENTOR_MODELSIM_BIN
+
+/* "Define the mentor visualizer executable" */
+#undef MENTOR_VISUALIZER_EXE
+
+/* "No mentor modelsim optimizer flags defined" */
+#undef MODELSIM_OPTIMIZER_FLAGS
+
+/* "Define the mppb software dir" */
+#undef MPPB_DIR
+
+/* "Define the mppb sparc elf preprocessor" */
+#undef MPPB_ELF_CPP
+
+/* "Define the mppb sparc elf compiler" */
+#undef MPPB_ELF_GCC
+
+/* "Define the mppb sparc elf objcopy" */
+#undef MPPB_ELF_OBJCOPY
+
+/* "Define the mppb sparc elf objdump" */
+#undef MPPB_ELF_OBJDUMP
+
+/* "Define the srec_upload" */
+#undef MPPB_SREC_UPLOAD
+
+/* "Define the nanoxplore BYPASS VALUE" */
+#undef NANOXPLORE_BYPASS
+
+/* "Define the nanoxplore LICENSE VALUE" */
+#undef NANOXPLORE_LICENSE
+
+/* "Define the altera settings script" */
+#undef NANOXPLORE_SETTINGS
+
+/* "Define if profile is disabled" */
+#undef NPROFILE
+
+/* Name of package */
+#undef PACKAGE
+
+/* Define to the address where bug reports for this package should be sent. */
+#undef PACKAGE_BUGREPORT
+
+/* Define to the full name of this package. */
+#undef PACKAGE_NAME
+
+/* Define to the full name and version of this package. */
+#undef PACKAGE_STRING
+
+/* Define to the one symbol short name of this package. */
+#undef PACKAGE_TARNAME
+
+/* Define to the home page for this package. */
+#undef PACKAGE_URL
+
+/* Define to the version of this package. */
+#undef PACKAGE_VERSION
+
+/* "Define where panda data are installed" */
+#undef PANDA_DATA_INSTALLDIR
+
+/* "Define if a debug version is built" */
+#undef PANDA_DEBUG
+
+/* "Define where panda includes are installed" */
+#undef PANDA_INCLUDE_INSTALLDIR
+
+/* "Define where panda libraries are installed" */
+#undef PANDA_LIB_INSTALLDIR
+
+/* "Define the altera quartus 13 settings script" */
+#undef QUARTUS_13_SETTINGS
+
+/* "Define the altera settings script" */
+#undef QUARTUS_SETTINGS
+
+/* "Define if a release is built" */
+#undef RELEASE
+
+/* Define as the return type of signal handlers (`int' or `void'). */
+#undef RETSIGTYPE
+
+/* The size of `unsigned long', as computed by sizeof. */
+#undef SIZEOF_UNSIGNED_LONG
+
+/* "Define if warnings in non-cleaned sections are allowed" */
+#undef SKIP_WARNING_SECTIONS
+
+/* "Define the plugin CPP" */
+#undef SPARC_CPP_EXE
+
+/* "Define the sparc elf preprocessor" */
+#undef SPARC_ELF_CPP
+
+/* "Define the sparc elf compiler" */
+#undef SPARC_ELF_GCC
+
+/* "Define the sparc elf objcopy" */
+#undef SPARC_ELF_OBJCOPY
+
+/* "Define the sparc elf objdump" */
+#undef SPARC_ELF_OBJDUMP
+
+/* "Define the filename of the GCC PandA Empty plugin" */
+#undef SPARC_EMPTY_PLUGIN
+
+/* "Define the plugin GCC" */
+#undef SPARC_GCC_EXE
+
+/* "Define the sparc gcc version" */
+#undef SPARC_GCC_VERSION
+
+/* "Define the plugin GPP" */
+#undef SPARC_GPP_EXE
+
+/* "Define the filename of the GCC PandA RTL plugin" */
+#undef SPARC_RTL_PLUGIN
+
+/* "Define the filename of the GCC PandA SSA plugin" */
+#undef SPARC_SSA_PLUGIN
+
+/* "Define the filename of the GCC PandA C++ SSA plugin" */
+#undef SPARC_SSA_PLUGINCPP
+
+/* If using the C implementation of alloca, define if you know the
+   direction of stack growth for your system; otherwise it will be
+   automatically deduced at runtime.
+	STACK_DIRECTION > 0 => grows toward higher addresses
+	STACK_DIRECTION < 0 => grows toward lower addresses
+	STACK_DIRECTION = 0 => direction of growth unknown */
+#undef STACK_DIRECTION
+
+/* Define to 1 if you have the ANSI C header files. */
+#undef STDC_HEADERS
+
+/* Define to 1 if your <sys/time.h> declares `struct tm'. */
+#undef TM_IN_SYS_TIME
+
+/* "Define the tsim simulator" */
+#undef TSIM_SIMULATOR
+
+/* Version number of package */
+#undef VERSION
+
+/* "Define if panda is compiled with -Werror" */
+#undef WERROR
+
+/* Define if g++ supports -Wpedantic */
+#undef WPEDANTIC
+
+/* "Define if host system is 64 bits" */
+#undef X86_64
+
+/* "Define the xentium compiler" */
+#undef XENTIUM_CC
+
+/* "Define the xentium include dir" */
+#undef XENTIUM_INCLUDE
+
+/* "Define the xentium objcopy" */
+#undef XENTIUM_OBJCOPY
+
+/* "Define the xentium sysroot dir" */
+#undef XENTIUM_SYSROOT
+
+/* "Define the XILINX GLBL verilog package" */
+#undef XILINX_GLBL
+
+/* "Define the xilinx settings script" */
+#undef XILINX_SETTINGS
+
+/* "Define the xilinx vivado settings script" */
+#undef XILINX_VIVADO_SETTINGS
+
+/* Define to 1 if `lex' declares `yytext' as a `char *' by default, not a
+   `char[]'. */
+#undef YYTEXT_POINTER
+
+/* Define to empty if `const' does not conform to ANSI C. */
+#undef const
+
+/* Define to `__inline__' or `__inline' if that's what the C compiler
+   calls it, or to nothing if 'inline' is not supported under any name.  */
+#ifndef __cplusplus
+#undef inline
+#endif
+
+/* Define to `unsigned int' if <sys/types.h> does not define. */
+#undef size_t
+
+/* Define to empty if the keyword `volatile' does not work. Warning: valid
+   code using `volatile' can become incorrect without. Disable with care. */
+#undef volatile

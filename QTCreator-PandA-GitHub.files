@@ -1,4 +1,4 @@
-build/config.h
+fbuild/config.h
 build/config_headers/config_ABC_EXEC.hpp
 build/config_headers/config_ARM_CPP_EXE.hpp
 build/config_headers/config_ARM_EMPTY_PLUGIN.hpp

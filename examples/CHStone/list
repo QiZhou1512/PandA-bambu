@@ -1,14 +1,14 @@
-adpcm/adpcm.c
-aes/aes.c
-dfadd/dfadd.c
-dfdiv/dfdiv.c --benchmark-name=dfdiv
-dfdiv/dfdiv.c --hls-div --benchmark-name=dfdiv_hls_div
-dfmul/dfmul.c
-dfsin/dfsin.c --benchmark-name=dfsin
-dfsin/dfsin.c --hls-div --benchmark-name=dfsin_hls_div
-gsm/gsm.c
-mips/mips.c
-motion/mpeg2.c
-sha/sha_driver.c
-blowfish/bf.c
-jpeg/main.c --benchmark-name=jpeg -fno-tree-pre
+adpcm/adpcm.c --generate-tb="clock_gating_port=1" --clock-gating
+aes/aes.c --generate-tb="clock_gating_port=1" --clock-gating
+dfadd/dfadd.c --generate-tb="clock_gating_port=1" --clock-gating
+dfdiv/dfdiv.c --benchmark-name=dfdiv --generate-tb="clock_gating_port=1" --clock-gating
+dfdiv/dfdiv.c --hls-div --benchmark-name=dfdiv_hls_div --generate-tb="clock_gating_port=1" --clock-gating
+dfmul/dfmul.c --generate-tb="clock_gating_port=1" --clock-gating
+dfsin/dfsin.c --benchmark-name=dfsin --generate-tb="clock_gating_port=1" --clock-gating
+dfsin/dfsin.c --hls-div --benchmark-name=dfsin_hls_div --generate-tb="clock_gating_port=1" --clock-gating
+gsm/gsm.c --generate-tb="clock_gating_port=1" --clock-gating
+mips/mips.c --generate-tb="clock_gating_port=1" --clock-gating
+motion/mpeg2.c --generate-tb="clock_gating_port=1" --clock-gating
+sha/sha_driver.c --generate-tb="clock_gating_port=1" --clock-gating
+blowfish/bf.c --generate-tb="clock_gating_port=1" --clock-gating
+jpeg/main.c --benchmark-name=jpeg -fno-tree-pre --generate-tb="clock_gating_port=1" --clock-gating
