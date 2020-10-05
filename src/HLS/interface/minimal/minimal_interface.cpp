@@ -157,6 +157,8 @@ void minimal_interface::build_wrapper(structural_objectRef wrappedObj, structura
                                  (HLSMgr->hasToBeInterfaced(funId) and top_function_ids.find(funId) == top_function_ids.end()) || parameters->getOption<bool>(OPT_memory_mapped_top);
    bool with_master = false;
    bool with_slave = false;
+   // TODO: define a flag to enable clock gating through the interface
+   bool external_gating = false;
    for(unsigned int i = 0; i < GetPointer<module>(wrappedObj)->get_in_port_size(); i++)
    {
       const structural_objectRef& port_obj = GetPointer<module>(wrappedObj)->get_in_port(i);
@@ -906,10 +908,42 @@ void minimal_interface::build_wrapper(structural_objectRef wrappedObj, structura
          }
       }
 
-      if(port_name == CLOCK_GATING_PORT_NAME) {
-         structural_objectRef const_obj = SM_minimal_interface->add_constant("null_value_" + STR(GET_TYPE_SIZE(port_in)), interfaceObj, port_in->get_typeRef(), STR(1));
-         null_values[GET_TYPE_SIZE(port_in)] = const_obj;
-         SM_minimal_interface->add_connection(port_in, null_values[GET_TYPE_SIZE(port_in)]);
+      if(port_name == CLOCK_GATING_PORT_NAME && !external_gating) {
+         // We do not want to expose the clock gating port to the outer world
+         // from out minimal interface. If we were to do so, any simulation
+         // would fail since the simulation engine does not drive to 1 this port
+         //
+         // Instead, we want to connect the top function gating port to a
+         // constant 1 since the top level component must always be provided
+         // the clock signal in order to run
+         //
+         // The minimal interface execution iterates across all ports of the
+         // wrappedObj component and, when not otherwise specified, performs
+         // a 1:1 mapping between the exhisting ports of the wrappedObj and the
+         // newly instantiated ports of the interface which is being built.
+         // Since we do not want to expose the gating port to the outside, we
+         // must add it to the portsToSkip set. In this way, it will not be
+         // considered in the mapping process
+         portsToSkip.insert(wrappedObj->find_member("clock_gating_port", port_o_K, wrappedObj));
+
+         // Then, the constant true value must be generated. Let me just say
+         // that calling it null_value_ as if we were assigning zero to it (see
+         // for example what is done with the ports present in portsToConstant
+         // set) is rather confusing
+         structural_objectRef const_true_obj = SM_minimal_interface->add_constant("const_true_value_" + STR(GET_TYPE_SIZE(port_in)), interfaceObj, port_in->get_typeRef(), STR(1));
+
+         // I can't see why you were interested in assigning this constant one
+         // to the set of null values populated by other subroutines
+         // ??: null_values[GET_TYPE_SIZE(port_in)] = const_obj;
+
+         // Finally, since in the current condition the gating port will not be
+         // exposed to the outside (it is a port to skip) and we have generated
+         // a constant one to be assigned internally to the top module gating
+         // port, we can formalize the assignment. This assignment did not
+         // generate a problem by itself, but clashed with the assignment of the
+         // top module gating port to the value taken as input by the interface,
+         // which we no longer look for in this way
+         SM_minimal_interface->add_connection(const_true_obj, port_in);
       }
       if(parameters->isOption(OPT_clock_name) && port_name == CLOCK_PORT_NAME)
          port_name = parameters->getOption<std::string>(OPT_clock_name);
