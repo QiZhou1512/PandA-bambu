@@ -188,6 +188,7 @@ void fsm_controller::create_state_machine(std::string& parse)
 
    std::map<vertex, std::vector<long long int>> present_state;
    CustomOrderedSet<unsigned int> unbounded_ports;
+   CustomOrderedSet<unsigned int> clock_gating_ports;
 
    /// analysis for each state to compute the default output
    INDENT_DBG_MEX(DEBUG_LEVEL_PEDANTIC, debug_level, "-->Computation of default output of each state");
@@ -425,7 +426,8 @@ void fsm_controller::create_state_machine(std::string& parse)
             {
                unsigned int clock_gating_port = out_ports[HLS->Rconn->bind_selector_port(conn_binding::IN, commandport_obj::CLOCK_GATING, op, data)];
                present_state[v][clock_gating_port] = clock_gating_structure[v][GET_NAME(data, op)];
-               PRINT_DBG_STRING(DEBUG_LEVEL_PEDANTIC, debug_level, "----------------- Clock gating port for state " + astg->CGetStateInfo(v)->name + ", operation " + GET_NAME(data,op) + " set to " + std::to_string(clock_gating_structure[v][GET_NAME(data, op)]) + ".\n");
+               clock_gating_ports.insert(clock_gating_port);
+               PRINT_DBG_STRING(DEBUG_LEVEL_PEDANTIC, debug_level, "- Clock gating port for state " + astg->CGetStateInfo(v)->name + ", operation " + GET_NAME(data,op) + " set to " + std::to_string(clock_gating_structure[v][GET_NAME(data, op)]) + ".\n");
             }
             if(((GET_TYPE(data, op) & TYPE_EXTERNAL && start_port_i) or !GetPointer<operation>(op_tn)->is_bounded() or start_port_i) and !stg->CGetStateInfo(v)->is_dummy and is_starting_operation)
             {
@@ -667,7 +669,7 @@ void fsm_controller::create_state_machine(std::string& parse)
             std::vector<long long int> transition_outputs(out_num, default_COND);
             for(unsigned int k = 0; k < out_num; k++)
             {
-               if(present_state[v][k] == 1 && unbounded_ports.find(k) == unbounded_ports.end())
+               if(present_state[v][k] == 1 && unbounded_ports.find(k) == unbounded_ports.end() && clock_gating_ports.find(k) == clock_gating_ports.end())
                   transition_outputs[k] = 0;
             }
 
