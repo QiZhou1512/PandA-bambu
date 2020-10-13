@@ -1003,7 +1003,7 @@ void minimal_interface::build_wrapper(structural_objectRef wrappedObj, structura
       }
       else if(portsToConstant.find(port_in) != portsToConstant.end())
       {
-         if(null_values.find(GET_TYPE_SIZE(port_in)) == null_values.end())
+         if(null_values.find(GET_TYPE_SIZE(port_in)) == null_values.end() && port_name != CLOCK_GATING_PORT_NAME)
          {
             structural_objectRef const_obj = SM_minimal_interface->add_constant("null_value_" + STR(GET_TYPE_SIZE(port_in)), interfaceObj, port_in->get_typeRef(), STR(0));
             null_values[GET_TYPE_SIZE(port_in)] = const_obj;
