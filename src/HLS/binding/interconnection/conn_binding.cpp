@@ -971,7 +971,9 @@ void conn_binding::add_command_ports(const HLS_managerRef HLSMgr, const hlsRef H
                   structural_objectRef fu_obj = fu_unit->get_structural_obj();
                   structural_objectRef cg = fu_obj->find_member(CLOCK_GATING_PORT_NAME, port_o_K, fu_obj);
                   THROW_ASSERT(cg, fu_obj->get_path());
-                  SM->add_connection(cg, sel_obj);
+                  // SM->add_connection(cg, sel_obj);
+                  calls[cg].push_back(sel_obj);
+                  start_to_vertex[cg].push_back(op);
                }
                break;
             }
