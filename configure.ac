@@ -467,7 +467,7 @@ if test "x$panda_USE_BAMBU" = xyes; then
   AS_VERSION_COMPARE($MIN_GCC_VERSION, [4.5.0], [MIN_GCC_VERSION=4.5.0],,)
   AS_VERSION_COMPARE($MAX_GCC_VERSION, [9.0.0],,,[MAX_GCC_VERSION=9.0.0])
   AS_VERSION_COMPARE($MIN_CLANG_VERSION, [4.0.0], [MIN_CLANG_VERSION=4.0.0],,)
-  AS_VERSION_COMPARE($MAX_CLANG_VERSION, [10.0.0],,,[MAX_CLANG_VERSION=10.0.0])
+  AS_VERSION_COMPARE($MAX_CLANG_VERSION, [12.0.0],,,[MAX_CLANG_VERSION=12.0.0])
   panda_USE_LIB_HLS=yes;
   panda_USE_LIB_HOST_PROFILING=yes;
   panda_USE_LIB_TECHNOLOGY=yes;
@@ -1517,7 +1517,7 @@ AC_SUBST(VFLIB_DIR)
 
 
 #################################### Ext Libraries #############################
-if test "x$panda_USE_ABC" = xyes || test "x$panda_USE_BEAGLE" = xyes || test "x$panda_USE_COIN_OR" = xyes || test "x$panda_USE_CROSSTOOL_NG" = xyes || test "x$panda_USE_CUDD" = xyes || test "x$panda_USE_FLOPOCO" = xyes ||test "x$panda_USE_GLPK" = xyes || test "x$panda_USE_LIB_FROM_LIBERTY" = xyes || test "x$panda_USE_LP_SOLVE" = xyes || test "x$panda_USE_NODELIB" = xyes || test "x$panda_USE_R" = xyes || test "x$panda_USE_RAPIDMINER" = xyes || test "x$panda_USE_SIMIT" = xyes || test "x$panda_USE_VFLIB" = xyes || test "x$build_ARM_GCC" || test "x$build_SPARC_GCC" = xyes || test "x$panda_USE_TRNG" = xyes; then
+if test test "x$ac_cv_cxx_compile_cxx17_native" = xyes || test "x$ac_cv_cxx_compile_cxx17_cxx" = xyes || test "x$ac_cv_cxx_compile_cxx17_gxx" = xyes || test "x$ac_cv_cxx_compile_cxx17_cxx1z" = xyes || "x$panda_USE_ABSEIL" = xyes || test "x$panda_USE_BEAGLE" = xyes || test "x$panda_USE_COIN_OR" = xyes || test "x$panda_USE_CROSSTOOL_NG" = xyes || test "x$panda_USE_CUDD" = xyes || test "x$panda_USE_FLOPOCO" = xyes || test "x$panda_USE_LIB_FROM_LIBERTY" = xyes || test "x$panda_USE_LP_SOLVE" = xyes || test "x$panda_USE_NODELIB" = xyes || test "x$panda_USE_R" = xyes || test "x$panda_USE_RAPIDMINER" = xyes || test "x$panda_USE_SIMIT" = xyes || test "x$panda_USE_VFLIB" = xyes || test "x$build_ARM_GCC" || test "x$build_SPARC_GCC" = xyes || test "x$panda_USE_TRNG" = xyes; then
   panda_USE_LIB_EXT=yes;
 fi
 AM_CONDITIONAL(BUILD_EXT, test "x$panda_USE_LIB_EXT" = xyes)
@@ -2570,8 +2570,10 @@ if test "x$panda_USE_I386_GCC" = xyes; then
    AC_CHECK_CLANG7_I386_VERSION($MIN_CLANG_VERSION,$MAX_CLANG_VERSION,$EXTRA_CLANG_OPTIONS)
    AC_CHECK_CLANG8_I386_VERSION($MIN_CLANG_VERSION,$MAX_CLANG_VERSION,$EXTRA_CLANG_OPTIONS)
    AC_CHECK_CLANG9_I386_VERSION($MIN_CLANG_VERSION,$MAX_CLANG_VERSION,$EXTRA_CLANG_OPTIONS)
+   AC_CHECK_CLANG10_I386_VERSION($MIN_CLANG_VERSION,$MAX_CLANG_VERSION,$EXTRA_CLANG_OPTIONS)
+   AC_CHECK_CLANG11_I386_VERSION($MIN_CLANG_VERSION,$MAX_CLANG_VERSION,$EXTRA_CLANG_OPTIONS)
 
-   if test "x$I386_GCC45_PLUGIN_COMPILER" = x && test "x$I386_GCC46_PLUGIN_COMPILER" = x && test "x$I386_GCC47_PLUGIN_COMPILER" = x && test "x$I386_GCC48_PLUGIN_COMPILER" = x && test "x$I386_GCC49_PLUGIN_COMPILER" = x && test "x$I386_GCC5_PLUGIN_COMPILER" = x && test "x$I386_GCC6_PLUGIN_COMPILER" = x && test "x$I386_GCC7_PLUGIN_COMPILER" = x && test "x$I386_GCC8_PLUGIN_COMPILER" = x && test "x$I386_CLANG4_PLUGIN_COMPILER" = x && test "x$I386_CLANG5_PLUGIN_COMPILER" = x && test "x$I386_CLANG6_PLUGIN_COMPILER" = x && test "x$I386_CLANG7_PLUGIN_COMPILER" = x && test "x$I386_CLANG8_PLUGIN_COMPILER" = x && test "x$I386_CLANG9_PLUGIN_COMPILER" = x; then
+   if test "x$I386_GCC45_PLUGIN_COMPILER" = x && test "x$I386_GCC46_PLUGIN_COMPILER" = x && test "x$I386_GCC47_PLUGIN_COMPILER" = x && test "x$I386_GCC48_PLUGIN_COMPILER" = x && test "x$I386_GCC49_PLUGIN_COMPILER" = x && test "x$I386_GCC5_PLUGIN_COMPILER" = x && test "x$I386_GCC6_PLUGIN_COMPILER" = x && test "x$I386_GCC7_PLUGIN_COMPILER" = x && test "x$I386_GCC8_PLUGIN_COMPILER" = x && test "x$I386_CLANG4_PLUGIN_COMPILER" = x && test "x$I386_CLANG5_PLUGIN_COMPILER" = x && test "x$I386_CLANG6_PLUGIN_COMPILER" = x && test "x$I386_CLANG7_PLUGIN_COMPILER" = x && test "x$I386_CLANG8_PLUGIN_COMPILER" = x && test "x$I386_CLANG9_PLUGIN_COMPILER" = x && test "x$I386_CLANG10_PLUGIN_COMPILER" = x && test "x$I386_CLANG11_PLUGIN_COMPILER" = x; then
       AC_MSG_ERROR("gcc with support to -m32 and plugin not found")
    fi
 fi
@@ -2693,6 +2695,26 @@ AM_CONDITIONAL(BUILD_I386_CLANG9_GEPICANON_PLUGIN, test "x$build_I386_CLANG9_GEP
 AM_CONDITIONAL(BUILD_I386_CLANG9_CSROA_PLUGIN, test "x$build_I386_CLANG9_CSROA_PLUGIN" = xyes)
 AM_CONDITIONAL(BUILD_I386_CLANG9_TOPFNAME_PLUGIN, test "x$build_I386_CLANG9_TOPFNAME_PLUGIN" = xyes)
 AM_CONDITIONAL(BUILD_I386_CLANG9_ASTANALYZER_PLUGIN, test "x$build_I386_CLANG9_ASTANALYZER_PLUGIN" = xyes)
+
+AM_CONDITIONAL(BUILD_I386_CLANG10, test "x$build_I386_CLANG10" = xyes)
+AM_CONDITIONAL(BUILD_I386_CLANG10_EMPTY_PLUGIN, test "x$build_I386_CLANG10_EMPTY_PLUGIN" = xyes)
+AM_CONDITIONAL(BUILD_I386_CLANG10_SSA_PLUGIN, test "x$build_I386_CLANG10_SSA_PLUGIN" = xyes)
+AM_CONDITIONAL(BUILD_I386_CLANG10_SSA_PLUGINCPP, test "x$build_I386_CLANG10_SSA_PLUGINCPP" = xyes)
+AM_CONDITIONAL(BUILD_I386_CLANG10_EXPANDMEMOPS_PLUGIN, test "x$build_I386_CLANG10_EXPANDMEMOPS_PLUGIN" = xyes)
+AM_CONDITIONAL(BUILD_I386_CLANG10_GEPICANON_PLUGIN, test "x$build_I386_CLANG10_GEPICANON_PLUGIN" = xyes)
+AM_CONDITIONAL(BUILD_I386_CLANG10_CSROA_PLUGIN, test "x$build_I386_CLANG10_CSROA_PLUGIN" = xyes)
+AM_CONDITIONAL(BUILD_I386_CLANG10_TOPFNAME_PLUGIN, test "x$build_I386_CLANG10_TOPFNAME_PLUGIN" = xyes)
+AM_CONDITIONAL(BUILD_I386_CLANG10_ASTANALYZER_PLUGIN, test "x$build_I386_CLANG10_ASTANALYZER_PLUGIN" = xyes)
+
+AM_CONDITIONAL(BUILD_I386_CLANG11, test "x$build_I386_CLANG11" = xyes)
+AM_CONDITIONAL(BUILD_I386_CLANG11_EMPTY_PLUGIN, test "x$build_I386_CLANG11_EMPTY_PLUGIN" = xyes)
+AM_CONDITIONAL(BUILD_I386_CLANG11_SSA_PLUGIN, test "x$build_I386_CLANG11_SSA_PLUGIN" = xyes)
+AM_CONDITIONAL(BUILD_I386_CLANG11_SSA_PLUGINCPP, test "x$build_I386_CLANG11_SSA_PLUGINCPP" = xyes)
+AM_CONDITIONAL(BUILD_I386_CLANG11_EXPANDMEMOPS_PLUGIN, test "x$build_I386_CLANG11_EXPANDMEMOPS_PLUGIN" = xyes)
+AM_CONDITIONAL(BUILD_I386_CLANG11_GEPICANON_PLUGIN, test "x$build_I386_CLANG11_GEPICANON_PLUGIN" = xyes)
+AM_CONDITIONAL(BUILD_I386_CLANG11_CSROA_PLUGIN, test "x$build_I386_CLANG11_CSROA_PLUGIN" = xyes)
+AM_CONDITIONAL(BUILD_I386_CLANG11_TOPFNAME_PLUGIN, test "x$build_I386_CLANG11_TOPFNAME_PLUGIN" = xyes)
+AM_CONDITIONAL(BUILD_I386_CLANG11_ASTANALYZER_PLUGIN, test "x$build_I386_CLANG11_ASTANALYZER_PLUGIN" = xyes)
 
 
 if test "x$panda_USE_ARM_GCC" = xyes || test "x$panda_USE_I386_GCC" = xyes || test "x$panda_USE_SPARC_GCC" = xyes; then
@@ -3017,6 +3039,10 @@ AC_SUBST(all_includes)
 
 
 AC_OUTPUT()
+
+if test "$no_create" = yes; then
+/bin/bash ./config.status lconfig.h
+fi
 
 for keyword in `grep "#undef" $BUILDDIR/lconfig.h | awk '{print $3}'`; do
    if test ! -f config_headers/config_"$keyword".hpp; then

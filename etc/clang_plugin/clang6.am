@@ -2,9 +2,10 @@
 
 CLANG6_LIBS=-Wl,--start-group $(CLANG_LIBS) -lclangCrossTU -Wl,--end-group
 CLANG6_LIBSD=$(CLANG_LIBS) -lclangCrossTU
+CLANG6_SYSTEM_H=$(shell $(I386_CLANG_CPP6_EXE) -v  < /dev/null 2>&1 | grep -E -v "(\#|Configured with|Using built-in|Target|Thread model|gcc version|End of search list|ignoring nonexistent directory|cc1 -E -quiet|cc1.exe -E -quiet|COMPILER_PATH|LIBRARY_PATH|COLLECT_GCC|ignoring duplicate directory|ignoring nonexistent directory|InstalledDir|clang version|Found candidate|Selected GCC installation|Candidate multilib|Selected multilib|-cc1)" | tr '\n' ' ' | tr '\r' ' '  | sed 's/\\/\//g')
 
 if BUILD_I386_CLANG6_EMPTY_PLUGIN
-all: $(I386_CLANG6_EMPTY_PLUGIN)
+all: $(I386_CLANG6_EMPTY_PLUGIN) bambuS2S-6
 endif
 
 if BUILD_I386_CLANG6_SSA_PLUGIN
@@ -35,8 +36,10 @@ if BUILD_I386_CLANG6_ASTANALYZER_PLUGIN
 all: $(I386_CLANG6_ASTANALYZER_PLUGIN)
 endif
 
+$(I386_CLANG6_SSA_PLUGIN) : clang6_plugin_dumpGimpleSSA.so clang6_plugin_dumpGimpleSSA_opt.so
+clang6_plugin_dumpGimpleSSA_opt.so : clang6_plugin_dumpGimpleSSA.so
 if BUILD_PTAA
-$(I386_CLANG6_SSA_PLUGIN) : clang6_plugin_dumpGimpleSSA.o clang6_dumpGimple.o clang6_HardekopfLin_AA.o clang6_RangeAnalysis.o clang6_eSSA.o
+clang6_plugin_dumpGimpleSSA.so : clang6_plugin_dumpGimpleSSA.o clang6_dumpGimple.o clang6_HardekopfLin_AA.o clang6_RangeAnalysis.o clang6_eSSA.o
 	case $(host_os) in \
 	  mingw*) \
 	    compile_options='$(CLANG6_LIBS) -lversion `$(I386_LLVM_CONFIG6_EXE) --ldflags --libs --system-libs` -lbdd';\
@@ -52,7 +55,7 @@ $(I386_CLANG6_SSA_PLUGIN) : clang6_plugin_dumpGimpleSSA.o clang6_dumpGimple.o cl
 	  $(I386_CLANG6_PLUGIN_COMPILER) clang6_plugin_dumpGimpleSSA.o $$obj_list $$compile_options -o clang6_plugin_dumpGimpleSSA.so ; \
 	fi;
 else
-$(I386_CLANG6_SSA_PLUGIN) : clang6_plugin_dumpGimpleSSA.o clang6_dumpGimple.o clang6_RangeAnalysis.o clang6_eSSA.o
+clang6_plugin_dumpGimpleSSA.so : clang6_plugin_dumpGimpleSSA.o clang6_dumpGimple.o clang6_RangeAnalysis.o clang6_eSSA.o
 	case $(host_os) in \
 	  mingw*) \
 	    compile_options='$(CLANG6_LIBS) -lversion `$(I386_LLVM_CONFIG6_EXE) --ldflags --libs --system-libs`'; \
@@ -68,8 +71,11 @@ $(I386_CLANG6_SSA_PLUGIN) : clang6_plugin_dumpGimpleSSA.o clang6_dumpGimple.o cl
 	  $(I386_CLANG6_PLUGIN_COMPILER) clang6_plugin_dumpGimpleSSA.o $$obj_list $$compile_options -o clang6_plugin_dumpGimpleSSA.so ; \
 	fi;
 endif
+
+$(I386_CLANG6_SSA_PLUGINCPP) : clang6_plugin_dumpGimpleSSACpp.so clang6_plugin_dumpGimpleSSACpp_opt.so
+clang6_plugin_dumpGimpleSSACpp_opt.so : clang6_plugin_dumpGimpleSSACpp.so
 if BUILD_PTAA
-$(I386_CLANG6_SSA_PLUGINCPP) : clang6_plugin_dumpGimpleSSACpp.o clang6_dumpGimple.o clang6_HardekopfLin_AA.o clang6_RangeAnalysis.o clang6_eSSA.o
+clang6_plugin_dumpGimpleSSACpp.so : clang6_plugin_dumpGimpleSSACpp.o clang6_dumpGimple.o clang6_HardekopfLin_AA.o clang6_RangeAnalysis.o clang6_eSSA.o
 	case $(host_os) in \
 	  mingw*) \
 	    compile_options='$(CLANG6_LIBS) -lversion `$(I386_LLVM_CONFIG6_EXE) --ldflags --libs --system-libs` -lbdd'; \
@@ -85,7 +91,7 @@ $(I386_CLANG6_SSA_PLUGINCPP) : clang6_plugin_dumpGimpleSSACpp.o clang6_dumpGimpl
 	  $(I386_CLANG6_PLUGIN_COMPILER) clang6_plugin_dumpGimpleSSACpp.o $$obj_list $$compile_options -o clang6_plugin_dumpGimpleSSACpp.so;\
 	fi;
 else
-$(I386_CLANG6_SSA_PLUGINCPP) : clang6_plugin_dumpGimpleSSACpp.o clang6_dumpGimple.o clang6_RangeAnalysis.o clang6_eSSA.o
+clang6_plugin_dumpGimpleSSACpp.so : clang6_plugin_dumpGimpleSSACpp.o clang6_dumpGimple.o clang6_RangeAnalysis.o clang6_eSSA.o
 	case $(host_os) in \
 	  mingw*) \
 	    compile_options='$(CLANG6_LIBS) -lversion `$(I386_LLVM_CONFIG6_EXE) --ldflags --libs --system-libs`'; \
@@ -102,8 +108,10 @@ $(I386_CLANG6_SSA_PLUGINCPP) : clang6_plugin_dumpGimpleSSACpp.o clang6_dumpGimpl
 	fi;
 endif
 
+$(I386_CLANG6_EMPTY_PLUGIN) : clang6_plugin_dumpGimpleEmpty.so clang6_plugin_dumpGimpleEmpty_opt.so
+clang6_plugin_dumpGimpleEmpty_opt.so : clang6_plugin_dumpGimpleEmpty.so
 if BUILD_PTAA
-$(I386_CLANG6_EMPTY_PLUGIN) : clang6_plugin_dumpGimpleEmpty.o clang6_dumpGimple.o clang6_HardekopfLin_AA.o clang6_RangeAnalysis.o clang6_eSSA.o
+clang6_plugin_dumpGimpleEmpty.so : clang6_plugin_dumpGimpleEmpty.o clang6_dumpGimple.o clang6_HardekopfLin_AA.o clang6_RangeAnalysis.o clang6_eSSA.o
 	case $(host_os) in \
 	  mingw*) \
 	    compile_options='$(CLANG6_LIBS) -lversion `$(I386_LLVM_CONFIG6_EXE) --ldflags --libs --system-libs` -lbdd'; \
@@ -119,7 +127,7 @@ $(I386_CLANG6_EMPTY_PLUGIN) : clang6_plugin_dumpGimpleEmpty.o clang6_dumpGimple.
 	  $(I386_CLANG6_PLUGIN_COMPILER) clang6_plugin_dumpGimpleEmpty.o $$obj_list $$compile_options -o clang6_plugin_dumpGimpleEmpty.so; \
 	fi;
 else
-$(I386_CLANG6_EMPTY_PLUGIN) : clang6_plugin_dumpGimpleEmpty.o clang6_dumpGimple.o clang6_RangeAnalysis.o clang6_eSSA.o
+clang6_plugin_dumpGimpleEmpty.so : clang6_plugin_dumpGimpleEmpty.o clang6_dumpGimple.o clang6_RangeAnalysis.o clang6_eSSA.o
 	case $(host_os) in \
 	  mingw*) \
 	    compile_options='$(CLANG6_LIBS) -lversion `$(I386_LLVM_CONFIG6_EXE) --ldflags --libs --system-libs`'; \
@@ -136,7 +144,9 @@ $(I386_CLANG6_EMPTY_PLUGIN) : clang6_plugin_dumpGimpleEmpty.o clang6_dumpGimple.
 	fi;
 endif
 
-$(I386_CLANG6_EXPANDMEMOPS_PLUGIN) : clang6_plugin_expandMemOps.o 
+$(I386_CLANG6_EXPANDMEMOPS_PLUGIN) : clang6_plugin_expandMemOps.so clang6_plugin_expandMemOps_opt.so
+clang6_plugin_expandMemOps_opt.so : clang6_plugin_expandMemOps.so
+clang6_plugin_expandMemOps.so : clang6_plugin_expandMemOps.o 
 	case $(host_os) in \
 	  mingw*) \
 	    compile_options='$(CLANG6_LIBS) -lversion `$(I386_LLVM_CONFIG6_EXE) --ldflags --libs --system-libs`'; \
@@ -151,7 +161,9 @@ $(I386_CLANG6_EXPANDMEMOPS_PLUGIN) : clang6_plugin_expandMemOps.o
 	  $(I386_CLANG6_PLUGIN_COMPILER) clang6_plugin_expandMemOps.o $$compile_options -o clang6_plugin_expandMemOps.so; \
 	fi;
 
-$(I386_CLANG6_GEPICANON_PLUGIN) : clang6_plugin_GepiCanon.o clang6_GepiCanon.o
+$(I386_CLANG6_GEPICANON_PLUGIN) : clang6_plugin_GepiCanon.so clang6_plugin_GepiCanon_opt.so
+clang6_plugin_GepiCanon_opt.so : clang6_plugin_GepiCanon.so
+clang6_plugin_GepiCanon.so : clang6_plugin_GepiCanon.o clang6_GepiCanon.o
 	case $(host_os) in \
 	  mingw*) \
 	    compile_options='$(CLANG6_LIBS) -lversion `$(I386_LLVM_CONFIG6_EXE) --ldflags --libs --system-libs`'; \
@@ -166,7 +178,9 @@ $(I386_CLANG6_GEPICANON_PLUGIN) : clang6_plugin_GepiCanon.o clang6_GepiCanon.o
 	  $(I386_CLANG6_PLUGIN_COMPILER) clang6_plugin_GepiCanon.o clang6_GepiCanon.o $$compile_options -o clang6_plugin_GepiCanon.so; \
 	fi;
 
-$(I386_CLANG6_CSROA_PLUGIN) : clang6_plugin_CSROA.o clang6_CSROA.o clang6_GepiCanon.o
+$(I386_CLANG6_CSROA_PLUGIN) :  clang6_plugin_CSROA.so clang6_plugin_CSROA_opt.so
+clang6_plugin_CSROA_opt.so:  clang6_plugin_CSROA.so
+clang6_plugin_CSROA.so : clang6_plugin_CSROA.o clang6_CSROA.o clang6_GepiCanon.o
 	case $(host_os) in \
 	  mingw*) \
 	    compile_options='$(CLANG6_LIBS) -lversion `$(I386_LLVM_CONFIG6_EXE) --ldflags --libs --system-libs`'; \
@@ -181,7 +195,9 @@ $(I386_CLANG6_CSROA_PLUGIN) : clang6_plugin_CSROA.o clang6_CSROA.o clang6_GepiCa
 	  $(I386_CLANG6_PLUGIN_COMPILER) clang6_plugin_CSROA.o clang6_GepiCanon.o clang6_CSROA.o $$compile_options -o clang6_plugin_CSROA.so; \
 	fi;
 
-$(I386_CLANG6_TOPFNAME_PLUGIN) : clang6_plugin_topfname.o 
+$(I386_CLANG6_TOPFNAME_PLUGIN) : clang6_plugin_topfname.so
+clang6_plugin_topfname_opt.so : clang6_plugin_topfname.so
+clang6_plugin_topfname.so : clang6_plugin_topfname.o 
 	case $(host_os) in \
 	  mingw*) \
 	    compile_options='$(CLANG6_LIBS) -lversion `$(I386_LLVM_CONFIG6_EXE) --ldflags --libs --system-libs`'; \
@@ -196,7 +212,8 @@ $(I386_CLANG6_TOPFNAME_PLUGIN) : clang6_plugin_topfname.o
 	  $(I386_CLANG6_PLUGIN_COMPILER) clang6_plugin_topfname.o $$compile_options -o clang6_plugin_topfname.so; \
 	fi;
 
-$(I386_CLANG6_ASTANALYZER_PLUGIN) : clang6_plugin_ASTAnalyzer.o 
+$(I386_CLANG6_ASTANALYZER_PLUGIN) : clang6_plugin_ASTAnalyzer.so
+clang6_plugin_ASTAnalyzer.so : clang6_plugin_ASTAnalyzer.o 
 	case $(host_os) in \
 	  mingw*) \
 	    compile_options='$(CLANG6_LIBS) -lversion `$(I386_LLVM_CONFIG6_EXE) --ldflags --libs --system-libs`'; \
@@ -390,9 +407,9 @@ clang6_CSROA.o : $(top_srcdir)/etc/clang_plugin/CustomScalarReplacementOfAggrega
 bambuS2S-6: $(top_srcdir)/etc/clang_plugin/bambuS2S.cpp
 	case $(host_os) in \
 	  darwin*) \
-	    $(I386_CLANG6_PLUGIN_COMPILER) $(BOOST_CPPFLAGS) -fno-rtti -O2 -std=c++14 `$(I386_LLVM_CONFIG6_EXE) --cppflags --ldflags --libs --system-libs` $^ $(CLANG6_LIBSD)  -o $@;;\
+	    $(I386_CLANG6_PLUGIN_COMPILER) $(BOOST_CPPFLAGS) -DCLANG_SYSTEM_H="\"$(CLANG6_SYSTEM_H)\"" -fno-rtti -O2 -std=c++14 `$(I386_LLVM_CONFIG6_EXE) --cppflags --ldflags --libs --system-libs` $^ $(CLANG6_LIBSD)  -o $@;;\
 	  *) \
-	    $(I386_CLANG6_PLUGIN_COMPILER) $(BOOST_CPPFLAGS) -fno-rtti -O2 -std=c++14 `$(I386_LLVM_CONFIG6_EXE) --cppflags --ldflags --libs --system-libs` $^ $(CLANG6_LIBS)  -o $@;;\
+	    $(I386_CLANG6_PLUGIN_COMPILER) $(BOOST_CPPFLAGS) -DCLANG_SYSTEM_H="\"$(CLANG6_SYSTEM_H)\"" -fno-rtti -O2 -std=c++14 `$(I386_LLVM_CONFIG6_EXE) --cppflags --ldflags --libs --system-libs` $^ $(CLANG6_LIBS)  -o $@;;\
 	esac;
 
 ######

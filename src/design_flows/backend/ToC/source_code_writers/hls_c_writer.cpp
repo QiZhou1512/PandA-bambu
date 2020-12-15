@@ -431,7 +431,10 @@ void HLSCWriter::WriteParamInitialization(const BehavioralHelperConstRef behavio
          if(temp_variable == "")
          {
             var_pp_functorRef var_functor = var_pp_functorRef(new std_var_pp_functor(behavioral_helper));
-            temp_variable = tree_helper::print_type(TM, tree_helper::get_pointed_type(TM, tree_helper::get_type_index(TM, p)), false, false, false, p, var_functor);
+            auto ptd = tree_helper::get_pointed_type(TM, tree_helper::get_type_index(TM, p));
+            temp_variable = tree_helper::print_type(TM, ptd, false, false, false, p, var_functor);
+            if(tree_helper::is_a_void(TM, ptd))
+               boost::replace_all(temp_variable, "void ", "char ");
             const auto first_square = temp_variable.find("[");
             if(first_square == std::string::npos)
                temp_variable = temp_variable + "_temp[]";
@@ -1380,6 +1383,7 @@ void HLSCWriter::WriteParamInMemory(const BehavioralHelperConstRef behavioral_he
          }
          break;
       }
+      case void_type_K:
       case integer_type_K:
       {
          indented_output_stream->Append("fprintf(__bambu_testbench_fp, \"//expected value for output: " + param + "\\n\");\n");
@@ -1395,7 +1399,7 @@ void HLSCWriter::WriteParamInMemory(const BehavioralHelperConstRef behavioral_he
       case record_type_K:
       {
          const auto rt = GetPointer<const record_type>(type);
-         for(const auto field : rt->list_of_flds)
+         for(const auto& field : rt->list_of_flds)
          {
             const auto field_param = param + "." + behavioral_helper->PrintVariable(field->index);
             WriteParamInMemory(behavioral_helper, field_param, tree_helper::get_type_index(TM, field->index), nesting_level + 1, input);
@@ -1441,7 +1445,6 @@ void HLSCWriter::WriteParamInMemory(const BehavioralHelperConstRef behavioral_he
       case type_argument_pack_K:
       case type_pack_expansion_K:
       case vector_type_K:
-      case void_type_K:
          THROW_ERROR("Unexpected type in initializing parameter/variable: " + param + " (type " + type->get_kind_text() + ")");
          break;
       case aggr_init_expr_K:

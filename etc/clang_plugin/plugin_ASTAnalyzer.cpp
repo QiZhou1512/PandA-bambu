@@ -825,17 +825,16 @@ namespace clang
                }
             }
          }
-         auto baseFilename = create_file_basename_string(outdir_name, InFile);
-         std::string interface_fun2parms_filename = baseFilename + ".params.txt";
-         writeFun2Params(interface_fun2parms_filename);
          return true;
       }
 
       void HandleTranslationUnit(ASTContext&) override
       {
          auto baseFilename = create_file_basename_string(outdir_name, InFile);
+         std::string interface_fun2parms_filename = baseFilename + ".params.txt";
          std::string interface_XML_filename = baseFilename + ".interface.xml";
          std::string pipeline_XML_filename = baseFilename + ".pipeline.xml";
+         writeFun2Params(interface_fun2parms_filename);
          writeXML_interfaceFile(interface_XML_filename, topfname);
          writeXML_maskFile(baseFilename + ".mask.xml", topfname);
          writeXML_pipelineFile(pipeline_XML_filename, topfname);
@@ -1236,7 +1235,11 @@ namespace clang
          PP.AddPragmaHandler(new Mask_PragmaHandler());
          PP.AddPragmaHandler(new HLS_simple_pipeline_PragmaHandler());
          PP.AddPragmaHandler(new HLS_stallable_pipeline_PragmaHandler());
+#if __clang_major__ > 9
+         return std::make_unique<FunctionArgConsumer>(CI, topfname, outdir_name, InFile.data());
+#else
          return llvm::make_unique<FunctionArgConsumer>(CI, topfname, outdir_name, InFile);
+#endif
       }
 
       bool ParseArgs(const CompilerInstance& CI, const std::vector<std::string>& args) override

@@ -129,7 +129,8 @@
 
 using bw_t = Range::bw_t;
 
-union vcFloat {
+union vcFloat
+{
    float flt;
    struct _FP_STRUCT_LAYOUT
    {
@@ -143,7 +144,8 @@ union vcFloat {
    } bits __attribute__((packed));
 };
 
-union vcDouble {
+union vcDouble
+{
    double dub;
    struct _FP_STRUCT_LAYOUT
    {
@@ -260,6 +262,8 @@ namespace
          case vec_interleavehigh_expr_K:
          case vec_interleavelow_expr_K:
          case extract_bit_expr_K:
+         case sat_plus_expr_K:
+         case sat_minus_expr_K:
          case CASE_UNARY_EXPRESSION:
          case CASE_TERNARY_EXPRESSION:
          case CASE_QUATERNARY_EXPRESSION:
@@ -370,6 +374,8 @@ namespace
          case vec_interleavehigh_expr_K:
          case vec_interleavelow_expr_K:
          case extract_bit_expr_K:
+         case sat_plus_expr_K:
+         case sat_minus_expr_K:
          case CASE_UNARY_EXPRESSION:
          case CASE_TERNARY_EXPRESSION:
          case CASE_QUATERNARY_EXPRESSION:
@@ -481,6 +487,8 @@ namespace
          case vec_interleavehigh_expr_K:
          case vec_interleavelow_expr_K:
          case extract_bit_expr_K:
+         case sat_plus_expr_K:
+         case sat_minus_expr_K:
          case CASE_UNARY_EXPRESSION:
          case CASE_TERNARY_EXPRESSION:
          case CASE_QUATERNARY_EXPRESSION:
@@ -705,6 +713,8 @@ namespace
 #endif
                case min_expr_K:
                case max_expr_K:
+               case sat_plus_expr_K:
+               case sat_minus_expr_K:
                {
                   const auto bin_op = GetPointer<const binary_expr>(GET_CONST_NODE(ga->op1));
                   if(!isValidType(bin_op->op0) || !isValidType(bin_op->op1))
@@ -1834,7 +1844,7 @@ RangeConstRef SymbRange::solveFuture(const VarNode* _bound, const VarNode* _sink
       return getRangeFor(_sink->getValue(), Regular);
    }
 
-   auto IsAnti = _bound->getRange()->isAnti() || sinkRange->isAnti();
+   auto IsAnti = boundRange->isAnti() || sinkRange->isAnti();
    const auto l = IsAnti ? (boundRange->isUnknown() ? Range::Min : boundRange->getUnsignedMin()) : boundRange->getLower();
    const auto u = IsAnti ? (boundRange->isUnknown() ? Range::Max : boundRange->getUnsignedMax()) : boundRange->getUpper();
 
@@ -1858,7 +1868,7 @@ RangeConstRef SymbRange::solveFuture(const VarNode* _bound, const VarNode* _sink
             return RangeRef(new Range(Regular, bw, lower, u));
          }
       case lt_expr_K: // signed less than
-         if(u != Range::Max)
+         if(u != Range::Max && u != APInt::getSignedMaxValue(bw))
          {
             if(lower > (u - 1))
             {
@@ -1886,7 +1896,7 @@ RangeConstRef SymbRange::solveFuture(const VarNode* _bound, const VarNode* _sink
             return RangeRef(new Range(Regular, bw, l, upper));
          }
       case gt_expr_K: // signed greater than
-         if(l != Range::Min)
+         if(l != Range::Min && l != APInt::getSignedMinValue(bw))
          {
             if((l + 1) > upper)
             {
@@ -1975,6 +1985,8 @@ RangeConstRef SymbRange::solveFuture(const VarNode* _bound, const VarNode* _sink
       case vec_interleavehigh_expr_K:
       case vec_interleavelow_expr_K:
       case extract_bit_expr_K:
+      case sat_plus_expr_K:
+      case sat_minus_expr_K:
       case CASE_UNARY_EXPRESSION:
       case CASE_TERNARY_EXPRESSION:
       case CASE_QUATERNARY_EXPRESSION:
@@ -2109,6 +2121,8 @@ void SymbRange::print(std::ostream& OS) const
       case vec_interleavehigh_expr_K:
       case vec_interleavelow_expr_K:
       case extract_bit_expr_K:
+      case sat_plus_expr_K:
+      case sat_minus_expr_K:
       case CASE_UNARY_EXPRESSION:
       case CASE_TERNARY_EXPRESSION:
       case CASE_QUATERNARY_EXPRESSION:
@@ -2977,6 +2991,8 @@ RangeRef UnaryOpNode::eval() const
          case vec_interleavehigh_expr_K:
          case vec_interleavelow_expr_K:
          case extract_bit_expr_K:
+         case sat_plus_expr_K:
+         case sat_minus_expr_K:
          case CASE_TERNARY_EXPRESSION:
          case CASE_QUATERNARY_EXPRESSION:
          case CASE_TYPE_NODES:
@@ -3534,7 +3550,7 @@ BinaryOpNode::BinaryOpNode(const ValueRangeRef& _intersect, VarNode* _sink, cons
    THROW_ASSERT(isValidType(_sink->getValue()), "Binary operation sink should be of valid type (" + GET_CONST_NODE(_sink->getValue())->ToString() + ")");
 }
 
-RangeRef BinaryOpNode::evaluate(kind opcode, bw_t bw, const RangeConstRef& op1, const RangeConstRef& op2, bool isSigned)
+RangeRef BinaryOpNode::evaluate(kind opcode, bw_t bw, const RangeConstRef& op1, const RangeConstRef& op2, bool opSigned)
 {
    switch(opcode)
    {
@@ -3552,9 +3568,9 @@ RangeRef BinaryOpNode::evaluate(kind opcode, bw_t bw, const RangeConstRef& op1, 
          return op1->mul(op2);
       case widen_mult_expr_K:
          RETURN_DISABLED_OPTION(mul, bw);
-         return isSigned ? op1->sextOrTrunc(bw)->mul(op2->sextOrTrunc(bw)) : op1->zextOrTrunc(bw)->mul(op2->sextOrTrunc(bw));
+         return opSigned ? op1->sextOrTrunc(bw)->mul(op2->sextOrTrunc(bw)) : op1->zextOrTrunc(bw)->mul(op2->sextOrTrunc(bw));
       case trunc_div_expr_K:
-         if(isSigned)
+         if(opSigned)
          {
             RETURN_DISABLED_OPTION(sdiv, bw);
             return op1->sdiv(op2);
@@ -3565,7 +3581,7 @@ RangeRef BinaryOpNode::evaluate(kind opcode, bw_t bw, const RangeConstRef& op1, 
             return op1->udiv(op2);
          }
       case trunc_mod_expr_K:
-         if(isSigned)
+         if(opSigned)
          {
             RETURN_DISABLED_OPTION(srem, bw);
             const auto res = op1->srem(op2);
@@ -3584,10 +3600,10 @@ RangeRef BinaryOpNode::evaluate(kind opcode, bw_t bw, const RangeConstRef& op1, 
          }
       case lshift_expr_K:
          RETURN_DISABLED_OPTION(shl, bw);
-         return isSigned ? op1->sextOrTrunc(bw)->shl(op2) : op1->zextOrTrunc(bw)->shl(op2);
+         return opSigned ? op1->sextOrTrunc(bw)->shl(op2) : op1->zextOrTrunc(bw)->shl(op2);
       case rshift_expr_K:
          RETURN_DISABLED_OPTION(shr, bw);
-         return isSigned ? op1->shr(op2, true)->sextOrTrunc(bw) : op1->shr(op2, false)->zextOrTrunc(bw);
+         return opSigned ? op1->shr(op2, true)->sextOrTrunc(bw) : op1->shr(op2, false)->zextOrTrunc(bw);
       case bit_and_expr_K:
          RETURN_DISABLED_OPTION(and, bw);
          return op1->And(op2);
@@ -3595,10 +3611,18 @@ RangeRef BinaryOpNode::evaluate(kind opcode, bw_t bw, const RangeConstRef& op1, 
          RETURN_DISABLED_OPTION(or, bw);
          return op1->Or(op2);
       case bit_xor_expr_K:
-         RETURN_DISABLED_OPTION (xor, bw);
+         RETURN_DISABLED_OPTION(xor, bw);
          return op1->Xor(op2);
       case uneq_expr_K:
       case eq_expr_K:
+         if(op1->getBitWidth() < op2->getBitWidth())
+         {
+            return opSigned ? op1->sextOrTrunc(op2->getBitWidth())->Eq(op2, bw) : op1->zextOrTrunc(op2->getBitWidth())->Eq(op2, bw);
+         }
+         else if(op2->getBitWidth() < op1->getBitWidth())
+         {
+            return opSigned ? op2->sextOrTrunc(op1->getBitWidth())->Eq(op1, bw) : op2->zextOrTrunc(op1->getBitWidth())->Eq(op1, bw);
+         }
          return op1->Eq(op2, bw);
       case ne_expr_K:
          return op1->Ne(op2, bw);
@@ -3620,10 +3644,16 @@ RangeRef BinaryOpNode::evaluate(kind opcode, bw_t bw, const RangeConstRef& op1, 
          return op1->Sle(op2, bw);
       case min_expr_K:
          RETURN_DISABLED_OPTION(min, bw);
-         return isSigned ? op1->SMin(op2) : op1->UMin(op2);
+         return opSigned ? op1->SMin(op2) : op1->UMin(op2);
       case max_expr_K:
          RETURN_DISABLED_OPTION(max, bw);
-         return isSigned ? op1->SMax(op2) : op1->UMax(op2);
+         return opSigned ? op1->SMax(op2) : op1->UMax(op2);
+      case sat_plus_expr_K:
+         RETURN_DISABLED_OPTION(add, bw);
+         return opSigned ? op1->sat_add(op2) : op1->usat_add(op2);
+      case sat_minus_expr_K:
+         RETURN_DISABLED_OPTION(sub, bw);
+         return opSigned ? op1->sat_sub(op2) : op1->usat_sub(op2);
 
 #ifndef INTEGER_PTR
       case pointer_plus_expr_K:
@@ -3707,7 +3737,7 @@ RangeRef BinaryOpNode::eval() const
    const auto op1 = this->getSource1()->getRange();
    const auto op2 = this->getSource2()->getRange();
    // Instruction bitwidth
-   const auto bw = getSink()->getBitWidth();
+   const auto sinkBW = getSink()->getBitWidth();
    auto result = getRangeFor(getSink()->getValue(), Unknown);
 
    INDENT_DBG_MEX(DEBUG_LEVEL_VERY_PEDANTIC, debug_level, ToString());
@@ -3715,16 +3745,15 @@ RangeRef BinaryOpNode::eval() const
    // only evaluate if all operands are Regular
    if((op1->isRegular() || op1->isAnti()) && (op2->isRegular() || op2->isAnti()))
    {
-      bool isSigned = isSignedType(getSource1()->getValue());
+      const auto opSigned = isSignedType(getSource1()->getValue());
 
-      result = evaluate(this->getOpcode(), bw, op1, op2, isSigned);
+      result = evaluate(this->getOpcode(), sinkBW, op1, op2, opSigned);
 
       // Bitvalue may consider only lower bits for some variables, thus it is necessary to perform evaluation on truncated opernds to obtain valid results
       if(const auto* ssa = GetPointer<const ssa_name>(GET_CONST_NODE(getSink()->getValue())))
       {
          const auto sinkSigned = isSignedType(getSink()->getValue());
          const auto bvRange = [&]() {
-            const auto sinkBW = getSink()->getBitWidth();
             if(ssa->bit_values.empty() || ssa->bit_values.front() == 'X')
             {
                return RangeRef(new Range(Regular, sinkBW));
@@ -3759,9 +3788,9 @@ RangeRef BinaryOpNode::eval() const
          }
       }
 
-      if(result->getBitWidth() != bw)
+      if(result->getBitWidth() != sinkBW)
       {
-         result = result->zextOrTrunc(bw);
+         result = result->zextOrTrunc(sinkBW);
       }
    }
    else if(op1->isReal() && op2->isReal())
@@ -3774,7 +3803,7 @@ RangeRef BinaryOpNode::eval() const
       else
       {
          THROW_ASSERT(this->getOpcode() == eq_expr_K || this->getOpcode() == ne_expr_K, tree_node::GetString(this->getOpcode()) + " with real operands not supported");
-         result = evaluate(this->getOpcode(), bw, op1, op2, false);
+         result = evaluate(this->getOpcode(), sinkBW, op1, op2, false);
       }
    }
    else if(op1->isEmpty() || op2->isEmpty())
@@ -5961,9 +5990,9 @@ class ConstraintGraph : public NodeContainer
    /*
     * Used to insert constant in the right position
     */
-   void insertConstantIntoVector(const APInt& constantval)
+   void insertConstantIntoVector(const APInt& constantval, bw_t bw)
    {
-      constantvector.push_back(constantval);
+      constantvector.push_back(constantval.extOrTrunc(bw, true));
    }
 
    /*
@@ -5986,7 +6015,7 @@ class ConstraintGraph : public NodeContainer
          const auto& V = varNode->getValue();
          if(const auto* ic = GetPointer<const integer_cst>(GET_CONST_NODE(V)))
          {
-            insertConstantIntoVector(tree_helper::get_integer_cst_value(ic));
+            insertConstantIntoVector(tree_helper::get_integer_cst_value(ic), varNode->getBitWidth());
          }
       }
 
@@ -6006,38 +6035,38 @@ class ConstraintGraph : public NodeContainer
             {
                if(pred == eq_expr_K || pred == ne_expr_K)
                {
-                  insertConstantIntoVector(cst);
-                  insertConstantIntoVector(cst - 1);
-                  insertConstantIntoVector(cst + 1);
+                  insertConstantIntoVector(cst, bw);
+                  insertConstantIntoVector(cst - 1, bw);
+                  insertConstantIntoVector(cst + 1, bw);
                }
                else if(pred == uneq_expr_K)
                {
                   const auto ucst = cst.extOrTrunc(bw, false);
-                  insertConstantIntoVector(ucst);
-                  insertConstantIntoVector(ucst - 1);
-                  insertConstantIntoVector(ucst + 1);
+                  insertConstantIntoVector(ucst, bw);
+                  insertConstantIntoVector(ucst - 1, bw);
+                  insertConstantIntoVector(ucst + 1, bw);
                }
                else if(pred == gt_expr_K || pred == le_expr_K)
                {
-                  insertConstantIntoVector(cst);
-                  insertConstantIntoVector(cst + 1);
+                  insertConstantIntoVector(cst, bw);
+                  insertConstantIntoVector(cst + 1, bw);
                }
                else if(pred == ge_expr_K || pred == lt_expr_K)
                {
-                  insertConstantIntoVector(cst);
-                  insertConstantIntoVector(cst - 1);
+                  insertConstantIntoVector(cst, bw);
+                  insertConstantIntoVector(cst - 1, bw);
                }
                else if(pred == ungt_expr_K || pred == unle_expr_K)
                {
                   const auto ucst = cst.extOrTrunc(bw, false);
-                  insertConstantIntoVector(ucst);
-                  insertConstantIntoVector(ucst + 1);
+                  insertConstantIntoVector(ucst, bw);
+                  insertConstantIntoVector(ucst + 1, bw);
                }
                else if(pred == unge_expr_K || pred == unlt_expr_K)
                {
                   const auto ucst = cst.extOrTrunc(bw, false);
-                  insertConstantIntoVector(ucst);
-                  insertConstantIntoVector(ucst - 1);
+                  insertConstantIntoVector(ucst, bw);
+                  insertConstantIntoVector(ucst - 1, bw);
                }
                else
                {
@@ -6046,7 +6075,7 @@ class ConstraintGraph : public NodeContainer
             }
             else
             {
-               insertConstantIntoVector(cst);
+               insertConstantIntoVector(cst, bw);
             }
          };
 
@@ -6082,7 +6111,7 @@ class ConstraintGraph : public NodeContainer
                const auto& sourceval = source->getValue();
                if(const auto* ic = GetPointer<const integer_cst>(GET_CONST_NODE(sourceval)))
                {
-                  insertConstantIntoVector(tree_helper::get_integer_cst_value(ic));
+                  insertConstantIntoVector(tree_helper::get_integer_cst_value(ic), source->getBitWidth());
                }
             }
          }
@@ -6100,6 +6129,7 @@ class ConstraintGraph : public NodeContainer
                continue;
             }
             const auto rintersect = op->getIntersect()->getRange();
+            const auto bw = rintersect->getBitWidth();
             if(rintersect->isAnti())
             {
                const auto anti = rintersect->getAnti();
@@ -6107,13 +6137,13 @@ class ConstraintGraph : public NodeContainer
                const auto& ub = anti->getUpper();
                if((lb != Range::Min) && (lb != Range::Max))
                {
-                  insertConstantIntoVector(lb - 1);
-                  insertConstantIntoVector(lb);
+                  insertConstantIntoVector(lb - 1, bw);
+                  insertConstantIntoVector(lb, bw);
                }
                if((ub != Range::Min) && (ub != Range::Max))
                {
-                  insertConstantIntoVector(ub);
-                  insertConstantIntoVector(ub + 1);
+                  insertConstantIntoVector(ub, bw);
+                  insertConstantIntoVector(ub + 1, bw);
                }
             }
             else
@@ -6122,13 +6152,13 @@ class ConstraintGraph : public NodeContainer
                const auto& ub = rintersect->getUpper();
                if((lb != Range::Min) && (lb != Range::Max))
                {
-                  insertConstantIntoVector(lb - 1);
-                  insertConstantIntoVector(lb);
+                  insertConstantIntoVector(lb - 1, bw);
+                  insertConstantIntoVector(lb, bw);
                }
                if((ub != Range::Min) && (ub != Range::Max))
                {
-                  insertConstantIntoVector(ub);
-                  insertConstantIntoVector(ub + 1);
+                  insertConstantIntoVector(ub, bw);
+                  insertConstantIntoVector(ub + 1, bw);
                }
             }
          }
@@ -7103,7 +7133,7 @@ RangeAnalysis::RangeAnalysis(const application_managerRef AM, const DesignFlowMa
    OPERATION_OPTION(ra_mode, shr);
    OPERATION_OPTION(ra_mode, abs);
    OPERATION_OPTION(ra_mode, negate);
-   OPERATION_OPTION(ra_mode, not);
+   OPERATION_OPTION(ra_mode, not );
    OPERATION_OPTION(ra_mode, and);
    OPERATION_OPTION(ra_mode, or);
    OPERATION_OPTION(ra_mode, xor);

@@ -536,7 +536,7 @@ void tree_node_reached::operator()(const ssa_name* obj, unsigned int& mask)
       CHECK_AND_ADD(*use, ssa_name::use_set);
    }
 
-   for(auto const def_stmt : obj->CGetDefStmts())
+   for(auto const& def_stmt : obj->CGetDefStmts())
    {
       CHECK_AND_ADD(def_stmt, ssa_name::def_stmts);
    }
@@ -1385,6 +1385,10 @@ void tree_node_index_factory::create_tree_node(const unsigned int node_id, const
          CREATE_TREE_NODE_CASE_BODY(gimple_multi_way_if, node_id)
       case extract_bit_expr_K:
          CREATE_TREE_NODE_CASE_BODY(extract_bit_expr, node_id)
+      case sat_plus_expr_K:
+         CREATE_TREE_NODE_CASE_BODY(sat_plus_expr, node_id)
+      case sat_minus_expr_K:
+         CREATE_TREE_NODE_CASE_BODY(sat_minus_expr, node_id)
       case do_stmt_K:
       case for_stmt_K:
       case if_stmt_K:

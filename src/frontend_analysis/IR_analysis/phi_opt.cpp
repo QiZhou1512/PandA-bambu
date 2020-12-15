@@ -32,7 +32,7 @@
  */
 /**
  * @file phi_opt.cpp
- * @brief Analysis step that improves the GCC IR w.r.t. phis
+ * @brief Analysis step that improves the IR w.r.t. phis
  *
  * @author Fabrizio Ferrandi <fabrizio.ferrandi@polimi.it>
  * $Revision$
@@ -1922,7 +1922,7 @@ void PhiOpt::MergePhi(const unsigned int bb_index)
       INDENT_DBG_MEX(DEBUG_LEVEL_VERY_PEDANTIC, debug_level, "-->Fixing " + phi->ToString());
       auto gp = GetPointer<gimple_phi>(GET_NODE(phi));
       gimple_phi::DefEdgeList new_list_of_def_edge;
-      for(const auto def_edge : gp->CGetDefEdgesList())
+      for(auto def_edge : gp->CGetDefEdgesList())
       {
          if(def_edge.second == bb_index)
          {

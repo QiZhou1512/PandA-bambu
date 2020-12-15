@@ -21,13 +21,7 @@ for compiler in $CLANG_TO_BE_CHECKED; do
    if test -f $compiler; then
       echo "checking $compiler..."
       dnl check for clang
-      I386_CLANG6_VERSION=`$compiler --version | grep "6\.0\."`
-      if test x"$I386_CLANG6_VERSION" = "x"; then
-         I386_CLANG6_VERSION="0.0.0"
-      else
-         I386_CLANG6_VERSION="6.0.0"
-      fi
-
+      I386_CLANG6_VERSION=`$compiler --version |grep clang|grep -v InstalledDir|awk -F' ' '{print $[3]}'| awk -F'-' '{print $[1]}'`
       AS_VERSION_COMPARE($1, [6.0.0], MIN_CLANG6=[6.0.0], MIN_CLANG6=$1, MIN_CLANG6=$1)
       AS_VERSION_COMPARE([7.0.0], $2, MAX_CLANG6=[7.0.0], MAX_CLANG6=$2, MAX_CLANG6=$2)
       AS_VERSION_COMPARE($I386_CLANG6_VERSION, $MIN_CLANG6, echo "checking $compiler >= $MIN_CLANG6... no"; min=no, echo "checking $compiler >= $MIN_CLANG6... yes"; min=yes, echo "checking $compiler >= $MIN_CLANG6... yes"; min=yes)
@@ -369,6 +363,7 @@ if test x$I386_CLANG6_PLUGIN_COMPILER != x; then
   AC_SUBST(I386_CLANG6_VERSION)
   AC_SUBST(I386_CLANG6_PLUGIN_COMPILER)
   AC_SUBST(I386_LLVM_CONFIG6_EXE)
+  AC_SUBST(I386_CLANG_CPP6_EXE)
   AC_DEFINE(HAVE_I386_CLANG6_COMPILER, 1, "Define if CLANG 6.0 I386 compiler is compliant")
   AC_DEFINE_UNQUOTED(I386_CLANG6_EXE, "${I386_CLANG6_EXE}", "Define the plugin clang")
   AC_DEFINE_UNQUOTED(I386_CLANG_CPP6_EXE, "${I386_CLANG_CPP6_EXE}", "Define the plugin cpp")

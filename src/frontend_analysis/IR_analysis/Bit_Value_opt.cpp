@@ -343,7 +343,8 @@ void Bit_Value_opt::optimize(statement_list* sl, tree_managerRef TM, tree_manipu
                               tree_nodeRef val;
                               if(bitwidth_op == 32)
                               {
-                                 union {
+                                 union
+                                 {
                                     float dest;
                                     int source;
                                  } __conv_union;
@@ -354,7 +355,8 @@ void Bit_Value_opt::optimize(statement_list* sl, tree_managerRef TM, tree_manipu
                               }
                               else if(bitwidth_op == 64)
                               {
-                                 union {
+                                 union
+                                 {
                                     double dest;
                                     long long int source;
                                  } __conv_union;
@@ -545,7 +547,7 @@ void Bit_Value_opt::optimize(statement_list* sl, tree_managerRef TM, tree_manipu
                   if(is_constant)
                   {
                      auto c_BVO = [&] {
-                        INDENT_DBG_MEX(DEBUG_LEVEL_VERY_PEDANTIC, debug_level, "---Left part is constant");
+                        INDENT_DBG_MEX(DEBUG_LEVEL_VERY_PEDANTIC, debug_level, "---Left part is constant " + bit_values);
                         unsigned long long int const_value = 0;
                         unsigned int index_val = 0;
                         for(auto current_el : boost::adaptors::reverse(bit_values))

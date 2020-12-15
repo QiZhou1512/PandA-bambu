@@ -308,7 +308,7 @@ unsigned int tree_helper::Size(const tree_nodeConstRef t)
       }
       case void_type_K:
       {
-         return_value = 32;
+         return_value = 8;
          break;
       }
       case enumeral_type_K:
@@ -3680,6 +3680,8 @@ static unsigned int check_for_simple_pointer_arithmetic(const tree_nodeRef& node
       case error_mark_K:
       case target_expr_K:
       case paren_expr_K:
+      case sat_plus_expr_K:
+      case sat_minus_expr_K:
       {
          return 0;
       }
@@ -4172,6 +4174,8 @@ unsigned int tree_helper::get_base_index(const tree_managerConstRef& TM, const u
       case error_mark_K:
       case paren_expr_K:
       case extract_bit_expr_K:
+      case sat_plus_expr_K:
+      case sat_minus_expr_K:
       case CASE_CPP_NODES:
       case CASE_FAKE_NODES:
       case CASE_GIMPLE_NODES:
@@ -4449,6 +4453,8 @@ bool tree_helper::is_fully_resolved(const tree_managerConstRef& TM, const unsign
       case vec_unpack_float_lo_expr_K:
       case error_mark_K:
       case extract_bit_expr_K:
+      case sat_plus_expr_K:
+      case sat_minus_expr_K:
       case CASE_CPP_NODES:
       case CASE_FAKE_NODES:
       case CASE_GIMPLE_NODES:
@@ -5131,6 +5137,8 @@ std::string tree_helper::op_symbol(const tree_node* op)
       case error_mark_K:
       case paren_expr_K:
       case extract_bit_expr_K:
+      case sat_plus_expr_K:
+      case sat_minus_expr_K:
       case CASE_CPP_NODES:
       case CASE_CST_NODES:
       case CASE_DECL_NODES:
@@ -5252,16 +5260,21 @@ void tree_helper::get_array_dimensions(const tree_managerConstRef& TM, const uns
    auto* it = GetPointer<integer_type>(domn);
    unsigned int min_value = 0;
    unsigned int max_value = 0;
-   if(it->min)
+   if(it->min && GET_NODE(it->min)->get_kind() == integer_cst_K && it->max && GET_NODE(it->max)->get_kind() == integer_cst_K)
    {
-      min_value = static_cast<unsigned int>(get_integer_cst_value(GetPointer<integer_cst>(GET_NODE(it->min))));
+      if(it->min)
+      {
+         min_value = static_cast<unsigned int>(get_integer_cst_value(GetPointer<integer_cst>(GET_NODE(it->min))));
+      }
+      if(it->max)
+      {
+         max_value = static_cast<unsigned int>(get_integer_cst_value(GetPointer<integer_cst>(GET_NODE(it->max))));
+      }
+      unsigned int range_domain = max_value - min_value + 1;
+      dims.push_back(range_domain);
    }
-   if(it->max)
-   {
-      max_value = static_cast<unsigned int>(get_integer_cst_value(GetPointer<integer_cst>(GET_NODE(it->max))));
-   }
-   unsigned int range_domain = max_value - min_value + 1;
-   dims.push_back(range_domain);
+   else
+      dims.push_back(0); // variable size array may fall in this case
    THROW_ASSERT(at->elts, "elements type expected");
    tree_nodeRef elts = GET_NODE(at->elts);
    if(elts->get_kind() == array_type_K)
@@ -6835,6 +6848,8 @@ bool tree_helper::is_packed_access(const tree_managerConstRef& TreeM, unsigned i
       case target_expr_K:
       case error_mark_K:
       case extract_bit_expr_K:
+      case sat_plus_expr_K:
+      case sat_minus_expr_K:
       {
          res = false;
          break;
@@ -7273,6 +7288,8 @@ size_t tree_helper::AllocatedMemorySize(const tree_nodeConstRef& parameter)
             case vec_interleavelow_expr_K:
             case error_mark_K:
             case extract_bit_expr_K:
+            case sat_plus_expr_K:
+            case sat_minus_expr_K:
             case CASE_CPP_NODES:
             case CASE_FAKE_NODES:
             case CASE_GIMPLE_NODES:
@@ -7562,6 +7579,8 @@ size_t tree_helper::AllocatedMemorySize(const tree_nodeConstRef& parameter)
       case vec_interleavelow_expr_K:
       case error_mark_K:
       case extract_bit_expr_K:
+      case sat_plus_expr_K:
+      case sat_minus_expr_K:
       case CASE_CPP_NODES:
       case CASE_FAKE_NODES:
       case CASE_GIMPLE_NODES:
@@ -7681,7 +7700,7 @@ unsigned int tree_helper::get_multi_way_if_pos(const tree_managerConstRef& TM, u
    const tree_nodeRef t = TM->get_tree_node_const(node_id);
    auto* gmwi = GetPointer<gimple_multi_way_if>(t);
    unsigned int pos = 0;
-   for(auto const cond : gmwi->list_of_cond)
+   for(auto const& cond : gmwi->list_of_cond)
    {
       if(cond.first and cond.first->index == looked_for_cond)
       {
