@@ -201,32 +201,34 @@ void fsm_controller::create_state_machine(std::string& parse)
 
    std::map<vertex, std::map<std::string, bool>> clock_gating_structure;
 
-   for(const auto& v : working_list)
+   for(const auto& v : working_list)//rapresents the current state
    {
       std::map<std::string, bool> sub_str_gating;
       const auto& exec_op = astg->CGetStateInfo(v)->executing_operations;
       PRINT_DBG_STRING(DEBUG_LEVEL_PEDANTIC, debug_level, "Checking clock gating for state: " + astg->CGetStateInfo(v)->name + "\n");
-      for(const auto& op : exec_op)
+      for(const auto& op : exec_op) // for each executing operation
       {
          PRINT_DBG_STRING(DEBUG_LEVEL_PEDANTIC, debug_level, "Operation: " + GET_NAME(data, op) + "\n");
-         // active clock gating, the value is false
+         // active clock gating,if a component is not used the value is false because the gate is put in AND with the value
          sub_str_gating.insert(std::pair<std::string, bool>(GET_NAME(data, op), true));
+         //backward propagation
          if(!clock_gating_structure.empty())
          {
             for(auto& state : clock_gating_structure)
             {
-               if(state.second.find(GET_NAME(data, op)) == state.second.end())
+               if(state.second.find(GET_NAME(data, op)) == state.second.end()) //not found in the data structure
                {
-                  // not found
-                  if(parameters->isOption(OPT_clock_gating) && parameters->getOption<bool>(OPT_clock_gating))
-                     state.second.insert(std::pair<std::string, bool>(GET_NAME(data, op), false));
+                  
+                  if(parameters->isOption(OPT_clock_gating) && parameters->getOption<bool>(OPT_clock_gating)) // clock gating is an active option
+                     state.second.insert(std::pair<std::string, bool>(GET_NAME(data, op), false)); // so that the component is not fed with clock signal
                   else
                      state.second.insert(std::pair<std::string, bool>(GET_NAME(data, op), true));
                }
                else
                {
-                  // found
-                  state.second.find(GET_NAME(data, op))->second = true;
+                  // TODO: non ha senso perche se lo trovo lo modifico solo in una istanza. in teoria non lo dovrei neanche modificare
+                  // foundg n
+                  // state.second.find(GET_NAME(data, op))->second = true;
                }
                // check if present
             }
@@ -235,13 +237,18 @@ void fsm_controller::create_state_machine(std::string& parse)
       // from the first state, the elements are propagated forward in the vector. Because the code above propagete backward all the FU found
       if(!clock_gating_structure.empty())
       {
+         //given that the 
          vertex first_state = working_list.front();
          for(auto& eo : clock_gating_structure[first_state])
          {
             if(sub_str_gating.find(eo.first) == sub_str_gating.end())
             {
-               // not found
-               sub_str_gating.insert(std::pair<std::string, bool>(eo.first, true));
+               if(parameters->isOption(OPT_clock_gating) && parameters->getOption<bool>(OPT_clock_gating)){ // clock gating is an active option
+                  sub_str_gating.insert(std::pair<std::string, bool>(eo.first, false)); // so that the component is not fed with clock signal
+               }else{
+                  sub_str_gating.insert(std::pair<std::string, bool>(eo.first, true));
+               }
+
             }
          }
       }
