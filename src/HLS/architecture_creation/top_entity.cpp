@@ -178,42 +178,6 @@ DesignFlowStep_Status top_entity::InternalExec()
    structural_objectRef clock_obj = SM->add_port(CLOCK_PORT_NAME, port_o::IN, circuit, bool_type);
    GetPointer<port_o>(clock_obj)->set_is_clock(true);
 
-
-   /// command signal type descriptor
-   if(parameters->isOption(OPT_clock_gating) && parameters->getOption<bool>(OPT_clock_gating)){
-      PRINT_DBG_MEX(DEBUG_LEVEL_VERY_PEDANTIC, debug_level, "\tStart adding clock signal...");
-      /// add clock port and clock gating port
-
-      structural_objectRef clock_gating_obj = SM->add_port(CLOCK_GATING_PORT_NAME, port_o::IN, circuit, bool_type);
-
-      /// and gate for clock and clock gating
-      structural_objectRef andGateClockG = SM->add_module_from_technology_library("andGateClockG", AND_GATE_STD, LIBRARY_STD, circuit, HLS->HLS_T->get_technology_manager());
-      structural_objectRef port_objAndGate_in  = andGateClockG->find_member("in", port_vector_o_K, andGateClockG);
-      structural_objectRef port_objAndGate_out = andGateClockG->find_member("out1", port_o_K, andGateClockG);
-      auto* in_portAndGate = GetPointer<port_o>(port_objAndGate_in);
-      in_portAndGate->add_n_ports(2, port_objAndGate_in);
-
-      SM->add_connection(clock_obj, in_portAndGate->get_port(0));
-      SM->add_connection(clock_gating_obj, in_portAndGate->get_port(1));
-
-      auto andCGSig = SM->add_sign("andCGSig", circuit, bool_type);
-      SM->add_connection(port_objAndGate_out, andCGSig);
-
-      /// connect to datapath and controller (gated) clock
-      structural_objectRef datapath_clock = datapath_circuit->find_member(CLOCK_PORT_NAME, port_o_K, datapath_circuit);
-      SM->add_connection(andCGSig, datapath_clock);
-      structural_objectRef controller_clock = controller_circuit->find_member(CLOCK_PORT_NAME, port_o_K, controller_circuit);
-      SM->add_connection(andCGSig, controller_clock);
-      PRINT_DBG_MEX(DEBUG_LEVEL_VERY_PEDANTIC, debug_level, "\tClock signal added!");
-   }else{
-         /// connect to datapath and controller clock
-      structural_objectRef datapath_clock = datapath_circuit->find_member(CLOCK_PORT_NAME, port_o_K, datapath_circuit);
-      SM->add_connection(datapath_clock, clock_obj);
-      structural_objectRef controller_clock = controller_circuit->find_member(CLOCK_PORT_NAME, port_o_K, controller_circuit);
-      SM->add_connection(controller_clock, clock_obj);
-      PRINT_DBG_MEX(DEBUG_LEVEL_VERY_PEDANTIC, debug_level, "\tClock signal added!");
-   }
-   
    PRINT_DBG_MEX(DEBUG_LEVEL_VERY_PEDANTIC, debug_level, "\tAdding reset signal...");
    /// add reset port
    structural_objectRef reset_obj = SM->add_port(RESET_PORT_NAME, port_o::IN, circuit, bool_type);
@@ -224,6 +188,71 @@ DesignFlowStep_Status top_entity::InternalExec()
    structural_objectRef controller_reset = controller_circuit->find_member(RESET_PORT_NAME, port_o_K, controller_circuit);
    SM->add_connection(controller_reset, reset_obj);
    PRINT_DBG_MEX(DEBUG_LEVEL_VERY_PEDANTIC, debug_level, "\tReset signal added!");
+
+   /// command signal type descriptor
+   if(parameters->isOption(OPT_clock_gating) && parameters->getOption<bool>(OPT_clock_gating)){
+      PRINT_DBG_MEX(DEBUG_LEVEL_VERY_PEDANTIC, debug_level, "\tStart adding clock signal...");
+      /// add clock port and clock gating port
+
+      /// in order to make the reset work even when the clock is gated, we need to build the clock gating signal (andCGSig) as: clock & (clock_gating_port | !reset)
+      /// !reset
+      PRINT_DBG_MEX(DEBUG_LEVEL_VERY_PEDANTIC, debug_level, "\tCreating !reset signal...");
+      structural_objectRef notResetCG = SM->add_module_from_technology_library("notResetCG", NOT_GATE_STD, LIBRARY_STD, circuit, HLS->HLS_T->get_technology_manager());
+      structural_objectRef port_objNotGate_in  = notResetCG->find_member("in1", port_o_K, notResetCG);
+      structural_objectRef port_objNotGate_out = notResetCG->find_member("out1", port_o_K, notResetCG);
+
+      SM->add_connection(reset_obj, port_objNotGate_in);
+
+      auto notResetSig = SM->add_sign("notResetSig", circuit, bool_type);
+      SM->add_connection(port_objNotGate_out, notResetSig);
+
+      /// clock_gating_port | !reset
+      PRINT_DBG_MEX(DEBUG_LEVEL_VERY_PEDANTIC, debug_level, "\tCreating composite signal (clock_gating_port | !reset)...");
+
+      structural_objectRef clock_gating_obj = SM->add_port(CLOCK_GATING_PORT_NAME, port_o::IN, circuit, bool_type);
+
+      structural_objectRef orCGPortNotReset = SM->add_module_from_technology_library("orCGPortNotReset", OR_GATE_STD, LIBRARY_STD, circuit, HLS->HLS_T->get_technology_manager()); 
+      structural_objectRef port_objOrGate_in  = orCGPortNotReset->find_member("in", port_vector_o_K, orCGPortNotReset);
+      structural_objectRef port_objOrGate_out = orCGPortNotReset->find_member("out1", port_o_K, orCGPortNotReset);
+      auto* in_portOrGate = GetPointer<port_o>(port_objOrGate_in);
+      in_portOrGate->add_n_ports(2, port_objOrGate_in);
+
+      SM->add_connection(notResetSig, in_portOrGate->get_port(0));
+      SM->add_connection(clock_gating_obj, in_portOrGate->get_port(1));
+
+      auto orGateSig = SM->add_sign("orGateSig", circuit, bool_type);
+      SM->add_connection(port_objOrGate_out, orGateSig);
+
+      /// final signal andCGSig: and gate for clock and composite signal (clock_gating_port | !reset)
+      PRINT_DBG_MEX(DEBUG_LEVEL_VERY_PEDANTIC, debug_level, "\tCreating final signal andCGSig...");
+      structural_objectRef andGateClockG = SM->add_module_from_technology_library("andGateClockG", AND_GATE_STD, LIBRARY_STD, circuit, HLS->HLS_T->get_technology_manager());
+      structural_objectRef port_objAndGate_in  = andGateClockG->find_member("in", port_vector_o_K, andGateClockG);
+      structural_objectRef port_objAndGate_out = andGateClockG->find_member("out1", port_o_K, andGateClockG);
+      auto* in_portAndGate = GetPointer<port_o>(port_objAndGate_in);
+      in_portAndGate->add_n_ports(2, port_objAndGate_in);
+
+      SM->add_connection(orGateSig, in_portAndGate->get_port(0));
+      SM->add_connection(clock_obj, in_portAndGate->get_port(1));
+
+      auto andCGSig = SM->add_sign("andCGSig", circuit, bool_type);
+      SM->add_connection(port_objAndGate_out, andCGSig);
+
+      /// connect to datapath and controller (gated) clock
+      structural_objectRef datapath_clock = datapath_circuit->find_member(CLOCK_PORT_NAME, port_o_K, datapath_circuit);
+      SM->add_connection(andCGSig, datapath_clock);
+      structural_objectRef controller_clock = controller_circuit->find_member(CLOCK_PORT_NAME, port_o_K, controller_circuit);
+      SM->add_connection(andCGSig, controller_clock);
+      PRINT_DBG_MEX(DEBUG_LEVEL_VERY_PEDANTIC, debug_level, "\tClock signal added!");
+
+   }else{
+         /// connect to datapath and controller clock
+      structural_objectRef datapath_clock = datapath_circuit->find_member(CLOCK_PORT_NAME, port_o_K, datapath_circuit);
+      SM->add_connection(datapath_clock, clock_obj);
+      structural_objectRef controller_clock = controller_circuit->find_member(CLOCK_PORT_NAME, port_o_K, controller_circuit);
+      SM->add_connection(controller_clock, clock_obj);
+      PRINT_DBG_MEX(DEBUG_LEVEL_VERY_PEDANTIC, debug_level, "\tClock signal added!");
+   }
+
    /////////////////////////////////////////////////////////////////////////////////////////////
    // mettere il throw assert e printare con l'oggetto print
    /////////////////////////////////////////////////////////////////////////////////////////////////

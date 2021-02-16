@@ -432,7 +432,8 @@ void fsm_controller::create_state_machine(std::string& parse)
             if(clock_gating_port_i)
             {
                unsigned int clock_gating_port = out_ports[HLS->Rconn->bind_selector_port(conn_binding::IN, commandport_obj::CLOCK_GATING, op, data)];
-               present_state[v][clock_gating_port] = clock_gating_structure[v][GET_NAME(data, op)];
+               // present_state[v][clock_gating_port] = clock_gating_structure[v][GET_NAME(data, op)];
+               present_state[v][clock_gating_port] = 1;
                clock_gating_ports.insert(clock_gating_port);
                PRINT_DBG_STRING(DEBUG_LEVEL_PEDANTIC, debug_level, "- Clock gating port for state " + astg->CGetStateInfo(v)->name + ", operation " + GET_NAME(data,op) + " set to " + std::to_string(clock_gating_structure[v][GET_NAME(data, op)]) + ".\n");
             }
