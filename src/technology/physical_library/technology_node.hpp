@@ -250,6 +250,8 @@ enum class TargetDevice_Type;
 #define NOTYFY_CALLER_MINIMALN_FU "notify_caller_minimalN_FU"
 #define STATUS_REGISTERN_FU "status_registerN_FU"
 #define STATUS_REGISTER_NO_NOTIFIEDN_FU "status_register_no_notifiedN_FU"
+/// clock gating gate
+#define CLOCK_GATING_GATE "__clock_gating_gate"
 
 /**
  * Macro which defines the get_kind_text function that returns the parameter as a string.

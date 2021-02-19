@@ -2971,6 +2971,39 @@ end process;
         </component_o>
       </circuit>
     </cell>
+    <cell>
+      <name>__clock_gating_gate</name>
+      <circuit>
+        <component_o id="__clock_gating_gate">
+          <description>This component is part of the BAMBU/PANDA IP LIBRARY</description>
+          <copyright>Copyright (C) 2021 Politecnico di Milano</copyright>  
+          <authors>Fabrizio Ferrandi &lt;fabrizio.ferrandi@polimi.it&gt;</authors> 
+          <license>PANDA_LGPLv3</license>
+          <structural_type_descriptor id_type="__clock_gating_gate"/>
+          <port_o id="clock" dir="IN" is_clock="1">
+            <structural_type_descriptor type="BOOL" size="1"/>
+          </port_o>
+          <port_o id="clock_gating_port" dir="IN">
+            <structural_type_descriptor type="BOOL" size="1"/>
+          </port_o>
+          <port_o id="reset" dir="IN">
+            <structural_type_descriptor type="BOOL" size="1"/>
+            <connected_objects/>
+          </port_o>
+          <port_o id="out1" dir="OUT">
+            <structural_type_descriptor type="BOOL" size="1" />
+            <connected_objects/>
+          </port_o>
+          <NP_functionality LIBRARY="__clock_gating_gate" VERILOG_PROVIDED="
+wire orGateSig /*verilator clock_enable*/;
+wire notResetSig;
+not not_notResetCG( notResetSig, reset);
+or or_orCGPortNotReset( orGateSig, notResetSig, clock_gating_port);
+and and_andGateClockG( out1, orGateSig, clock);
+"/>
+        </component_o>
+      </circuit>
+   </cell>
   </library>
   <library>
     <name>STD_FU</name>

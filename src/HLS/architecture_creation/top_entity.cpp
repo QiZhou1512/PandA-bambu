@@ -196,46 +196,19 @@ DesignFlowStep_Status top_entity::InternalExec()
 
       /// in order to make the reset work even when the clock is gated, we need to build the clock gating signal (andCGSig) as: clock & (clock_gating_port | !reset)
       /// !reset
-      PRINT_DBG_MEX(DEBUG_LEVEL_VERY_PEDANTIC, debug_level, "\tCreating !reset signal...");
-      structural_objectRef notResetCG = SM->add_module_from_technology_library("notResetCG", NOT_GATE_STD, LIBRARY_STD, circuit, HLS->HLS_T->get_technology_manager());
-      structural_objectRef port_objNotGate_in  = notResetCG->find_member("in1", port_o_K, notResetCG);
-      structural_objectRef port_objNotGate_out = notResetCG->find_member("out1", port_o_K, notResetCG);
+      PRINT_DBG_MEX(DEBUG_LEVEL_VERY_PEDANTIC, debug_level, "\tCreating clock_gate gate...");
+      structural_objectRef gateCG = SM->add_module_from_technology_library("gateCG", CLOCK_GATING_GATE, LIBRARY_STD, circuit, HLS->HLS_T->get_technology_manager());
+      structural_objectRef port_objgateCG_clock  = gateCG->find_member(CLOCK_PORT_NAME, port_o_K, gateCG);
+      structural_objectRef port_objgateCG_clock_gating_port  = gateCG->find_member(CLOCK_GATING_PORT_NAME, port_o_K, gateCG);
+      structural_objectRef port_objgateCG_rst  = gateCG->find_member(RESET_PORT_NAME, port_o_K, gateCG);
+      structural_objectRef port_objgateCG_out = gateCG->find_member("out1", port_o_K, gateCG);
 
-      SM->add_connection(reset_obj, port_objNotGate_in);
-
-      auto notResetSig = SM->add_sign("notResetSig", circuit, bool_type);
-      SM->add_connection(port_objNotGate_out, notResetSig);
-
-      /// clock_gating_port | !reset
-      PRINT_DBG_MEX(DEBUG_LEVEL_VERY_PEDANTIC, debug_level, "\tCreating composite signal (clock_gating_port | !reset)...");
-
+      SM->add_connection(reset_obj, port_objgateCG_rst);
+      SM->add_connection(clock_obj, port_objgateCG_clock);
       structural_objectRef clock_gating_obj = SM->add_port(CLOCK_GATING_PORT_NAME, port_o::IN, circuit, bool_type);
-
-      structural_objectRef orCGPortNotReset = SM->add_module_from_technology_library("orCGPortNotReset", OR_GATE_STD, LIBRARY_STD, circuit, HLS->HLS_T->get_technology_manager()); 
-      structural_objectRef port_objOrGate_in  = orCGPortNotReset->find_member("in", port_vector_o_K, orCGPortNotReset);
-      structural_objectRef port_objOrGate_out = orCGPortNotReset->find_member("out1", port_o_K, orCGPortNotReset);
-      auto* in_portOrGate = GetPointer<port_o>(port_objOrGate_in);
-      in_portOrGate->add_n_ports(2, port_objOrGate_in);
-
-      SM->add_connection(notResetSig, in_portOrGate->get_port(0));
-      SM->add_connection(clock_gating_obj, in_portOrGate->get_port(1));
-
-      auto orGateSig = SM->add_sign("orGateSig", circuit, bool_type);
-      SM->add_connection(port_objOrGate_out, orGateSig);
-
-      /// final signal andCGSig: and gate for clock and composite signal (clock_gating_port | !reset)
-      PRINT_DBG_MEX(DEBUG_LEVEL_VERY_PEDANTIC, debug_level, "\tCreating final signal andCGSig...");
-      structural_objectRef andGateClockG = SM->add_module_from_technology_library("andGateClockG", AND_GATE_STD, LIBRARY_STD, circuit, HLS->HLS_T->get_technology_manager());
-      structural_objectRef port_objAndGate_in  = andGateClockG->find_member("in", port_vector_o_K, andGateClockG);
-      structural_objectRef port_objAndGate_out = andGateClockG->find_member("out1", port_o_K, andGateClockG);
-      auto* in_portAndGate = GetPointer<port_o>(port_objAndGate_in);
-      in_portAndGate->add_n_ports(2, port_objAndGate_in);
-
-      SM->add_connection(orGateSig, in_portAndGate->get_port(0));
-      SM->add_connection(clock_obj, in_portAndGate->get_port(1));
-
+      SM->add_connection(clock_gating_obj, port_objgateCG_clock_gating_port);
       auto andCGSig = SM->add_sign("andCGSig", circuit, bool_type);
-      SM->add_connection(port_objAndGate_out, andCGSig);
+      SM->add_connection(port_objgateCG_out, andCGSig);
 
       /// connect to datapath and controller (gated) clock
       structural_objectRef datapath_clock = datapath_circuit->find_member(CLOCK_PORT_NAME, port_o_K, datapath_circuit);
